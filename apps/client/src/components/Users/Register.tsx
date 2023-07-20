@@ -20,7 +20,7 @@ const Register: React.FC<Props> = ({}) => {
     if(!passValid){
       dispatch(setError({
         message:"Heslo musí obsahovat alespoň 8 znaků, písmeno a číslo!",
-        rawData:""
+        rawData:"Dobrým příkladem může být heslo 'ed992ske'"
       }))
       return;
     }
@@ -28,7 +28,7 @@ const Register: React.FC<Props> = ({}) => {
     if(!passMatch){
       dispatch(setError({
         message:"Hesla se neshodují",
-        rawData:""
+        rawData:"Zkontrolujte prosím, že obě hesla jsou naprosto stejná!"
       }))
       return;
     }

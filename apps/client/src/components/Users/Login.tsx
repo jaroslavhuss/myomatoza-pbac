@@ -58,7 +58,7 @@ const Login: React.FC<Props> = () => {
               className="py-2 px-4 focus:ring-offset-purple-200
               text-white transition ease-in duration-200 text-center text-base font-semibold focus:outline-none focus:ring-2 focus:ring-offset-2  rounded-lg bg-slate-800 shadow-lg hover:bg-slate-400"
             >
-              Zaregistrovat se
+              Přihlásit se do aplikace
             </button>
           </div>
             <div className="flex items-center mt-4">

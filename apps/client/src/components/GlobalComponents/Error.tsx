@@ -71,7 +71,7 @@ const GlobalErrorComponent: React.FC<IErrorGlobalState> = ({ error }) => {
             }}
           >
             <BsTrash style={{ marginTop: 4, marginRight: 6 }} />
-            Clear all errors
+            Vymazat všechna upozornění
           </button>
         </div>
       </div>
