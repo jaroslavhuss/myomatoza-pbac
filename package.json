@@ -1,0 +1,21 @@
+{
+  "name": "appraisalmono2023",
+  "version": "1.0.0",
+  "description": "This monorepo solves the main architectural issue of having two different seperate apps.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "turbo run dev",
+    "build": "turbo run build",
+    "start": "node apps/api/dist/main"
+  },
+  "keywords": [],
+  "author": "Jaroslav Huss",
+  "license": "MIT",
+  "devDependencies": {
+    "turbo": "^1.10.7"
+  },
+  "workspaces": [
+    "apps/*"
+  ]
+}
