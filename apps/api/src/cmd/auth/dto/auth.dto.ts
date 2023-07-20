@@ -14,9 +14,9 @@ export class AuthDto {
   email: string;
 
   @IsString()
-  @MinLength(6, { message: 'Minimum length is 6 with special characters' })
+  @MinLength(8, { message: 'Minimum length is 8 with special characters' })
   @MaxLength(20, { message: 'Maximum length is 20' })
-  @Matches(/((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$/, {
+  @Matches(/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d!$%@#£€*?&]{8,}$/, {
     message:
       'Password is too weak - it has to contain at least one Capital Letter and one number.',
   })
@@ -37,9 +37,9 @@ export class SignUpDto {
    */
   @IsString()
   @IsNotEmpty()
-  @MinLength(6, { message: 'Minimum length is 6 with special characters' })
+  @MinLength(8, { message: 'Minimum length is 8 with special characters' })
   @MaxLength(20, { message: 'Maximum length is 20' })
-  @Matches(/((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$/, {
+  @Matches(/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d!$%@#£€*?&]{8,}$/, {
     message:
       'Password is too weak - it has to contain at least one Capital Letter and one number.',
   })
@@ -50,21 +50,17 @@ export class SignUpDto {
    */
   @IsString()
   @IsNotEmpty()
-  @MinLength(6, { message: 'Minimum length is 6 with special characters' })
+  @MinLength(8, { message: 'Minimum length is 8 with special characters' })
   @MaxLength(20, { message: 'Maximum length is 20' })
-  @Matches(/((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$/, {
+  @Matches(/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d!$%@#£€*?&]{8,}$/, {
     message:
-      'Password is too weak - it has to contain at least one Capital Letter and one number.',
+      'Heslo je bohužel hodně slabé...',
   })
   confirmedPassword: string;
 
   @IsString({ message: 'Name must be a text!' })
   @IsNotEmpty({ message: 'Name is mandatory!' })
   name: string;
-
-  @IsString({ message: 'Surname must be a text!' })
-  @IsNotEmpty({ message: 'Surname is mandatory!' })
-  surname: string;
 }
 
 export class UserIdDto {

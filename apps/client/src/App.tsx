@@ -1,8 +1,8 @@
 //Default imports
 import Navigation from "./components/GlobalComponents/Navigation";
 import Success from "./components/GlobalComponents/Success";
-import Login from "./components/Users/Login";
-import Register from "./components/Users/Register";
+import Login from "./components/GlobalComponents/Login";
+import Register from "./components/GlobalComponents/Register";
 
 //Named imports
 import { Route, Routes } from "react-router-dom";

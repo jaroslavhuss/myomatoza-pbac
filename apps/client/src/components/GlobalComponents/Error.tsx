@@ -28,10 +28,10 @@ const GlobalErrorComponent: React.FC<IErrorGlobalState> = ({ error }) => {
               )}
 
               <div className="dropdown dropdown-end relative">
-                <label tabIndex={0} className="m-1 py-2 bg-slate-100 h-auto block rounded-xl">
-                  {e.date} | {e.message.toString()}{" "}
+                <label tabIndex={0} className="m-1 py-2 bg-gradient-to-br from-rose-400  to-pink-600 p-2  shadow-lg text-white z-20 h-auto block rounded-xl">
+                  <span className="text-xs bg-slate-500 p-1">{e.date}</span> <br />{e.message.toString()}{" "}
                   <span
-                    className="absolute -bottom-1 -right-2 p-2 bg-[#dbd1ca] rounded-full"
+                    className="absolute -bottom-1 -right-2 p-2 bg-rose-950 rounded-full"
                     onClick={() => {
                       dispatch(removeError(i));
                     }}
@@ -40,7 +40,7 @@ const GlobalErrorComponent: React.FC<IErrorGlobalState> = ({ error }) => {
                   </span>
                   {(e.cumulation && e.cumulation > 0 && e.cumulation < 10) && (
                     <p
-                      className="text-xs font-bold text-slate-600"
+                      className="text-xs font-bold text-slate-900"
                     >
                       (Počet upozornění: {e.cumulation})
                     </p>

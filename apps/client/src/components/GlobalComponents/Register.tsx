@@ -1,17 +1,23 @@
 import React, { useState } from "react";
 import { BsAt, BsKey, BsPerson } from "react-icons/bs";
-import { Link } from "react-router-dom";
-import {  IFormData, emptyFormData} from "./interface_empty/register.interface";
+import { Link, useNavigate } from "react-router-dom";
 import {validatePasswords, isPasswordValid, isEmailValid, isInputEmpty} from "../../utils/InputValidations"
 import { useDispatch } from "react-redux";
 import { setError } from "../../store/gsms/errorSlice";
+import { IRegisterFormData } from "../../Entities/interfaces/register.interface";
+import { emptyFormData } from "../../Entities/defaults/register.empty";
+import { AxiosResponse } from "axios";
+import { registerUser } from "../../APIs/Users";
+import { setSuccess } from "../../store/gsms/successSlice";
+
 interface Props {}
 const Register: React.FC<Props> = ({}) => {
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [allowEmail, setAllowEmail] = useState<boolean>(true);
-  const [formData, setFormData] = useState<IFormData>(emptyFormData);
+  const [formData, setFormData] = useState<IRegisterFormData>(emptyFormData);
 
-  const handleRegistrationSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleRegistrationSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const passValid:boolean = isPasswordValid(formData.password);
     if(!passValid){
@@ -47,6 +53,16 @@ const Register: React.FC<Props> = ({}) => {
       }))
       return;
     }
+
+   const response:AxiosResponse = await registerUser(formData);
+   if(response){
+    setFormData(emptyFormData);
+    navigate("/");
+    dispatch(setSuccess({
+      message:"Registrace proběhla úspěšně",
+      rawData:"Nyní se můžete přihlásit"
+    }))
+   }
   };
   return (
     <div className="flex flex-col items-center justify-center mt-10">

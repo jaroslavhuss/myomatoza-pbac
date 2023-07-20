@@ -10,11 +10,14 @@ const Login: React.FC<Props> = () => {
   const dispatch:Function = useDispatch();
 
   const forgottenPassword:Function = ():void =>{
-    console.log("Clicked")
     dispatch(setSuccess({
       message:"Pokud jste zapomněli heslo, je potřeba kvůli zabezpečení kontaktovat správce aplikace - huss@richtergedeon.cz",
       rawData:"Bohužel si kvůli zabezpečení heslo změnit nelze...",
     }))
+  }
+
+  const handleLoginSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
   }
   return (
     <div className="flex flex-col items-center justify-center mt-10">
@@ -23,7 +26,7 @@ const Login: React.FC<Props> = () => {
           Přihlášení do svého účtu
         </div>
         <div className="mt-8">
-          <form action="#" autoComplete="off" className="relative">
+          <form action="#" autoComplete="off" className="relative" onSubmit={handleLoginSubmit}>
             <div className="flex flex-col mb-2">
               <div className="flex relative ">
                 <span className="rounded-l-md inline-flex items-center px-3 border-t bg-white border-l border-b  border-gray-300 text-gray-500 shadow-sm text-sm">

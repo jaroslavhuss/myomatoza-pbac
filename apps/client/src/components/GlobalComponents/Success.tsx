@@ -27,10 +27,10 @@ const Success: React.FC = ({}) => {
          </div>
  
          <div
-           className="tooltip tooltip-closed tooltip-bottom"
+           className="tooltip tooltip-closed tooltip-bottom w-full"
            data-tip={success.rawData.toString() || ""}
          >
-           <p>{success.message}</p>
+           <p className="text-center w-full">{success.message}</p>
          </div>
        </div>
      </div>

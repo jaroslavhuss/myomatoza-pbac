@@ -24,7 +24,7 @@ export class AuthService {
     //Password actually matches
     if (dto.password !== dto.confirmedPassword)
       throw new BadRequestException(
-        'Password and Confirmed password are different!',
+        'Hesla bohužel nesouhlasí',
       );
     //generate the password hash
     const hashedPwd = await argon.hash(dto.password);
@@ -32,14 +32,12 @@ export class AuthService {
       email: dto.email,
     });
     if (findIfMongoEmailIsTaken)
-      throw new BadRequestException('Email is already taken!');
+      throw new BadRequestException('Uživatel je už s tímto emailem zaregistrovaný');
 
     const user = await this.userModel.create({
       password: hashedPwd,
       email: dto.email,
-      isUserApproved: false,
       name: dto.name,
-      surname: dto.surname,
     });
 
     return user;

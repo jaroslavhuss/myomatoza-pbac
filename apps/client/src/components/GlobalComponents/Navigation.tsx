@@ -42,7 +42,7 @@ const [showErrorBar, setShowErrorBar] = useState<boolean>(false)
     </div>
     <div className="navbar-center hidden lg:flex">
       <ul className="menu menu-horizontal px-1">
-      <li><Link to="/register">Register</Link></li>
+      <li><Link to="/register">Registrace</Link></li>
         <li tabIndex={0}>
           <details>
             <summary>Parent</summary>
@@ -59,7 +59,7 @@ const [showErrorBar, setShowErrorBar] = useState<boolean>(false)
       errorList.errorMessages.length > 0 &&(<div className="navbar-end" onClick={()=>{
         setShowErrorBar(!showErrorBar)
       }}>
-        {showErrorBar ? <a className="btn bg-green-300"><AiOutlineCloseCircle style={{color:"green", fontSize:30}}/></a> : <a className="btn bg-red-300"><AiFillWarning style={{color:"red"}}/>{errorList.errorMessages.length}</a>
+        {showErrorBar ? <a className="bg-gradient-to-br from-rose-400  to-pink-600 p-1 rounded-full"><AiOutlineCloseCircle style={{color:"white", fontSize:30}}/></a> : <a className="btn bg-red-300"><AiFillWarning style={{color:"white"}}/>{errorList.errorMessages.length}</a>
 }
     </div>)
     }
