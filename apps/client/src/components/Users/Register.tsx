@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { BsAt, BsKey, BsPerson } from "react-icons/bs";
 import { Link } from "react-router-dom";
 import {  IFormData, emptyFormData} from "./interface_empty/register.interface";
-import {validatePasswords, isPasswordValid} from "../../utils/InputValidations"
+import {validatePasswords, isPasswordValid, isEmailValid, isInputEmpty} from "../../utils/InputValidations"
 import { useDispatch } from "react-redux";
 import { setError } from "../../store/gsms/errorSlice";
 interface Props {}
@@ -13,9 +13,6 @@ const Register: React.FC<Props> = ({}) => {
 
   const handleRegistrationSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    /**
-     * Password validation
-     */
     const passValid:boolean = isPasswordValid(formData.password);
     if(!passValid){
       dispatch(setError({
@@ -29,6 +26,24 @@ const Register: React.FC<Props> = ({}) => {
       dispatch(setError({
         message:"Hesla se neshodují",
         rawData:"Zkontrolujte prosím, že obě hesla jsou naprosto stejná!"
+      }))
+      return;
+    }
+
+    const emailValid:boolean = isEmailValid(formData.email);
+    if(!emailValid){
+      dispatch(setError({
+        message:"Email není validní",
+        rawData:"email nesmí obsahovat diakritiku a musí být ve formátu například: huss@richtergedeon.cz"
+      }))
+      return;
+    }
+
+    const inputEmpty:boolean = isInputEmpty(formData.name);
+    if(!inputEmpty){
+      dispatch(setError({
+        message:"Jméno nesmí být prázdné",
+        rawData:"například Bc. Jaroslav Huss, MBA"
       }))
       return;
     }
@@ -86,6 +101,14 @@ const Register: React.FC<Props> = ({}) => {
                   className="rounded-r-md flex-1 appearance-none border border-gray-300 w-full py-2 px-4 bg-white text-gray-700 placeholder-gray-400
                 shadow-sm text-base focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent"
                   placeholder="Heslo"
+                value={formData?.password}
+                onChange={(e) => {
+                  setFormData({
+                    ...formData,
+                    password: e.target.value,
+                  });
+                }
+                }
                 />
               </div>
             </div>
@@ -100,6 +123,14 @@ const Register: React.FC<Props> = ({}) => {
                   className="rounded-r-md flex-1 appearance-none border border-gray-300 w-full py-2 px-4 bg-white text-gray-700 placeholder-gray-400
                 shadow-sm text-base focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent"
                   placeholder="Zopakujte své heslo znovu"
+                value={formData?.confirmedPassword}
+                onChange={(e) => {
+                  setFormData({
+                    ...formData,
+                    confirmedPassword: e.target.value,
+                  });
+                }
+                }
                 />
               </div>
             </div>
@@ -114,6 +145,14 @@ const Register: React.FC<Props> = ({}) => {
                   className="rounded-r-md flex-1 appearance-none border border-gray-300 w-full py-2 px-4 bg-white text-gray-700 placeholder-gray-400
                 shadow-sm text-base focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent"
                   placeholder="Vaše celé jméno včetně titulů"
+                value={formData?.name}
+                onChange={(e) => {
+                  setFormData({
+                    ...formData,
+                    name: e.target.value,
+                  });
+                }
+                }
                 />
               </div>
             </div>

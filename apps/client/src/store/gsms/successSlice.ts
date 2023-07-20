@@ -12,7 +12,7 @@ const initialState: SuccessShape = {
   date: "",
   message: "",
   rawData: "",
-  showSuccess: true,
+  showSuccess: false,
 };
 
 export const successSlice = createSlice({
@@ -21,8 +21,8 @@ export const successSlice = createSlice({
   reducers: {
     setSuccess: (state, action: PayloadAction<SuccessShape>) => {
       const d = new Date();
-      action.payload.date = d.toLocaleString();
-      action.payload.showSuccess = true;
+      state.date = d.toLocaleString();
+      state.showSuccess = action.payload.showSuccess = true;
       state.message = action.payload.message;
       state.rawData = action.payload.rawData;      
     },

@@ -10,15 +10,14 @@ interface Props {
 const Navigation: React.FC<Props> = () => {
 const [showErrorBar, setShowErrorBar] = useState<boolean>(false)
   const errorList = useSelector((err:IErrorGlobalState)=>{
-    return err;
+    return err.error;
   })
 
   useEffect(() => {
-    if(errorList.error.errorMessages.length<1){
-      console.log(errorList.error.errorMessages.length)
+    if(errorList.errorMessages.length<1){
       setShowErrorBar(false)
     }
-  },[errorList.error.errorMessages.length])
+  },[errorList.errorMessages.length])
   return (
     <div className="mx-auto max-w-7xl lg:border-b-2 xl:border-b-2 md:border-b-2 ">
     <div className="navbar">
@@ -57,16 +56,16 @@ const [showErrorBar, setShowErrorBar] = useState<boolean>(false)
       </ul>
     </div>
     {
-      errorList.error.errorMessages.length > 0 &&(<div className="navbar-end" onClick={()=>{
+      errorList.errorMessages.length > 0 &&(<div className="navbar-end" onClick={()=>{
         setShowErrorBar(!showErrorBar)
       }}>
-        {showErrorBar ? <a className="btn bg-green-300"><AiOutlineCloseCircle style={{color:"green", fontSize:30}}/></a> : <a className="btn bg-red-300"><AiFillWarning style={{color:"red"}}/>{errorList.error.errorMessages.length}</a>
+        {showErrorBar ? <a className="btn bg-green-300"><AiOutlineCloseCircle style={{color:"green", fontSize:30}}/></a> : <a className="btn bg-red-300"><AiFillWarning style={{color:"red"}}/>{errorList.errorMessages.length}</a>
 }
     </div>)
     }
     
   </div>
-  {(showErrorBar && errorList.error.errorMessages.length>0) &&  <Error error={errorList.error}/>}
+  {(showErrorBar && errorList.errorMessages.length>0) &&  <Error error={errorList}/>}
   </div>
   );
 };

@@ -24,16 +24,6 @@ export const errorSlice = createSlice({
     setError: (state, action: PayloadAction<ErrorShape>) => {
       const d = new Date();
       action.payload.date = d.toLocaleString();
-
-      // if (state.errorMessages.length > 0) {
-      //   const lastError = state.errorMessages[state.errorMessages.length - 1];
-      //   if (lastError.message === action.payload.message && lastError.date === action.payload.date) {
-      //     lastError.cumulation = lastError.cumulation ? lastError.cumulation + 1 : 2;
-      //     return;
-      //   }
-      // }
-      
-      //if previous error is exactly the same as the current error, increment the cumulation + 1
       if (state.errorMessages.length > 0) {
         const lastError = state.errorMessages[state.errorMessages.length - 1];
         if (lastError.message === action.payload.message && lastError.date === action.payload.date) {

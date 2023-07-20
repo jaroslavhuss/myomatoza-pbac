@@ -1,9 +1,21 @@
 import React from "react";
 import { BsAt, BsKey } from "react-icons/bs";
 import { Link } from "react-router-dom";
+import { setSuccess } from "../../store/gsms/successSlice";
+import { useDispatch } from "react-redux";
+
 interface Props {}
 
 const Login: React.FC<Props> = () => {
+  const dispatch:Function = useDispatch();
+
+  const forgottenPassword:Function = ():void =>{
+    console.log("Clicked")
+    dispatch(setSuccess({
+      message:"Pokud jste zapomněli heslo, je potřeba kvůli zabezpečení kontaktovat správce aplikace - huss@richtergedeon.cz",
+      rawData:"Bohužel si kvůli zabezpečení heslo změnit nelze...",
+    }))
+  }
   return (
     <div className="flex flex-col items-center justify-center mt-10">
       <div className="flex flex-col w-full max-w-sm px-4 py-8  rounded-lg shadow-lg sm:px-6 md:px-8 lg:px-10 bg-gradient-to-br from-slate-600 via-slate-700 to-slate-800">
@@ -19,7 +31,7 @@ const Login: React.FC<Props> = () => {
                 </span>
                 <input
                   type="text"
-                  id="sign-in-email"
+                  
                   className="rounded-r-md flex-1 appearance-none border border-gray-300 w-full py-2 px-4 bg-white text-gray-700 placeholder-gray-400
 
                   shadow-sm text-base focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent"
@@ -34,7 +46,7 @@ const Login: React.FC<Props> = () => {
                 </span>
                 <input
                   type="password"
-                  id="sign-in-email"
+                  
                   className="rounded-r-md flex-1 appearance-none border border-gray-300 w-full py-2 px-4 bg-white text-gray-700 placeholder-gray-400
 
                   shadow-sm text-base focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent"
@@ -44,12 +56,14 @@ const Login: React.FC<Props> = () => {
             </div>
             <div className="flex items-center mb-6 -mt-4">
               <div className="flex ml-auto">
-                <a
-                  href="#"
+                <div 
+                  onClick={()=>{
+                    forgottenPassword()
+                  }}
                   className="inline-flex text-xs font-thin text-gray-500 sm:text-sm dark:text-gray-100 hover:text-gray-700 dark:hover:text-white"
                 >
                   Zapomněli jste heslo?
-                </a>
+                </div>
               </div>
             </div>
             <div className="flex w-full mt-8">

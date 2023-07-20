@@ -28,10 +28,10 @@ const GlobalErrorComponent: React.FC<IErrorGlobalState> = ({ error }) => {
               )}
 
               <div className="dropdown dropdown-end relative">
-                <label tabIndex={0} className="btn m-1">
+                <label tabIndex={0} className="m-1 py-2 bg-slate-100 h-auto block rounded-xl">
                   {e.date} | {e.message.toString()}{" "}
                   <span
-                    className="absolute top-0 right-0 p-2 bg-[#dbd1ca] rounded-full"
+                    className="absolute -bottom-1 -right-2 p-2 bg-[#dbd1ca] rounded-full"
                     onClick={() => {
                       dispatch(removeError(i));
                     }}
@@ -39,15 +39,11 @@ const GlobalErrorComponent: React.FC<IErrorGlobalState> = ({ error }) => {
                     <BsFillTrashFill />
                   </span>
                   {(e.cumulation && e.cumulation > 0 && e.cumulation < 10) && (
-                    <span
-                      className="absolute bottom-0 right-0 p-2 rounded-full bg-[#dbd1ca] w-[30px] h-[30px]"
-                      onClick={() => {
-                        dispatch(removeError(i));
-                      }}
+                    <p
+                      className="text-xs font-bold text-slate-600"
                     >
-                      {" "}
-                      {e.cumulation}
-                    </span>
+                      (Počet upozornění: {e.cumulation})
+                    </p>
                   )}
                 </label>
                 <ul
