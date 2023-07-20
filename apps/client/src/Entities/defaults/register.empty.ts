@@ -1,5 +1,5 @@
 import { IRegisterFormData } from "../interfaces/register.interface";
-export const emptyFormData: IRegisterFormData = {
+export const emptyRegisterFormData: IRegisterFormData = {
     name: "",
     email: "",
     password: "",

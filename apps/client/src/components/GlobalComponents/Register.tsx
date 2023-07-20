@@ -5,7 +5,7 @@ import {validatePasswords, isPasswordValid, isEmailValid, isInputEmpty} from "..
 import { useDispatch } from "react-redux";
 import { setError } from "../../store/gsms/errorSlice";
 import { IRegisterFormData } from "../../Entities/interfaces/register.interface";
-import { emptyFormData } from "../../Entities/defaults/register.empty";
+import { emptyRegisterFormData } from "../../Entities/defaults/register.empty";
 import { AxiosResponse } from "axios";
 import { registerUser } from "../../APIs/Users";
 import { setSuccess } from "../../store/gsms/successSlice";
@@ -15,7 +15,7 @@ const Register: React.FC<Props> = ({}) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [allowEmail, setAllowEmail] = useState<boolean>(true);
-  const [formData, setFormData] = useState<IRegisterFormData>(emptyFormData);
+  const [formData, setFormData] = useState<IRegisterFormData>(emptyRegisterFormData);
 
   const handleRegistrationSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -56,7 +56,7 @@ const Register: React.FC<Props> = ({}) => {
 
    const response:AxiosResponse = await registerUser(formData);
    if(response){
-    setFormData(emptyFormData);
+    setFormData(emptyRegisterFormData);
     navigate("/");
     dispatch(setSuccess({
       message:"Registrace proběhla úspěšně",
