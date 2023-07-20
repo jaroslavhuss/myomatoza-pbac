@@ -8,6 +8,7 @@ import Register from "./components/Users/Register";
 import { Route, Routes } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { ISuccessGlobalState } from "./store/store";
+import Footer from "./components/GlobalComponents/Footer";
 
 export default function App() {
   const showSuccess: boolean | undefined = useSelector(
@@ -17,13 +18,16 @@ export default function App() {
   );
 
   return (
-    <div className="max-w-7xl mx-auto px-2">
-      <Navigation />
-      <Routes>
-        <Route path="/" element={<Login name="Title" />} />
-        <Route path="/register" element={<Register />} />
-      </Routes>
-      {showSuccess && <Success />}
+    <div className="min-h-screen flex flex-col bg-gradient-to-br from-slate-50 via-purple-50 to-pink-100">
+      <div className="flex-1">
+        <Navigation />
+        <Routes>
+          <Route path="/" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+        </Routes>
+        {showSuccess && <Success />}
+        <Footer />
+      </div>
     </div>
   );
 }

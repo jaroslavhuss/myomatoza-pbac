@@ -1,193 +1,145 @@
-import React, { useEffect, useState } from "react";
-import { emptyFormData, FormData } from "./interface_empty/register.interface";
-import { setError } from "../../store/gsms/errorSlice";
+import React, { useState } from "react";
+import { BsAt, BsKey, BsPerson } from "react-icons/bs";
+import { Link } from "react-router-dom";
+import {  IFormData, emptyFormData} from "./interface_empty/register.interface";
+import {validatePasswords, isPasswordValid} from "../../utils/InputValidations"
 import { useDispatch } from "react-redux";
-import { AxiosAPI } from "../../utils/AxiosApi";
+import { setError } from "../../store/gsms/errorSlice";
+interface Props {}
+const Register: React.FC<Props> = ({}) => {
+  const dispatch = useDispatch()
+  const [allowEmail, setAllowEmail] = useState<boolean>(true);
+  const [formData, setFormData] = useState<IFormData>(emptyFormData);
 
-const Register: React.FC = () => {
-  const dispatch = useDispatch();
-  const [formData, setFormData] = useState<FormData>(emptyFormData)
-  const [errorMessage, setErrorMessage] = useState<string>("");
-  const [errorStatus, setErrorStatus] = useState<boolean>(true);
-
-  useEffect(() => {
-    setTimeout(() => {
-      setErrorMessage("");
-      setErrorStatus(false);
-    }, 5000);
-  }, [errorMessage, errorStatus]);
-
-  //Handle submit with axios:
-
- const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  const handleRegistrationSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const { name, surname, email, password, confirmedPassword } = formData;
-    if (name === "") {
+    /**
+     * Password validation
+     */
+    const passValid:boolean = isPasswordValid(formData.password);
+    if(!passValid){
       dispatch(setError({
-        message:"Name is required",
-        rawData:"Name can not be empty! Please enter a name!",
+        message:"Heslo musí obsahovat alespoň 8 znaků, písmeno a číslo!",
+        rawData:""
       }))
       return;
     }
-
-    if (surname === "") {
-    dispatch(setError({
-        message:"Surname is required",
-        rawData:"Surname can not be empty! Please enter a surname!",
-      }))
-      return;
-    }
-
-    if (email === "") {
+    const passMatch:boolean = validatePasswords(formData.password, formData.confirmedPassword);
+    if(!passMatch){
       dispatch(setError({
-        message:"Email is required",
-        rawData:"Email can not be empty! Please enter a email!",
+        message:"Hesla se neshodují",
+        rawData:""
       }))
       return;
-    }
-
-    const emailRegex = new RegExp(
-      // eslint-disable-next-line no-useless-escape
-      "^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$"
-    );
-    if (!emailRegex.test(email)) {
-      dispatch(setError({
-        message:"Email is not valid",
-        rawData:"Email is not valid! Please enter a valid email!",
-      }))
-      return;
-    }
-
-    if (password === "") {
-     dispatch(setError({
-        message:"Password is required",
-        rawData:"Password can not be empty! Please enter a password!",
-      }))
-
-      return;
-    }
-
-    if (confirmedPassword === "") {
-      dispatch(setError({
-        message:"Confirmed password is required",
-        rawData:"Confirmed password can not be empty! Please enter a confirmed password!",
-      }))
-      return;
-    }
-
-    if (password !== confirmedPassword) {
-      dispatch(setError({
-        message:"Password and confirmed password are not the same",
-        rawData:"Password and confirmed password are not the same! Please enter a same password!",
-      }))
-      return;
-    }
-
-    try {
-    const results = await AxiosAPI("/auth/register", "POST", formData)
-    console.log(results)
-    } catch (error:any) {
-      dispatch(setError({
-        message:error.message,
-        rawData:JSON.stringify(error),
-      }))
-      
     }
   };
-
-
-
   return (
-    <form className="max-w-2xl text-center mx-auto  m-2 rounded-md shadow-xl pt-2 pb-4 px-2" onSubmit={handleSubmit}>
-      <h2 className="text-center text-2xl text-slate-900 font-bold border-b-2 my-2">
-        Registration 
-
-
-      </h2>
-
-      <div className="grid grid-cols-2 gap-4 my-2" >
-        <div className="col-span-1">
-          <label className="label">
-            <span className="label-text font-bold">Name</span>
-          </label>
-          <input
-            type="text"
-            placeholder="Your name"
-            className="input input-bordered input-info w-full max-w-2xl hover:scale-[1.8px] transition-all duration-500 ease-in-out"
-            value={formData?.name}
-           onChange={(e) => setFormData({...formData, name:e.target.value})}
-          />
+    <div className="flex flex-col items-center justify-center mt-10">
+      <div className="flex flex-col w-full max-w-sm px-4 py-8  rounded-lg shadow-lg sm:px-6 md:px-8 lg:px-10 bg-gradient-to-br from-slate-600 via-slate-700 to-slate-800">
+        <div className="self-center mb-6 text-xl font-light text-gray-600 sm:text-2xl dark:text-white">
+          Registrace
         </div>
-        <div className="col-span-1">
-          <label className="label">
-            <span className="label-text font-bold">Surname</span>
-          </label>
-          <input
-            type="text"
-            placeholder="Your Surname"
-            className="input input-bordered input-info w-full max-w-2xl hover:scale-[1.8px] transition-all duration-500 ease-in-out"
-            value={formData?.surname}
-            onChange={(e) => setFormData({...formData, surname:e.target.value})}
-
-          />
-        </div>
-      </div>
-      <div className="grid grid-cols-1 gap-4 my-2">
-        <div className="col-span-1">
-          <label className="label">
-            <span className="label-text font-bold">Email</span>
-          </label>
-          <input
-            type="text"
-            placeholder="Your email"
-            className="input input-bordered input-info w-full max-w-2xl hover:scale-[1.8px] transition-all duration-500 ease-in-out"
-            value={formData?.email}
-            onChange={(e) => setFormData({...formData, email:e.target.value})}
-          />
-        </div>
-      </div>
-
-      <div className="grid grid-cols-2 gap-4 my-2">
-        <div className="col-span-1">
-          <label className="label">
-            <span className="label-text font-bold">Password</span>
-          </label>
-          <input
-            type="password"
-            placeholder="Your password"
-            className="input input-bordered input-info w-full max-w-2xl hover:scale-[1.8px] transition-all duration-500 ease-in-out"
-            value={formData?.password}
-            onChange={(e) => setFormData({...formData, password:e.target.value})}
-          />
-        </div>
-        <div className="col-span-1">
-          <label className="label">
-            <span className="label-text font-bold">Confirm Password</span>
-          </label>
-          <input
-            type="password"
-            placeholder="Confirm password"
-            className="input input-bordered input-info w-full max-w-2xl hover:scale-[1.8px] transition-all duration-500 ease-in-out"
-            value={formData?.confirmedPassword}
-            onChange={(e) => setFormData({...formData, confirmedPassword:e.target.value})}
-          />
-        </div>
-
-        <div className="col-span-2">
-         <input type="submit" value="Register"  className="btn btn-primary w-full max-w-2xl hover:scale-[1.8px] transition-all duration-500 ease-in-out"/>
-        </div>
-      </div>
-      {
-        errorMessage && (
-          <div className="alert alert-error">
-            <div className="flex-1">
-         
-              <p>{errorMessage}</p>
+        <div className="mt-8">
+          <form action="#" autoComplete="off" className="relative" onSubmit={handleRegistrationSubmit}>
+            <div className="flex flex-col mb-2">
+              <div className="flex relative ">
+                <span className="rounded-l-md inline-flex items-center px-3 border-t bg-white border-l border-b  border-gray-300 text-gray-500 shadow-sm text-sm">
+                  <BsAt />
+                </span>
+                <input
+                  name="hcp-email"
+                  type="text"
+                  className="rounded-r-md flex-1 appearance-none border border-gray-300 w-full py-2 px-4 bg-white text-gray-700 placeholder-gray-400
+                shadow-sm text-base focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent"
+                  placeholder="Váš email"
+                  autoComplete="off"
+                  disabled={allowEmail}
+                  onMouseOver={() => {
+                    setAllowEmail(false);
+                  }}
+                  onFocus={() => {
+                    setAllowEmail(false);
+                  }}
+                  onMouseLeave={() => {
+                    setAllowEmail(true);
+                  }}
+                  value={formData?.email}
+                  onChange={(e) => {
+                    setFormData({
+                      ...formData,
+                      email: e.target.value,
+                    });
+                  }
+                  }
+                />
+              </div>
             </div>
-          </div>
-        ) 
-      }
-    </form>
+
+            <div className="flex flex-col mb-2">
+              <div className="flex relative ">
+                <span className="rounded-l-md inline-flex items-center px-3 border-t bg-white border-l border-b  border-gray-300 text-gray-500 shadow-sm text-sm">
+                  <BsKey />
+                </span>
+                <input
+                  autoComplete="off"
+                  type="password"
+                  className="rounded-r-md flex-1 appearance-none border border-gray-300 w-full py-2 px-4 bg-white text-gray-700 placeholder-gray-400
+                shadow-sm text-base focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent"
+                  placeholder="Heslo"
+                />
+              </div>
+            </div>
+            <div className="flex flex-col mb-2">
+              <div className="flex relative ">
+                <span className="rounded-l-md inline-flex items-center px-3 border-t bg-white border-l border-b  border-gray-300 text-gray-500 shadow-sm text-sm">
+                  <BsKey />
+                </span>
+                <input
+                  autoComplete="off"
+                  type="password"
+                  className="rounded-r-md flex-1 appearance-none border border-gray-300 w-full py-2 px-4 bg-white text-gray-700 placeholder-gray-400
+                shadow-sm text-base focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent"
+                  placeholder="Zopakujte své heslo znovu"
+                />
+              </div>
+            </div>
+            <div className="flex flex-col mb-2">
+              <div className="flex relative ">
+                <span className="rounded-l-md inline-flex items-center px-3 border-t bg-white border-l border-b  border-gray-300 text-gray-500 shadow-sm text-sm">
+                  <BsPerson />
+                </span>
+                <input
+                  autoComplete="off"
+                  type="text"
+                  className="rounded-r-md flex-1 appearance-none border border-gray-300 w-full py-2 px-4 bg-white text-gray-700 placeholder-gray-400
+                shadow-sm text-base focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent"
+                  placeholder="Vaše celé jméno včetně titulů"
+                />
+              </div>
+            </div>
+            <div className="flex w-full mt-8">
+              <button
+                type="submit"
+                className="py-2 px-4 focus:ring-offset-purple-200
+              text-white transition ease-in duration-200 text-center text-base font-semibold focus:outline-none focus:ring-2 focus:ring-offset-2  rounded-lg bg-slate-800 shadow-lg hover:bg-slate-400"
+              >
+                Zaregistrovat se
+              </button>
+            </div>
+            <div className="flex items-center mt-4">
+              <div className="flex mr-auto">
+                <Link
+                  to="/"
+                  className="inline-flex text-xs font-thin text-gray-500 sm:text-sm dark:text-gray-100 hover:text-gray-700 dark:hover:text-white"
+                >
+                  Už máte účet? Přihlaste se!
+                </Link>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
   );
 };
 

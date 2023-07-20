@@ -20,6 +20,7 @@ export interface IErrorGlobalState {
       date?: string,
       message: string,
       rawData: string,
+      cumulation?: number,
     }[],
   }
 } 

@@ -10,7 +10,7 @@ const Success: React.FC = ({}) => {
   });
   const dispatch = useDispatch();
   return (
-    <div className="w-[300px] h-[200px] bg-gradient-to-br from-green-50 via-white to-green-50 overflow-scroll absolute bottom-0 right-0 m-8 rounded-lg shadow-2xl">
+    <div className="w-[300px] h-[200px] bg-gradient-to-br from-green-50 via-white to-green-50 overflow-scroll absolute bottom-0 right-0 m-8 rounded-lg shadow-2xl z-20">
       <div className="relative w-auto h-auto overflow-scroll">
         <div className="grid grid-cols-3 border-b-2">
           <div className="col-span-1">{success.date}</div>
@@ -18,7 +18,7 @@ const Success: React.FC = ({}) => {
             className="col-span-1 justify-center align-middle self-center font-bold"
             style={{ fontSize: 20 }}
           >
-            SUCCESS
+            Úspěch
           </div>
           <div className="col-span-1 justify-self-end">
             <AiOutlineCloseCircle
