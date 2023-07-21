@@ -1,14 +1,14 @@
 import React, { useState } from "react";
 import { BsAt, BsKey, BsPerson } from "react-icons/bs";
 import { Link, useNavigate } from "react-router-dom";
-import {validatePasswords, isPasswordValid, isEmailValid, isInputEmpty} from "../../utils/InputValidations"
+import {validatePasswords, isPasswordValid, isEmailValid, isInputEmpty} from "../utils/InputValidations"
 import { useDispatch } from "react-redux";
-import { setError } from "../../store/gsms/errorSlice";
-import { IRegisterFormData } from "../../Entities/interfaces/register.interface";
-import { emptyRegisterFormData } from "../../Entities/defaults/register.empty";
+import { setError } from "../store/gsms/errorSlice";
+import { IRegisterFormData } from "../Entities/interfaces/register.interface";
+import { emptyRegisterFormData } from "../Entities/defaults/register.empty";
 import { AxiosResponse } from "axios";
-import { registerUser } from "../../APIs/Users";
-import { setSuccess } from "../../store/gsms/successSlice";
+import { registerUser } from "../APIs/Users";
+import { setSuccess } from "../store/gsms/successSlice";
 
 interface Props {}
 const Register: React.FC<Props> = ({}) => {

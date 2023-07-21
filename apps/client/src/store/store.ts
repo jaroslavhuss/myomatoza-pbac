@@ -1,10 +1,12 @@
 import { configureStore } from '@reduxjs/toolkit'
 import errorReducer from "./gsms/errorSlice"
 import successReducer from "./gsms/successSlice"
+import authSlice from './gsms/authSlice'
 export const store = configureStore({
   reducer: {
     error: errorReducer,
     success: successReducer,
+    auth: authSlice,
   },
 })
 
