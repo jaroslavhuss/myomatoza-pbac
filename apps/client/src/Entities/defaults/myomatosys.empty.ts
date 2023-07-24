@@ -1,11 +1,16 @@
 import { IMyomatosys } from "../interfaces/myomatosys.interface";
-import { emptyUser } from "./user.empty";
+const date = new Date();
+const day = date.getDate();
+const month = date.getMonth() + 1;
+const year = date.getFullYear();
+const dateString = `${day}.${month}.${year}`;
+
 export const emptyMyomatosys: IMyomatosys = {
 
     pacientName: '',
     pacientSSN: '',
-    questionnaireDate: "",
-    supervisorDoctor: emptyUser,
+    questionnaireDate: dateString,
+    supervisorDoctor: "",
     __01Question: 1,
     __02Question: 1,
     __03Question: 1,

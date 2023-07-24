@@ -6,6 +6,7 @@ import { AppService } from './app.service';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
 import { AuthModule } from './cmd/auth/auth.module';
+import { MyomsModule } from './cmd/myoms/myoms.module';
 @Module({
   imports: [
     ServeStaticModule.forRoot({
@@ -19,6 +20,7 @@ import { AuthModule } from './cmd/auth/auth.module';
       inject: [ConfigService],
     }),
     AuthModule,
+    MyomsModule,
   ],
   controllers: [AppController],
   providers: [AppService],

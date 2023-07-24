@@ -1,5 +1,4 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Types } from 'mongoose';
 import { Exclude } from 'class-transformer';
 import { Document } from 'mongoose';
 import { Roles } from 'src/interfaces_enums/roles.enum';
@@ -13,7 +12,7 @@ export class User implements IUser {
   /**
    * MANDATORY PROPS
    */
-  @Prop({ unique: true })
+  @Prop()
   email: string;
 
   @Exclude()
@@ -28,10 +27,6 @@ export class User implements IUser {
 
   @Prop({ default: SupportedCountries.Others })
   country: SupportedCountries;
-
-  //Additional props
-  @Prop({ type: Types.ObjectId, ref: 'User' })
-  master: Types.ObjectId;
 
   @Prop({ default: Roles.MedicalRepresentative })
   authLevel: Roles;

@@ -21,7 +21,7 @@ const Navigation: React.FC<Props> = () => {
     }
   }, [errorList.errorMessages.length]);
   return (
-    <div className="mx-auto max-w-7xl lg:border-b-2 xl:border-b-2 md:border-b-2 ">
+    <div className="mx-auto max-w-7xl lg:border-b-2 xl:border-b-2 md:border-b-2 sticky top-0 z-50 bg-white">
       <div className="navbar">
         <div className="navbar-start">
           <div className="dropdown">

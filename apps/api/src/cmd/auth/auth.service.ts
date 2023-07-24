@@ -65,6 +65,10 @@ export class AuthService {
       { new: true },
     );
     user.password = null;
+    if (!user.isUserApproved)
+      throw new BadRequestException(
+        'Uživatel musí být ručně schválen provozovatelem aplikace pro zajištění maximálního bezpečí dat. Pokud chcete proces urychlit, napište email na huss@richtergedeon.cz',
+      );
 
     return {
       user,

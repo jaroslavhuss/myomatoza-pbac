@@ -1,11 +1,9 @@
-import { IUser } from "./user.interface";
-
 export interface IMyomatosys {
 _id?: string;
 pacientName: string;
 pacientSSN: string;
 questionnaireDate: string;
-supervisorDoctor: IUser;
+supervisorDoctor: string;
 __01Question: number;
 __02Question: number;
 __03Question: number;

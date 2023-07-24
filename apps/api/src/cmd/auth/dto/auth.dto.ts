@@ -53,8 +53,7 @@ export class SignUpDto {
   @MinLength(8, { message: 'Minimum length is 8 with special characters' })
   @MaxLength(20, { message: 'Maximum length is 20' })
   @Matches(/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d!$%@#£€*?&]{8,}$/, {
-    message:
-      'Heslo je bohužel hodně slabé...',
+    message: 'Heslo je bohužel hodně slabé...',
   })
   confirmedPassword: string;
 

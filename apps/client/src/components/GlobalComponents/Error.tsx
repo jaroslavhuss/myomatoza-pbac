@@ -9,7 +9,7 @@ const GlobalErrorComponent: React.FC<IErrorGlobalState> = ({ error }) => {
   const [showRawData, setShowRawData] = useState<boolean>(false);
   return (
     <>
-      <div className="absolute top-0 max-w-7xl bg-slate-50 p-4 overflow-auto mt-20 grid grid-cols-4 gap-3 h-1/2 shadow-2xl rounded-2xl z-30">
+      <div className="absolute top-0 max-w-7xl bg-slate-50 p-4 overflow-auto mt-20 grid grid-cols-4 gap-3 h-[300px] shadow-2xl z-30 rounded-b-2xl">
         {error.errorMessages.map((e, i: number) => {
           return (
             <div className="relative col-span-1" key={i}>
