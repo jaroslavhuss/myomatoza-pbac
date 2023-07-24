@@ -2,6 +2,7 @@ import { Roles } from './roles.enum';
 import { Types } from 'mongoose';
 import { IJobname } from './jobname.interface';
 export interface IUser {
+  _id?: Types.ObjectId;
   updatedAt: Date;
   createdAt: Date;
   lastLoggedIn: Date;

@@ -40,3 +40,31 @@ export const createMyomsQuestionnaire = async (myomData: IMyomatosys, token:stri
     store.dispatch(setError(errorMessage));
   }
 }
+export const getMyUsers = async (token:string) =>{
+  try {
+    const response:AxiosResponse = await axios.get(GLOBAL_URL+'/myom',{
+      headers: {
+        Authorization: token,
+      }
+    });
+    return response.data;
+  } catch (error:AxiosResponse & any) {
+    const errorMessage = formatErrorMessage(error);
+    store.dispatch(setError(errorMessage));
+  }
+}
+
+//Delete user by ID
+export const deleteUser = async (id:string, token:string) =>{
+  try {
+    const response:AxiosResponse = await axios.delete(GLOBAL_URL+'/myom/'+id,{
+      headers: {
+        Authorization: token,
+      }
+    });
+    return response.data;
+  } catch (error:AxiosResponse & any) {
+    const errorMessage = formatErrorMessage(error);
+    store.dispatch(setError(errorMessage));
+  }
+}

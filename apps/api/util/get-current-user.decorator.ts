@@ -3,7 +3,7 @@ import { JwtPayloadWithRt } from '../src/cmd/auth/types';
 export const GetCurrentUser = createParamDecorator(
   (data: keyof JwtPayloadWithRt | undefined, context: ExecutionContext) => {
     const request = context.switchToHttp().getRequest();
-    if (!data) return request.user;
-    return request.user[data];
+    if (!data) return request.user.user;
+    return request.user[data].user.user;
   },
 );

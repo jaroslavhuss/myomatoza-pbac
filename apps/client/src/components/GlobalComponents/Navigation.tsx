@@ -5,6 +5,7 @@ import { IErrorGlobalState } from "../../store/store";
 import { AiFillWarning, AiOutlineCloseCircle } from "react-icons/ai";
 import Error from "./Error";
 import { useIsAuthenticated, useSignOut } from "react-auth-kit";
+import { BsDoorClosedFill } from "react-icons/bs";
 interface Props {}
 
 const Navigation: React.FC<Props> = () => {
@@ -45,47 +46,28 @@ const Navigation: React.FC<Props> = () => {
               tabIndex={0}
               className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow rounded-box w-52"
             >
-              <li>
-                <a>Parent</a>
-                <ul className="p-2">
-                  <li>
-                    <a>Submenu 1</a>
-                  </li>
-                  <li>
-                    <a>Submenu 2</a>
-                  </li>
-                </ul>
-              </li>
-              <li>
-                <a>Item 3</a>
-              </li>
-            </ul>
-          </div>
-          <Link to="/" className="btn btn-ghost normal-case text-xl">
-            Myomatóza & PBAC
-          </Link>
-        </div>
-        <div className="navbar-center hidden lg:flex">
-          <ul className="menu menu-horizontal px-1">
-           
-
-            <li tabIndex={0}>
-              <details>
-                <summary>Parent</summary>
-                <ul className="p-2">
-                  <li>
-                    <a>Submenu 1</a>
-                  </li>
-                  <li>
-                    <a>Submenu 2</a>
-                  </li>
-                </ul>
-              </details>
-            </li>
-            <li>
-              <a>Item 3</a>
-            </li>
-            {!isAuthenticated() ? (
+              {
+              isAuthenticated() && (<li tabIndex={0}>
+                <details>
+                  <summary>Profil</summary>
+                  <ul className="p-2">
+                    <li>
+                      <Link to="/user-list">Seznam pacientů</Link>
+                    </li>
+                    <li>
+                    <Link to="/pbac">PBAC</Link>
+                    </li>
+                    <li>
+                    <Link to="/questionnaire-myoms">Myomatóza</Link>
+                    </li>
+                    <li className="mt-4">
+                      <span className="bg-red-900 text-white" onClick={signOut}><BsDoorClosedFill />Odhlášení</span>
+                    </li>
+                  </ul>
+                </details>
+              </li>)
+           }
+           {!isAuthenticated() && (
               <>
                
                 <li>
@@ -95,10 +77,48 @@ const Navigation: React.FC<Props> = () => {
                   <Link to="/register">Registrace</Link>
                 </li>
               </>
-            ) : (
-              <div className="btn" onClick={signOut}>
-                Odhlásit se
-              </div>
+            )}
+            </ul>
+          </div>
+          <Link to="/" className="btn btn-ghost normal-case text-xl">
+            Myomatóza & PBAC
+          </Link>
+        </div>
+        <div className="navbar-center hidden lg:flex">
+          <ul className="menu menu-horizontal px-1">
+           {
+              isAuthenticated() && (<li tabIndex={0}>
+                <details>
+                  <summary>Profil</summary>
+                  <ul className="p-2">
+                    <li>
+                      <Link to="/user-list">Seznam pacientů</Link>
+                    </li>
+                    <li>
+                    <Link to="/pbac">PBAC</Link>
+                    </li>
+                    <li>
+                    <Link to="/questionnaire-myoms">Myomatóza</Link>
+                    </li>
+                    <li className="mt-4">
+                      <span className="bg-red-900 text-white" onClick={signOut}><BsDoorClosedFill />Odhlášení</span>
+                    </li>
+                  </ul>
+                </details>
+              </li>)
+           }
+            
+            
+            {!isAuthenticated() && (
+              <>
+               
+                <li>
+                  <Link to="/login">Přihlášení</Link>
+                </li>
+                <li>
+                  <Link to="/register">Registrace</Link>
+                </li>
+              </>
             )}
           </ul>
         </div>

@@ -13,6 +13,7 @@ import { RequireAuth, useIsAuthenticated } from "react-auth-kit";
 import Page404 from "./routes/404";
 import MyomatosysQuestionnaire from "./routes/MyomatQuestion";
 import PBAC from "./routes/PBAC";
+import UserList from "./routes/UserList";
 
 export default function App() {
   const isAuthenticated = useIsAuthenticated();
@@ -46,7 +47,7 @@ export default function App() {
           <Route path="/dashboard" element={<RequireAuth loginPath="/login"><Dashboard /></RequireAuth>}/>
           <Route path="/questionnaire-myoms" element={<RequireAuth loginPath="/login"><MyomatosysQuestionnaire /></RequireAuth>}/>
           <Route path="/pbac" element={<RequireAuth loginPath="/login"><PBAC /></RequireAuth>}/>
-       
+          <Route path="/user-list" element={<RequireAuth loginPath="/login"><UserList /></RequireAuth>}/>
         </Routes>
         {showSuccess && <Success />}
 

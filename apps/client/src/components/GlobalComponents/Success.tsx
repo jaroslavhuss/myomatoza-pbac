@@ -10,7 +10,7 @@ const Success: React.FC = ({}) => {
   });
   const dispatch = useDispatch();
   return (
-    <div className="w-[300px] h-[200px] absolute bottom-0 right-0 m-8 rounded-lg shadow-2xl z-20">
+    <div className="w-[300px] h-[200px] sticky bottom-0 right-0 m-8 rounded-lg shadow-2xl z-20">
      <img src={RGGirl} style={{width:200, height:200}} className="absolute -z-10 right-0 -top-44 mr-auto floating"/>
      <div className="bg-gradient-to-br from-rose-400  to-pink-600 p-2 rounded-lg shadow-lg text-white z-20">
        <div className="relative w-auto overflow-scroll h-[200px] z-20 ">

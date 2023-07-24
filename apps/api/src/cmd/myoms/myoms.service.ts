@@ -2,11 +2,12 @@ import { Injectable } from '@nestjs/common';
 import { CreateMyomDto } from './dto/create-myom.dto';
 import { UpdateMyomDto } from './dto/update-myom.dto';
 import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
+import { Model, Types } from 'mongoose';
 import {
   MyomsQuestionnaire,
   MyomsQuestionnaireDocument,
 } from '../../schemas/myomQuestionnaire.schema';
+import { IUser } from 'src/interfaces_enums';
 
 @Injectable()
 export class MyomsService {
@@ -29,19 +30,30 @@ export class MyomsService {
     return createdDocument;
   }
 
-  findAll() {
-    return `This action returns all myoms`;
+  async findAll(user: IUser) {
+    const data = await this.myomsModel.find({
+      supervisorDoctor: user._id.toString(),
+    });
+    return data;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} myom`;
+  update(id: string, updateMyomDto: UpdateMyomDto, user: IUser) {
+    //Only supervisorDoctor if owns the document can update it
+    return this.myomsModel.findOneAndUpdate(
+      {
+        _id: id,
+        supervisorDoctor: user._id.toString(),
+      },
+      updateMyomDto,
+      { new: true },
+    );
   }
 
-  update(id: number, updateMyomDto: UpdateMyomDto) {
-    return `This action updates a #${id} myom`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} myom`;
+  remove(id: string, user: IUser) {
+    //Only supervisorDoctor if owns the document can delete it
+    return this.myomsModel.findOneAndDelete({
+      _id: id,
+      supervisorDoctor: user._id.toString(),
+    });
   }
 }
