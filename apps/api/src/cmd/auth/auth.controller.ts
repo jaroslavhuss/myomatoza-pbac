@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import {
   Post,
   Body,
@@ -6,12 +7,13 @@ import {
   UseGuards,
   UseFilters,
   Controller,
+  Res,
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { AuthDto, SignUpDto, UserIdDto } from './dto';
 import { AuthGuard } from '@nestjs/passport';
 import { AllExceptionsFilter } from 'util/catch-everything.filter';
-
+import { Response } from 'express';
 @Controller('/auth')
 @UseFilters(AllExceptionsFilter)
 export class AuthController {
@@ -27,8 +29,11 @@ export class AuthController {
 
   @Post('/login')
   @HttpCode(HttpStatus.OK)
-  signin(@Body() dto: AuthDto) {
-    return this.authService.signin(dto);
+  async signin(
+    @Body() dto: AuthDto,
+  ) {
+    const { user, tokens } = await this.authService.signin(dto);
+    return {user, tokens};
   }
 
   //Only logged user can call this - we need ID of the current user!

@@ -23,16 +23,17 @@ export class AuthService {
   async signup(dto: SignUpDto): Promise<any> {
     //Password actually matches
     if (dto.password !== dto.confirmedPassword)
-      throw new BadRequestException(
-        'Hesla bohužel nesouhlasí',
-      );
+      throw new BadRequestException('Hesla bohužel nesouhlasí');
     //generate the password hash
     const hashedPwd = await argon.hash(dto.password);
     const findIfMongoEmailIsTaken = await this.userModel.findOne({
       email: dto.email,
     });
+
     if (findIfMongoEmailIsTaken)
-      throw new BadRequestException('Uživatel je už s tímto emailem zaregistrovaný');
+      throw new BadRequestException(
+        'Uživatel je už s tímto emailem zaregistrovaný',
+      );
 
     const user = await this.userModel.create({
       password: hashedPwd,
@@ -60,13 +61,14 @@ export class AuthService {
     const tokens = await this.signToken(user._id, user.email, user.authLevel);
     await this.userModel.findOneAndUpdate(
       { _id: user.id },
-      { lastLoggedIn: new Date(), refresh_token: tokens.refresh_token },
+      { lastLoggedIn: new Date() },
       { new: true },
     );
     user.password = null;
+
     return {
       user,
-      tokens: await this.signToken(user.id, user.email, user.authLevel),
+      tokens: tokens, //await this.signToken(user.id, user.email, user.authLevel),
     };
   }
 

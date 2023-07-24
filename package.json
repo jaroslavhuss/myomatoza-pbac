@@ -13,7 +13,8 @@
   "author": "Jaroslav Huss",
   "license": "MIT",
   "devDependencies": {
-    "turbo": "^1.10.7"
+    "turbo": "^1.10.7",
+    "vite-plugin-wasm": "^3.2.2"
   },
   "workspaces": [
     "apps/*"
