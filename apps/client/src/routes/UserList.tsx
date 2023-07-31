@@ -31,7 +31,6 @@ const UserList: React.FC<Props> = ({}) => {
   const dispatch = useDispatch();
   const [users, setUsers] = useState<[]>([]);
   const [filteredUsersBySSN, setFilteredUsersBySSN] = useState(users);
-  const [realoadData, setRealoadData] = useState<boolean>(false)
   const header = useAuthHeader();
   const token = header();
 
@@ -74,7 +73,7 @@ const UserList: React.FC<Props> = ({}) => {
         );
         return bDateObj.getTime() - aDateObj.getTime();
       });
-      
+      //@ts-ignore
       setFilteredUsersBySSN(filteredUsers);
     } else {
       setFilteredUsersBySSN(users);
