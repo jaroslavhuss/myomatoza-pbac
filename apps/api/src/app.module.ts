@@ -10,7 +10,7 @@ import { MyomsModule } from './cmd/myoms/myoms.module';
 @Module({
   imports: [
     ServeStaticModule.forRoot({
-      rootPath: join(__dirname, '../..', 'client', 'dist'),
+      rootPath: join(__dirname, '../../..', 'client', 'dist'),
     }),
     ConfigModule.forRoot({ isGlobal: true, envFilePath: '.env' }),
     MongooseModule.forRootAsync({
@@ -25,4 +25,9 @@ import { MyomsModule } from './cmd/myoms/myoms.module';
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule {}
+export class AppModule {
+  constructor(private configService: ConfigService) {
+    const envFilePath = this.configService.get('envFilePath');
+    console.log('The path to the .env file:', envFilePath);
+  }
+}
