@@ -44,40 +44,44 @@ const Navigation: React.FC<Props> = () => {
             </label>
             <ul
               tabIndex={0}
-              className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow rounded-box w-52"
+              className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow rounded-box w-52 bg-white"
             >
-              {
-              isAuthenticated() && (<li tabIndex={0}>
-                <details>
-                  <summary>Profil</summary>
-                  <ul className="p-2">
-                    <li>
-                      <Link to="/user-list">Seznam pacientů</Link>
-                    </li>
-                    <li>
-                    <Link to="/pbac">PBAC</Link>
-                    </li>
-                    <li>
-                    <Link to="/questionnaire-myoms">Myomatóza</Link>
-                    </li>
-                    <li className="mt-4">
-                      <span className="bg-red-900 text-white" onClick={signOut}><BsDoorClosedFill />Odhlášení</span>
-                    </li>
-                  </ul>
-                </details>
-              </li>)
-           }
-           {!isAuthenticated() && (
-              <>
-               
-                <li>
-                  <Link to="/login">Přihlášení</Link>
+              {isAuthenticated() && (
+                <li tabIndex={0}>
+                  <details>
+                    <summary>Profil</summary>
+                    <ul className="p-2">
+                      <li>
+                        <Link to="/user-list">Seznam pacientů</Link>
+                      </li>
+                      <li>
+                        <Link to="/questionnaire-myoms">Myomatóza</Link>
+                      </li>
+                      <li className="mt-4">
+                        <span
+                          className="bg-red-900 text-white"
+                          onClick={signOut}
+                        >
+                          <BsDoorClosedFill />
+                          Odhlášení
+                        </span>
+                      </li>
+                    </ul>
+                  </details>
                 </li>
-                <li>
-                  <Link to="/register">Registrace</Link>
-                </li>
-              </>
-            )}
+              )}
+
+              
+              {!isAuthenticated() && (
+                <>
+                  <li>
+                    <Link to="/login">Přihlášení</Link>
+                  </li>
+                  <li>
+                    <Link to="/register">Registrace</Link>
+                  </li>
+                </>
+              )}
             </ul>
           </div>
           <Link to="/" className="btn btn-ghost normal-case text-xl">
@@ -85,33 +89,34 @@ const Navigation: React.FC<Props> = () => {
           </Link>
         </div>
         <div className="navbar-center hidden lg:flex">
-          <ul className="menu menu-horizontal px-1">
-           {
-              isAuthenticated() && (<li tabIndex={0}>
-                <details>
-                  <summary>Profil</summary>
-                  <ul className="p-2">
+        {isAuthenticated() && (
+                <div className="dropdown menu menu-horizontal">
+                  <label tabIndex={0} className="m-1">
+                    Profil
+                  </label>
+                  <ul
+                    tabIndex={0}
+                    className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52"
+                  >
                     <li>
                       <Link to="/user-list">Seznam pacientů</Link>
                     </li>
                     <li>
-                    <Link to="/pbac">PBAC</Link>
-                    </li>
-                    <li>
-                    <Link to="/questionnaire-myoms">Myomatóza</Link>
+                      <Link to="/questionnaire-myoms">Myomatóza</Link>
                     </li>
                     <li className="mt-4">
-                      <span className="bg-red-900 text-white" onClick={signOut}><BsDoorClosedFill />Odhlášení</span>
+                      <span className="bg-red-900 text-white" onClick={signOut}>
+                        <BsDoorClosedFill />
+                        Odhlášení
+                      </span>
                     </li>
                   </ul>
-                </details>
-              </li>)
-           }
-            
-            
+                </div>
+              )}
+          <ul className="menu menu-horizontal px-1">
+
             {!isAuthenticated() && (
               <>
-               
                 <li>
                   <Link to="/login">Přihlášení</Link>
                 </li>
