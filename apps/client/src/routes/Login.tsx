@@ -64,7 +64,7 @@ const Login: React.FC<Props> = () => {
   return (
     <div className="flex flex-col items-center justify-center mt-10">
       <div className="flex flex-col w-full max-w-sm px-4 py-8  rounded-lg shadow-lg sm:px-6 md:px-8 lg:px-10 bg-gradient-to-br from-slate-600 via-slate-700 to-slate-800 rotate-1 hover:rotate-0 transition-all ease-in-out duration-700">
-        <div className="self-center mb-6 text-xl font-light text-gray-600 sm:text-2xl dark:text-white">
+        <div className="self-center mb-6 text-xl font-light text-gray-100 sm:text-2xl dark:text-white">
           Přihlášení do svého účtu
         </div>
         <div className="mt-8 ">
@@ -117,7 +117,7 @@ const Login: React.FC<Props> = () => {
                   onClick={()=>{
                     forgottenPassword()
                   }}
-                  className="inline-flex text-xs font-thin text-gray-500 sm:text-sm dark:text-gray-100 hover:text-gray-700 dark:hover:text-white"
+                  className="inline-flex text-xs font-thin text-white sm:text-sm dark:text-gray-100 hover:text-gray-700 dark:hover:text-white"
                 >
                   Zapomněli jste heslo?
                 </div>
@@ -127,7 +127,7 @@ const Login: React.FC<Props> = () => {
             <button
               type="submit"
               className="py-2 px-4 focus:ring-offset-purple-200
-              text-white transition ease-in duration-200 text-center text-base font-semibold focus:outline-none focus:ring-2 focus:ring-offset-2  rounded-lg bg-slate-800 shadow-lg hover:bg-slate-400"
+       transition ease-in duration-200 text-center text-base font-semibold focus:outline-none focus:ring-2 focus:ring-offset-2  rounded-lg bg-slate-800 shadow-lg hover:bg-slate-400 text-white"
             >
               Přihlásit se do aplikace
             </button>
@@ -136,16 +136,16 @@ const Login: React.FC<Props> = () => {
               <div className="flex mr-auto">
                 <Link
                   to="/register"
-                  className="inline-flex text-xs font-thin text-gray-500 sm:text-sm dark:text-gray-100 hover:text-gray-700 dark:hover:text-white"
+                  className="inline-flex text-xs font-thin text-white sm:text-sm hover:text-gray-700 dark:hover:text-white"
                 >
                   Nemáte účet? Zaregistrujte se
                 </Link>
               </div>
             </div>
-
           </form>
         </div>
       </div>
+      <iframe width="560" height="315" src="https://www.youtube.com/embed/0eFzzYxPM_s" title="YouTube video player" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowFullScreen></iframe>
     </div>
   );
 };

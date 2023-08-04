@@ -67,7 +67,7 @@ const Register: React.FC<Props> = ({}) => {
   return (
     <div className="flex flex-col items-center justify-center mt-10">
       <div className="flex flex-col w-full max-w-sm px-4 py-8  rounded-lg shadow-lg sm:px-6 md:px-8 lg:px-10 bg-gradient-to-br from-slate-600 via-slate-700 to-slate-800">
-        <div className="self-center mb-6 text-xl font-light text-gray-600 sm:text-2xl dark:text-white">
+        <div className="self-center mb-6 text-xl font-light text-white sm:text-2xl dark:text-white">
           Registrace
         </div>
         <div className="mt-8">
@@ -185,7 +185,7 @@ const Register: React.FC<Props> = ({}) => {
               <div className="flex mr-auto">
                 <Link
                   to="/"
-                  className="inline-flex text-xs font-thin text-gray-500 sm:text-sm dark:text-gray-100 hover:text-gray-700 dark:hover:text-white"
+                  className="inline-flex text-xs font-thin sm:text-sm text-white hover:text-gray-700 dark:hover:text-white"
                 >
                   Už máte účet? Přihlaste se!
                 </Link>

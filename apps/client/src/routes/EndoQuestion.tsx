@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import MainLayout from "../components/Layouts/MainLayout";
-import { emptyMyomatosys } from "../Entities/defaults/myomatosys.empty";
-import { IMyomatosys } from "../Entities/interfaces/myomatosys.interface";
+import { emptyEndo } from "../Entities/defaults/endo.empty";
+import { IEndo } from "../Entities/interfaces/endo.interface";
 import FormInputRange from "../components/GlobalComponents/FormInputRange";
 import { createMyomsQuestionnaire } from "../APIs/Users";
 import { useAuthUser, useAuthHeader } from "react-auth-kit";
@@ -12,7 +12,7 @@ import { setSuccess } from "../store/gsms/successSlice";
 import { setError } from "../store/gsms/errorSlice";
 interface Props {}
 
-const MyomatosysQuestionnaire: React.FC<Props> = ({}) => {
+const EndoQuestionnaire: React.FC<Props> = ({}) => {
     const dispatch = useDispatch();
     const [user, setUser] = useState<IUser>(emptyUser);
     const [authToken, setAuthToken] = useState("")
@@ -32,7 +32,7 @@ const MyomatosysQuestionnaire: React.FC<Props> = ({}) => {
       }
     }, [authState, token]);
   const [myomatosysAnswers, setMyomatosysAnswers] =
-    useState<IMyomatosys>(emptyMyomatosys);
+    useState<IEndo>(emptyEndo);
 
   useEffect(() => {
     const sum =
@@ -45,7 +45,12 @@ const MyomatosysQuestionnaire: React.FC<Props> = ({}) => {
       myomatosysAnswers.__07Question +
       myomatosysAnswers.__08Question +
       myomatosysAnswers.__09Question +
-      myomatosysAnswers.__10Question;
+      myomatosysAnswers.__10Question +
+      myomatosysAnswers.__11Question +
+      myomatosysAnswers.__12Question +
+      myomatosysAnswers.__13Question +
+      myomatosysAnswers.__14Question +
+      myomatosysAnswers.__15Question;
     setMyomatosysAnswers({ ...myomatosysAnswers, sumValue: sum });
   }, [
     myomatosysAnswers.__01Question,
@@ -58,6 +63,11 @@ const MyomatosysQuestionnaire: React.FC<Props> = ({}) => {
     myomatosysAnswers.__08Question,
     myomatosysAnswers.__09Question,
     myomatosysAnswers.__10Question,
+    myomatosysAnswers.__11Question,
+    myomatosysAnswers.__12Question,
+    myomatosysAnswers.__13Question,
+    myomatosysAnswers.__14Question,
+    myomatosysAnswers.__15Question,
   ]);
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -74,7 +84,7 @@ const MyomatosysQuestionnaire: React.FC<Props> = ({}) => {
         }
 
 
-        const data = await createMyomsQuestionnaire(myomatosysAnswers, authToken, "/myom");
+        const data = await createMyomsQuestionnaire(myomatosysAnswers, authToken, "/endo");
 
 
       if(data){
@@ -83,12 +93,13 @@ const MyomatosysQuestionnaire: React.FC<Props> = ({}) => {
             rawData:"Gratulujeme, dotazník byl úspěšně odeslán a naleznete ho v sekci 'Moje dotazníky'!"
         }))
 
-        setMyomatosysAnswers(emptyMyomatosys)
+        setMyomatosysAnswers(emptyEndo)
       } 
     }
   return (
     <MainLayout>
       <div className="flex flex-col w-full p-2">
+        <div className="text-2xl">EQL – Dotazník kvality života s diagnózou - Endometrióza</div>
         <h1 className="text-2xl my-2">Vážená slečno, Vážená paní,</h1>
         <p>
           za účelem zkvalitnění Vašeho vyšetření v naší ambulanci, vyplňte
@@ -170,7 +181,7 @@ transition-all ease-in-out duration-700
               </div>
               <div className="container grid max-w-3xl grid-cols-12 items-center p-2 mt-5">
                 <label className="col-span-12 font-bold">
-                  Silné menstruační krvácení
+                Bolestivá menstruace
                 </label>
                 <div className="col-span-12">
                   <FormInputRange
@@ -188,7 +199,7 @@ transition-all ease-in-out duration-700
               </div>
               <div className="container grid max-w-3xl grid-cols-12 items-center p-2 mt-0">
                 <label className="col-span-12 font-bold">
-                  Nepravidelná menstruace
+                Bolestivý pohlavní styk
                 </label>
                 <div className="col-span-12">
                   <FormInputRange
@@ -206,7 +217,7 @@ transition-all ease-in-out duration-700
               </div>
               <div className="container grid max-w-3xl grid-cols-12 items-center p-2 mt-0">
                 <label className="col-span-12 font-bold">
-                  Bolestivá menstruace
+                Cyklické bolesti s vazbou na menstruaci
                 </label>
                 <div className="col-span-12">
                   <FormInputRange
@@ -224,7 +235,7 @@ transition-all ease-in-out duration-700
               </div>
               <div className="container grid max-w-3xl grid-cols-12 items-center p-2 mt-0">
                 <label className="col-span-12 font-bold">
-                  Bolestivý pohlavní styk
+                Průjmovitá stolice
                 </label>
                 <div className="col-span-12">
                   <FormInputRange
@@ -242,7 +253,7 @@ transition-all ease-in-out duration-700
               </div>
               <div className="container grid max-w-3xl grid-cols-12 items-center p-2 mt-0">
                 <label className="col-span-12 font-bold">
-                  Bolest v břiše / v pánvi
+                Zácpa
                 </label>
                 <div className="col-span-12">
                   <FormInputRange
@@ -259,7 +270,7 @@ transition-all ease-in-out duration-700
                 </div>
               </div>
               <div className="container grid max-w-3xl grid-cols-12 items-center p-2 mt-0">
-                <label className="col-span-12 font-bold">Celková únava</label>
+                <label className="col-span-12 font-bold">Krvácení z konečníku</label>
                 <div className="col-span-12">
                   <FormInputRange
                     min={0}
@@ -276,7 +287,7 @@ transition-all ease-in-out duration-700
               </div>
               <div className="container grid max-w-3xl grid-cols-12 items-center p-2 mt-0">
                 <label className="col-span-12 font-bold">
-                  Nucení na močení
+                Křeče v břiše
                 </label>
                 <div className="col-span-12">
                   <FormInputRange
@@ -294,7 +305,7 @@ transition-all ease-in-out duration-700
               </div>
               <div className="container grid max-w-3xl grid-cols-12 items-center p-2 mt-0">
                 <label className="col-span-12 font-bold">
-                  Únik moči spontánní
+                Bolesti při stolici
                 </label>
                 <div className="col-span-12">
                   <FormInputRange
@@ -312,7 +323,7 @@ transition-all ease-in-out duration-700
               </div>
               <div className="container grid max-w-3xl grid-cols-12 items-center p-2 mt-0">
                 <label className="col-span-12 font-bold">
-                  Únik moči při zátěži
+                Pálení, řezání při močení
                 </label>
                 <div className="col-span-12">
                   <FormInputRange
@@ -329,7 +340,7 @@ transition-all ease-in-out duration-700
                 </div>
               </div>
               <div className="container grid max-w-3xl grid-cols-12 items-center p-2 mt-0">
-                <label className="col-span-12 font-bold">Zácpa</label>
+                <label className="col-span-12 font-bold">Nucení na močení</label>
                 <div className="col-span-12">
                   <FormInputRange
                     min={0}
@@ -339,6 +350,86 @@ transition-all ease-in-out duration-700
                       setMyomatosysAnswers({
                         ...myomatosysAnswers,
                         __10Question: number,
+                      });
+                    }}
+                  />
+                </div>
+              </div>
+              <div className="container grid max-w-3xl grid-cols-12 items-center p-2 mt-0">
+                <label className="col-span-12 font-bold">Únik moči spontánní</label>
+                <div className="col-span-12">
+                  <FormInputRange
+                    min={0}
+                    max={10}
+                    value={myomatosysAnswers.__11Question}
+                    returnFunction={(number: number) => {
+                      setMyomatosysAnswers({
+                        ...myomatosysAnswers,
+                        __11Question: number,
+                      });
+                    }}
+                  />
+                </div>
+              </div>
+              <div className="container grid max-w-3xl grid-cols-12 items-center p-2 mt-0">
+                <label className="col-span-12 font-bold">Únik moči při zátěži</label>
+                <div className="col-span-12">
+                  <FormInputRange
+                    min={0}
+                    max={10}
+                    value={myomatosysAnswers.__12Question}
+                    returnFunction={(number: number) => {
+                      setMyomatosysAnswers({
+                        ...myomatosysAnswers,
+                        __12Question: number,
+                      });
+                    }}
+                  />
+                </div>
+              </div>
+              <div className="container grid max-w-3xl grid-cols-12 items-center p-2 mt-0">
+                <label className="col-span-12 font-bold">Neúplné vyprázdnění močového měchýře po vymočení</label>
+                <div className="col-span-12">
+                  <FormInputRange
+                    min={0}
+                    max={10}
+                    value={myomatosysAnswers.__13Question}
+                    returnFunction={(number: number) => {
+                      setMyomatosysAnswers({
+                        ...myomatosysAnswers,
+                        __13Question: number,
+                      });
+                    }}
+                  />
+                </div>
+              </div>
+              <div className="container grid max-w-3xl grid-cols-12 items-center p-2 mt-0">
+                <label className="col-span-12 font-bold">Celková únava</label>
+                <div className="col-span-12">
+                  <FormInputRange
+                    min={0}
+                    max={10}
+                    value={myomatosysAnswers.__14Question}
+                    returnFunction={(number: number) => {
+                      setMyomatosysAnswers({
+                        ...myomatosysAnswers,
+                        __14Question: number,
+                      });
+                    }}
+                  />
+                </div>
+              </div>
+              <div className="container grid max-w-3xl grid-cols-12 items-center p-2 mt-0">
+                <label className="col-span-12 font-bold">Bolesti v zádech</label>
+                <div className="col-span-12">
+                  <FormInputRange
+                    min={0}
+                    max={10}
+                    value={myomatosysAnswers.__15Question}
+                    returnFunction={(number: number) => {
+                      setMyomatosysAnswers({
+                        ...myomatosysAnswers,
+                        __15Question: number,
                       });
                     }}
                   />
@@ -359,4 +450,4 @@ transition-all ease-in-out duration-700
   );
 };
 
-export default MyomatosysQuestionnaire;
+export default EndoQuestionnaire;

@@ -46,7 +46,7 @@ export class User implements IUser {
     __v?: 0;
   };
 
-  @Prop({ default: false })
+  @Prop({ default: true })
   isUserApproved: boolean;
 
   @Prop({ default: new Date() })

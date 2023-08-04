@@ -4,8 +4,7 @@ import { getMyUsers, deleteUser } from "../APIs/Users";
 import { useAuthHeader } from "react-auth-kit";
 import { useDispatch } from "react-redux";
 import { setError } from "../store/gsms/errorSlice";
-import UserDeatil from "../components/GlobalComponents/UserDetail";
-
+import EndoUserDeatil from "../components/GlobalComponents/EndoUserDetail";
 interface Props {}
 
 interface IUser {
@@ -24,10 +23,15 @@ interface IUser {
   __08Question: number;
   __09Question: number;
   __10Question: number;
+  __11Question: number;
+  __12Question: number;
+  __13Question: number;
+  __14Question: number;
+  __15Question: number;
   sumValue: number;
 }
 
-const UserList: React.FC<Props> = ({}) => {
+const EndoUserList: React.FC<Props> = ({}) => {
   const dispatch = useDispatch();
   const [users, setUsers] = useState<[]>([]);
   const [filteredUsersBySSN, setFilteredUsersBySSN] = useState(users);
@@ -35,7 +39,7 @@ const UserList: React.FC<Props> = ({}) => {
   const token = header();
 
   useEffect(() => {
-    getMyUsers(token,"/myom")
+    getMyUsers(token,"/endo")
       .then((res) => {
         setUsers(res);
         setFilteredUsersBySSN(res);
@@ -81,8 +85,8 @@ const UserList: React.FC<Props> = ({}) => {
   }, [query]);
 
   const deleteUserFinally = async (id:string)=>{
- await deleteUser(id, token, "/myom/").then(()=>{
-  getMyUsers(token, "/myom")
+ await deleteUser(id, token, "/endo/").then(()=>{
+  getMyUsers(token, "/endo")
       .then((res) => {
         setUsers(res);
         setFilteredUsersBySSN(res);
@@ -135,11 +139,11 @@ const UserList: React.FC<Props> = ({}) => {
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-3">
         {filteredUsersBySSN &&
           filteredUsersBySSN.map((user: IUser, index) => {
-            return <UserDeatil deleteUser={deleteUserFinally} user={user} key={index} tabIndex={index} />;
+            return <EndoUserDeatil deleteUser={deleteUserFinally} user={user} key={index} tabIndex={index} />;
           })}
       </div>
     </MainLayout>
   );
 };
 
-export default UserList;
+export default EndoUserList;

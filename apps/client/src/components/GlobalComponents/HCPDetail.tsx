@@ -28,8 +28,12 @@ const HCPDetail: React.FC = () => {
             className="rounded-full"
           />
         </figure>
-      <Link to="/questionnaire-myoms" className="absolute bottom-0 px-2 py-2 mx-auto bg-gradient-to-br from-blue-600 to-blue-900 text-white font-bold rounded-md shadow-lg w-full  text-center -mb-4 -mr-4 floating cursor-pointer">Dotazník Myomatóza</Link>
-      </div>
+        <div className="grid grid-cols-2 gap-3">
+        <Link to="/questionnaire-myoms" className="px-2 py-2 mx-auto bg-gradient-to-br from-blue-600 to-blue-900 text-white font-bold rounded-md shadow-lg w-full  text-center -mb-4 floating cursor-pointer">Dotazník<br />Myomatóza</Link>
+      <Link to="/questionnaire-endo" className="px-2 py-2 mx-auto bg-gradient-to-br from-purple-600 to-purple-900 text-white font-bold rounded-md shadow-lg w-full  text-center -mb-4 floating cursor-pointer">Dotazník<br />Endometrióza</Link>
+   
+        </div>
+       </div>
     </MainLayout>
   );
 };

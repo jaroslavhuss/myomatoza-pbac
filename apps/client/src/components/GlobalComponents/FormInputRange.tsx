@@ -1,4 +1,4 @@
-import React,{useEffect} from 'react';
+import React from 'react';
 import { BsEmojiDizzy, BsEmojiExpressionless, BsEmojiFrown, BsEmojiSmile } from 'react-icons/bs';
 interface Props {
 min:number;
@@ -8,10 +8,7 @@ returnFunction:Function;
 }
 
 const FormInputRange: React.FC<Props> = ({min, max, value, returnFunction }) => {
-    useEffect(() => {
-      console.log(value)
-    }, [value])
-    
+ 
   return (
     <div className="grid grid-cols-12 gap-4 py-2 my-2 place-content-center content-center">
         <div className="col-span-10">

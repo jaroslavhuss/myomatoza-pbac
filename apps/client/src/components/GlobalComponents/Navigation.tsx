@@ -49,13 +49,19 @@ const Navigation: React.FC<Props> = () => {
               {isAuthenticated() && (
                 <li tabIndex={0}>
                   <details>
-                    <summary>Profil</summary>
+                    <summary>Ovládací centrum</summary>
                     <ul className="p-2">
-                      <li>
-                        <Link to="/user-list">Seznam pacientů</Link>
+                       <li className="bg-gradient-to-br rounded-lg m-1 from-blue-600 to-blue-900 text-white">
+                        <Link to="/user-list">Seznam - Myomatóza</Link>
                       </li>
-                      <li>
-                        <Link to="/questionnaire-myoms">Myomatóza</Link>
+                       <li className="bg-gradient-to-br rounded-lg m-1 from-blue-600 to-blue-900 text-white">
+                        <Link to="/questionnaire-myoms">Dotazník - Myomatóza</Link>
+                      </li>
+                       <li className="bg-gradient-to-br rounded-lg m-1 from-purple-600 to-purple-900 text-white">
+                        <Link to="/user-list-endo">Seznam - Endometrióza</Link>
+                      </li>
+                       <li className="bg-gradient-to-br rounded-lg m-1 from-purple-600 to-purple-900 text-white">
+                        <Link to="/questionnaire-endo">Dotazník - Endometrióza</Link>
                       </li>
                       <li className="mt-4">
                         <span
@@ -85,25 +91,31 @@ const Navigation: React.FC<Props> = () => {
             </ul>
           </div>
           <Link to="/" className="btn btn-ghost normal-case text-xl">
-            Myomatóza & PBAC
+            Myomatóza & Endometrióza
           </Link>
         </div>
         <div className="navbar-center hidden lg:flex">
         {isAuthenticated() && (
                 <div className="dropdown menu menu-horizontal">
                   <label tabIndex={0} className="m-1">
-                    Profil
+                    Ovládací centrum
                   </label>
                   <ul
                     tabIndex={0}
                     className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52"
                   >
-                    <li>
-                      <Link to="/user-list">Seznam pacientů</Link>
+                    <li className="bg-gradient-to-br rounded-lg m-1 from-blue-600 to-blue-900 text-white">
+                      <Link to="/user-list">Seznam - Myomatóza</Link>
                     </li>
-                    <li>
-                      <Link to="/questionnaire-myoms">Myomatóza</Link>
+                    <li className="bg-gradient-to-br rounded-lg m-1 from-blue-600 to-blue-900 text-white">
+                      <Link to="/questionnaire-myoms">Dotazník - Myomatóza</Link>
                     </li>
+                    <li className="bg-gradient-to-br rounded-lg m-1 from-purple-600 to-purple-900 text-white">
+                        <Link to="/user-list-endo">Seznam - Endometrióza</Link>
+                      </li>
+                      <li className="bg-gradient-to-br rounded-lg m-1 from-purple-600 to-purple-900 text-white">
+                        <Link to="/questionnaire-endo">Dotazník - Endometrióza</Link>
+                      </li>
                     <li className="mt-4">
                       <span className="bg-red-900 text-white" onClick={signOut}>
                         <BsDoorClosedFill />

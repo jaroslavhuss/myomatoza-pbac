@@ -12,6 +12,17 @@ export const registerUser = async (userData:IRegisterFormData) => {
     const response:AxiosResponse = await axios.post(GLOBAL_URL+'/auth/register', userData);
     return response.data;
   } catch (error:AxiosResponse & any) {
+    if(error.response.status === 401){
+      const cookies = document.cookie.split(";");
+
+      for (let i = 0; i < cookies.length; i++) {
+          const cookie = cookies[i];
+          const eqPos = cookie.indexOf("=");
+          const name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie;
+          document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT";
+      }
+      window.location.reload();
+    }
     const errorMessage = formatErrorMessage(error);
     store.dispatch(setError(errorMessage));
   }
@@ -22,48 +33,92 @@ export const loginUser = async (userData:ILoginFormData) => {
     const response:AxiosResponse = await axios.post(GLOBAL_URL+'/auth/login', userData);
     return response.data;
   } catch (error:AxiosResponse & any) {
+    if(error.response.status === 401){
+      const cookies = document.cookie.split(";");
+
+      for (let i = 0; i < cookies.length; i++) {
+          const cookie = cookies[i];
+          const eqPos = cookie.indexOf("=");
+          const name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie;
+          document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT";
+      }
+      window.location.reload();
+    }
     const errorMessage = formatErrorMessage(error);
     store.dispatch(setError(errorMessage));
   }
 }
 
-export const createMyomsQuestionnaire = async (myomData: IMyomatosys, token:string) =>{
+export const createMyomsQuestionnaire = async (myomData: IMyomatosys, token:string, endpoint:string) =>{
   try {
-    const response:AxiosResponse = await axios.post(GLOBAL_URL+'/myom', myomData,{
+    const response:AxiosResponse = await axios.post(GLOBAL_URL+endpoint, myomData,{
       headers: {
         Authorization: token,
       }
     });
     return response.data;
   } catch (error:AxiosResponse & any) {
+    if(error.response.status === 401){
+      const cookies = document.cookie.split(";");
+
+      for (let i = 0; i < cookies.length; i++) {
+          const cookie = cookies[i];
+          const eqPos = cookie.indexOf("=");
+          const name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie;
+          document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT";
+      }
+      window.location.reload();
+    }
     const errorMessage = formatErrorMessage(error);
     store.dispatch(setError(errorMessage));
   }
 }
-export const getMyUsers = async (token:string) =>{
+export const getMyUsers = async (token:string, endpoint:string) =>{
   try {
-    const response:AxiosResponse = await axios.get(GLOBAL_URL+'/myom',{
+    const response:AxiosResponse = await axios.get(GLOBAL_URL+endpoint,{
       headers: {
         Authorization: token,
       }
     });
     return response.data;
   } catch (error:AxiosResponse & any) {
+    if(error.response.status === 401){
+      const cookies = document.cookie.split(";");
+
+      for (let i = 0; i < cookies.length; i++) {
+          const cookie = cookies[i];
+          const eqPos = cookie.indexOf("=");
+          const name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie;
+          document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT";
+      }
+      window.location.reload();
+    }
     const errorMessage = formatErrorMessage(error);
     store.dispatch(setError(errorMessage));
   }
 }
 
 //Delete user by ID
-export const deleteUser = async (id:string, token:string) =>{
+export const deleteUser = async (id:string, token:string, endpoint:string) =>{
   try {
-    const response:AxiosResponse = await axios.delete(GLOBAL_URL+'/myom/'+id,{
+    const response:AxiosResponse = await axios.delete(GLOBAL_URL+endpoint+id,{
       headers: {
         Authorization: token,
       }
     });
     return response.data;
   } catch (error:AxiosResponse & any) {
+    if(error.response.status === 401){
+      const cookies = document.cookie.split(";");
+
+      for (let i = 0; i < cookies.length; i++) {
+          const cookie = cookies[i];
+          const eqPos = cookie.indexOf("=");
+          const name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie;
+          document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT";
+      }
+      window.location.reload();
+    }
     const errorMessage = formatErrorMessage(error);
     store.dispatch(setError(errorMessage));
   }
