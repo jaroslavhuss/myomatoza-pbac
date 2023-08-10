@@ -128,4 +128,17 @@ export class AuthService {
       rtToken: hash,
     });
   }
+
+  getExpirationFromToken(token: string): Date | null {
+    try {
+      const decodedToken = this.jwt.verify(token);
+      if (typeof decodedToken === 'object' && decodedToken.exp) {
+        return new Date(decodedToken.exp * 1000); // Convert to milliseconds
+      }
+    } catch (error) {
+      // Token verification failed, or the token doesn't contain an expiration claim
+      // You can handle this error based on your application's needs
+    }
+    return null; // Token is invalid or doesn't contain expiration
+  }
 }

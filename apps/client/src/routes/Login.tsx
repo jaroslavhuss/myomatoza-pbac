@@ -63,7 +63,7 @@ const Login: React.FC<Props> = () => {
   }
   return (
     <div className="flex flex-col items-center justify-center mt-10">
-      <div className="flex flex-col w-full max-w-sm px-4 py-8  rounded-lg shadow-lg sm:px-6 md:px-8 lg:px-10 bg-gradient-to-br from-slate-600 via-slate-700 to-slate-800 rotate-1 hover:rotate-0 transition-all ease-in-out duration-700">
+      <div className="flex flex-col w-full max-w-sm px-4 py-8  rounded-lg shadow-lg sm:px-6 md:px-8 lg:px-10 bg-gradient-to-br from-slate-600 via-slate-700 to-slate-800 transition-all ease-in-out duration-700 hover:scale-105">
         <div className="self-center mb-6 text-xl font-light text-gray-100 sm:text-2xl dark:text-white">
           Přihlášení do svého účtu
         </div>
@@ -145,8 +145,7 @@ const Login: React.FC<Props> = () => {
           </form>
         </div>
       </div>
-      <iframe width="560" height="315" src="https://www.youtube.com/embed/0eFzzYxPM_s" title="YouTube video player" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowFullScreen></iframe>
-    </div>
+      </div>
   );
 };
 

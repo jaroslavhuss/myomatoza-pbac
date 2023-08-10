@@ -6,8 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "turbo run dev",
-    "build": "turbo run build",
-    "start": "node apps/api/dist/src/main"
+    "build": "turbo run build"
   },
   "keywords": [],
   "author": "Jaroslav Huss",

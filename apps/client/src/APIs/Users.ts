@@ -123,3 +123,16 @@ export const deleteUser = async (id:string, token:string, endpoint:string) =>{
     store.dispatch(setError(errorMessage));
   }
 }
+
+export const getTokensExpiration = async (endpoint:string, token:string) => {
+  try {
+    console.log((GLOBAL_URL+endpoint))
+    const response:AxiosResponse = await axios.post(GLOBAL_URL+endpoint,{token:token.split(" ")[1]},{
+      headers: {
+        Authorization: token ,
+      }
+    });
+    return response.data;
+  } catch (error:AxiosResponse & any) {
+    console.log(error)
+  }}

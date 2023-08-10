@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 /* eslint-disable prettier/prettier */
 import {
   Post,
@@ -7,18 +8,19 @@ import {
   UseGuards,
   UseFilters,
   Controller,
-  Res,
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { AuthDto, SignUpDto, UserIdDto } from './dto';
 import { AuthGuard } from '@nestjs/passport';
 import { AllExceptionsFilter } from 'util/catch-everything.filter';
-import { Response } from 'express';
+import { JwtService } from '@nestjs/jwt';
 @Controller('/auth')
 @UseFilters(AllExceptionsFilter)
 export class AuthController {
   // Tohle udělá novou instanci AuthService, aby to člověk nemusel psát jak úplný trotl
-  constructor(private authService: AuthService) {}
+  constructor(private authService: AuthService,
+    private jwt: JwtService,
+    ) {}
 
   @Post('/register')
   @HttpCode(HttpStatus.CREATED)
@@ -43,4 +45,17 @@ export class AuthController {
   logout(@Body() dto: UserIdDto) {
     return this.authService.logout(dto);
   }
+  @UseGuards(AuthGuard('jwt'))
+  @Post('expiration')
+  getExpiration(@Body() token:{token:string}) {
+    //@ts-ignore
+    const decodedToken: {
+      exp: number;
+    } = this.jwt.decode(token.token);
+    //make nice date from decoded token.exp
+    const date = new Date(decodedToken.exp * 1000).toLocaleTimeString();
+    return date;
+    //@ts-ignore
+  }
+
 }
