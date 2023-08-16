@@ -1,48 +1,37 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import MainLayout from "../components/Layouts/MainLayout";
-import { getMyUsers, deleteUser } from "../APIs/Users";
+import { getMyUsers } from "../APIs/Users";
 import { useAuthHeader } from "react-auth-kit";
 import { useDispatch } from "react-redux";
 import { setError } from "../store/gsms/errorSlice";
-import EndoUserDeatil from "../components/GlobalComponents/EndoUserDetail";
 import EndoUserDetailBetter from "../components/GlobalComponents/EndoUserDetailBetter";
-interface Props {}
+import { IQuestionnaire } from "../Entities/interfaces/questionnaire.interface";
 
-interface IUser {
-  _id: string;
-  pacientName: string;
-  pacientSSN: number;
-  supervisorDoctor: string;
-  questionnaireDate: string;
-  __01Question: number;
-  __02Question: 5;
-  __03Question: number;
-  __04Question: number;
-  __05Question: number;
-  __06Question: number;
-  __07Question: number;
-  __08Question: number;
-  __09Question: number;
-  __10Question: number;
-  __11Question: number;
-  __12Question: number;
-  __13Question: number;
-  __14Question: number;
-  __15Question: number;
-  sumValue: number;
-}
 
-const EndoUserList: React.FC<Props> = ({}) => {
-  const dispatch = useDispatch();
-  const [users, setUsers] = useState<[]>([]);
-  const [filteredUsersBySSN, setFilteredUsersBySSN] = useState(users);
+
+const EndoUserList = ({endpoint}:{endpoint:string}) => {
   const header = useAuthHeader();
   const token = header();
+  const dispatch = useDispatch();
 
+
+  const [users, setUsers] = useState<IQuestionnaire[]>([]);
+  const [filteredUsersBySSN, setFilteredUsersBySSN] = useState<IQuestionnaire[]>([]);
+  const [uniqueUsersForList, setUniqueUsersForList] = useState<IQuestionnaire[]>([])
   useEffect(() => {
-    getMyUsers(token,"/endo")
+    getMyUsers(token,endpoint)
       .then((res) => {
-        const filteredDatabyName = res.sort((a: IUser, b: IUser) => {
+        //Only unique questionnaires by pacientSSN
+        const filteredData = res.filter(
+          (thing:IQuestionnaire, index:number, self:any) =>
+
+            index ===
+            self.findIndex((t:IQuestionnaire) => (
+              t.pacientSSN === thing.pacientSSN
+            ))
+        );
+
+        const filteredDatabyName:IQuestionnaire[] = res.sort((a: IQuestionnaire, b: IQuestionnaire) => {
           const aFirstName = a.pacientName;
           const bFirstName = b.pacientName;
 
@@ -52,12 +41,14 @@ const EndoUserList: React.FC<Props> = ({}) => {
           if (aFirstName > bFirstName) {
             return 1;
           }
-        });
-          
+        });  
         setUsers(filteredDatabyName);
         setFilteredUsersBySSN(filteredDatabyName);
+        setUniqueUsersForList(filteredData)
       })
       .catch((err) => {
+        setUsers([]);
+        setFilteredUsersBySSN([]);
         dispatch(
           setError({
             message: "Nemohli jsme načíst data",
@@ -65,16 +56,16 @@ const EndoUserList: React.FC<Props> = ({}) => {
           })
         );
       });
-  }, []);
+  }, [endpoint]);
 
   const [query, setQuery] = useState("");
 
   useEffect(() => {
     if (query.length === 10) {
-      const filteredUsers = users.filter((user: IUser) => {
+      const filteredUsers = filteredUsersBySSN.filter((user: IQuestionnaire) => {
         return user.pacientSSN.toString().includes(query);
       });
-      filteredUsers.sort((a: IUser, b: IUser) => {
+      filteredUsers.sort((a: IQuestionnaire, b: IQuestionnaire) => {
         const aDate = a.questionnaireDate.split(".");
         const bDate = b.questionnaireDate.split(".");
         const aDateObj = new Date(
@@ -96,31 +87,11 @@ const EndoUserList: React.FC<Props> = ({}) => {
     }
   }, [query]);
 
-  const deleteUserFinally = async (id:string)=>{
- await deleteUser(id, token, "/endo/").then(()=>{
-  getMyUsers(token, "/endo")
-      .then((res) => {
-        setUsers(res);
-        setFilteredUsersBySSN(res);
-        console.log(res)
-      })
-      .catch((err) => {
-        dispatch(
-          setError({
-            message: "Nemohli jsme načíst data",
-            rawData: err,
-          })
-        );
-      });
- })
-    
-
-  }
   return (
     <MainLayout>
-      <div className="grid grid-cols-12 max-w-2xl mx-auto p-2 m-2 shadow rounded-sm gap-2">
+      <div className="max-w-2xl mx-auto p-2 m-2 shadow rounded-sm gap-2 relative">
         <input
-          className="col-span-12 p-2 text-center"
+          className=" text-center relative max-w-2xl w-full py-8 px-2 rounded-xl shadow-lg"
           type="text"
           value={query}
           onChange={({ target }) => {
@@ -129,15 +100,20 @@ const EndoUserList: React.FC<Props> = ({}) => {
           placeholder="0000000000 - vyhledat uživatele podle rodného čísla"
         />
       </div>
-   
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-3">
-        {(filteredUsersBySSN && query.length !== 10) &&
-          filteredUsersBySSN.map((user: IUser, index) => {
-            return <EndoUserDeatil deleteUser={deleteUserFinally} user={user} key={index} tabIndex={index} />;
-          })}
-      </div>
+      
+        {
+        (query.length !== 10) &&  uniqueUsersForList.map((q:IQuestionnaire)=>(
+            <div className="group w-full p-2 m-2 border-b-2 transition-all duration-400 ease-linear hover:bg-white cursor-pointer">
+              <div className=" group-hover:font-bold" onClick={()=>{
+                setQuery(q.pacientSSN.toString())
+              }}>
+                   {q.pacientName} - {q.pacientSSN}
+              </div>
+            </div>
+          ))
+        }
       <div className="w-full max-w-5xl mx-auto">
-        {(filteredUsersBySSN && query.length === 10) && <EndoUserDetailBetter deleteUser={deleteUserFinally} allData={filteredUsersBySSN} />}
+        {(filteredUsersBySSN && query.length === 10) && <EndoUserDetailBetter allData={filteredUsersBySSN} />}
       </div>
     </MainLayout>
   );
