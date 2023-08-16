@@ -11,11 +11,8 @@ const Footer: React.FC<Props> = () => {
   useEffect(()=>{
     (async()=>{
       if(token){
-       // setInterval(async() => {
-
           const data = await getTokensExpiration(`/auth/expiration/`, token);
        setExpirace(data)
-        
       }
     })()
 
@@ -28,8 +25,11 @@ const Footer: React.FC<Props> = () => {
     <div className="flex flex-col items-center px-4 py-6 mx-auto lg:items-stretch lg:justify-between lg:flex-row max-w-7xl">
       <div className="grid grid-cols-2 text-center">
         <div className="col-span-1"> {new Date().getFullYear()} © Myomatóza & Endometrióza</div>
-        <div className="col-span-1"> Přihlášení vyprší v <span className="text-blue-300 font-bold underline">{expirace}</span></div>
-      </div>
+        {
+          expirace &&  <div className="col-span-1"> Přihlášení vyprší v <span className="text-blue-300 font-bold underline">{expirace}</span></div>
+
+        }
+            </div>
     </div>
   </footer>
   );

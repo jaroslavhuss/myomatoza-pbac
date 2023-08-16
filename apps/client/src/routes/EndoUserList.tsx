@@ -5,6 +5,7 @@ import { useAuthHeader } from "react-auth-kit";
 import { useDispatch } from "react-redux";
 import { setError } from "../store/gsms/errorSlice";
 import EndoUserDeatil from "../components/GlobalComponents/EndoUserDetail";
+import EndoUserDetailBetter from "../components/GlobalComponents/EndoUserDetailBetter";
 interface Props {}
 
 interface IUser {
@@ -41,8 +42,20 @@ const EndoUserList: React.FC<Props> = ({}) => {
   useEffect(() => {
     getMyUsers(token,"/endo")
       .then((res) => {
-        setUsers(res);
-        setFilteredUsersBySSN(res);
+        const filteredDatabyName = res.sort((a: IUser, b: IUser) => {
+          const aFirstName = a.pacientName;
+          const bFirstName = b.pacientName;
+
+          if (aFirstName < bFirstName) {
+            return -1;
+          }
+          if (aFirstName > bFirstName) {
+            return 1;
+          }
+        });
+          
+        setUsers(filteredDatabyName);
+        setFilteredUsersBySSN(filteredDatabyName);
       })
       .catch((err) => {
         dispatch(
@@ -61,7 +74,6 @@ const EndoUserList: React.FC<Props> = ({}) => {
       const filteredUsers = users.filter((user: IUser) => {
         return user.pacientSSN.toString().includes(query);
       });
-      //sort function by DD.MM.YYYY
       filteredUsers.sort((a: IUser, b: IUser) => {
         const aDate = a.questionnaireDate.split(".");
         const bDate = b.questionnaireDate.split(".");
@@ -117,30 +129,15 @@ const EndoUserList: React.FC<Props> = ({}) => {
           placeholder="0000000000 - vyhledat uživatele podle rodného čísla"
         />
       </div>
-      {filteredUsersBySSN.length !== users.length && (
-        <div className="max-w-2xl mx-auto p-2 m-2 shadow rounded-sm gap-2">
-          {filteredUsersBySSN.map((user: IUser, index) => {
-            return (
-              <div className="grid grid-cols-12" key={index}>
-                <div className="col-span-2">{user.questionnaireDate}</div>
-                <div className="col-span-8">
-                  <progress
-                    className="progress w-full"
-                    value={user.sumValue}
-                    max="100"
-                  ></progress>
-                </div>
-                <div className="col-span-2 text-center">{user.sumValue}</div>
-              </div>
-            );
-          })}
-        </div>
-      )}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-3">
-        {filteredUsersBySSN &&
+   
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-3">
+        {(filteredUsersBySSN && query.length !== 10) &&
           filteredUsersBySSN.map((user: IUser, index) => {
             return <EndoUserDeatil deleteUser={deleteUserFinally} user={user} key={index} tabIndex={index} />;
           })}
+      </div>
+      <div className="w-full max-w-5xl mx-auto">
+        {(filteredUsersBySSN && query.length === 10) && <EndoUserDetailBetter deleteUser={deleteUserFinally} allData={filteredUsersBySSN} />}
       </div>
     </MainLayout>
   );

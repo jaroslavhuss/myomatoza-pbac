@@ -1,30 +1,32 @@
 import React, { useState } from "react";
 import { BsPersonFillCheck, BsThreeDotsVertical, BsTrash2Fill } from "react-icons/bs";
 
+interface IUser {
+  _id: string;
+  pacientName: string;
+  pacientSSN: number;
+  supervisorDoctor: string;
+  questionnaireDate: string;
+  __01Question: number;
+  __02Question: 5;
+  __03Question: number;
+  __04Question: number;
+  __05Question: number;
+  __06Question: number;
+  __07Question: number;
+  __08Question: number;
+  __09Question: number;
+  __10Question: number;
+  __11Question: number;
+  __12Question: number;
+  __13Question: number;
+  __14Question: number;
+  __15Question: number;
+  sumValue: number;
+}
+
 interface Props {
-  user: {
-    _id: string;
-    pacientName: string;
-    pacientSSN: number;
-    supervisorDoctor: string;
-    questionnaireDate: string;
-    __01Question: number;
-    __02Question: 5;
-    __03Question: number;
-    __04Question: number;
-    __05Question: number;
-    __06Question: number;
-    __07Question: number;
-    __08Question: number;
-    __09Question: number;
-    __10Question: number;
-    __11Question: number;
-    __12Question: number;
-    __13Question: number;
-    __14Question: number;
-    __15Question: number;
-    sumValue: number;
-  };
+  user: IUser;
   tabIndex: number;
   deleteUser: (id:string)=>void;
 }
@@ -52,10 +54,10 @@ const EndoUserDeatil: React.FC<Props> = ({ user, tabIndex, deleteUser }) => {
       {
         !doYouWantToDelete && (<div className="card w-96 bg-base-100 shadow-xl relative">
         <div className="dropdown absolute top-0 right-0">
-    <label tabIndex={0} className="m-1"><BsThreeDotsVertical style={{
+    <label tabIndex={tabIndex} className="m-1"><BsThreeDotsVertical style={{
                 fontSize: "1.5rem",
     }} /></label>
-    <ul tabIndex={0} className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52">
+    <ul tabIndex={tabIndex} className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52">
       <li><span onClick={()=>{setDoYouWantToDelete(true)}}><BsTrash2Fill />Smazat dotazník</span></li>
     </ul>
   </div>
