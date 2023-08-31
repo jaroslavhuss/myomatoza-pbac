@@ -1,15 +1,15 @@
 import React from "react";
 import { BsPersonFillCheck } from "react-icons/bs";
 import HealthStatusProgress from "./HealthStatusProgress";
-import { EndoConstantsQuestions } from "../../constants/endometrio.constants";
 import { IQuestionnaire } from "../../Entities/interfaces/questionnaire.interface";
 import QuestionnaireDetail from "./QuestionnaireDetail";
 
 interface Props {
   allData: IQuestionnaire[];
+  questions: string[];
 }
 
-const EndoUserDetailBetter: React.FC<Props> = ({ allData }) => {
+const EndoUserDetailBetter: React.FC<Props> = ({ allData, questions }) => {
   return (
     <>
       {allData.length > 0 && (
@@ -48,7 +48,7 @@ const EndoUserDetailBetter: React.FC<Props> = ({ allData }) => {
               </div>
            
               {allData.map((q: IQuestionnaire, index: number) => {
-                return <QuestionnaireDetail key={index} questionnaire={q} ind={index} />;
+                return <QuestionnaireDetail key={index} questionnaire={q} ind={index} questions={questions} />;
               })}
 
               <div
@@ -59,7 +59,7 @@ const EndoUserDetailBetter: React.FC<Props> = ({ allData }) => {
                   Porovnání dat v čase u jednotlivých metrik
                 </div>
                 <div className="collapse-content">
-                  {EndoConstantsQuestions.map((question, indexx) => {
+                  {questions.map((question, indexx) => {
                     return (
                       <>
                         {question}

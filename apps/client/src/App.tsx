@@ -14,6 +14,7 @@ import Page404 from "./routes/404";
 import MyomatosysQuestionnaire from "./routes/MyomatQuestion";
 import EndoUserList from "./routes/EndoUserList";
 import EndoQuestionnaire from "./routes/EndoQuestion";
+import {EndoConstantsQuestions, MyomConstantsQuestions} from "./constants"
 
 export default function App() {
   const isAuthenticated = useIsAuthenticated();
@@ -48,8 +49,8 @@ export default function App() {
           <Route path="/questionnaire-myoms" element={<RequireAuth loginPath="/login"><MyomatosysQuestionnaire /></RequireAuth>}/>
           <Route path="/questionnaire-endo" element={<RequireAuth loginPath="/login"><EndoQuestionnaire /></RequireAuth>}/>
 
-          <Route path="/user-list" element={<RequireAuth loginPath="/login"><EndoUserList endpoint="/myom"/></RequireAuth>}/>
-          <Route path="/user-list-endo" element={<RequireAuth loginPath="/login"><EndoUserList endpoint="/endo"/></RequireAuth>}/>
+          <Route path="/user-list" element={<RequireAuth loginPath="/login"><EndoUserList questions={MyomConstantsQuestions} endpoint="/myom"/></RequireAuth>}/>
+          <Route path="/user-list-endo" element={<RequireAuth loginPath="/login"><EndoUserList questions={EndoConstantsQuestions} endpoint="/endo"/></RequireAuth>}/>
         </Routes>
         {showSuccess && <Success />}
 

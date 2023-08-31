@@ -1,13 +1,13 @@
 import React from 'react';
 import { IQuestionnaire } from '../../Entities/interfaces/questionnaire.interface';
-import { EndoConstantsQuestions } from '../../constants/endometrio.constants';
 import HealthStatusProgress from './HealthStatusProgress';
 interface Props {
     questionnaire: IQuestionnaire;
     ind:number;
+    questions:string[];
 }
 
-const QuestionnaireDetail: React.FC<Props> = ({questionnaire, ind}) => {
+const QuestionnaireDetail: React.FC<Props> = ({questionnaire, ind, questions}) => {
   return (
 
     <div tabIndex={ind} className="collapse collapse-arrow border border-base-300 bg-base-200">
@@ -16,7 +16,7 @@ const QuestionnaireDetail: React.FC<Props> = ({questionnaire, ind}) => {
   </div>
   <div className="collapse-content"> 
   {
-        EndoConstantsQuestions.map((question, index) => {
+        questions.map((question, index) => {
             let keyName: string = `__${index + 1 < 10 ? 0 : ""}${
                 index + 1
               }Question`;

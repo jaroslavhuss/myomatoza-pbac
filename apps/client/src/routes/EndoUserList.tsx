@@ -9,7 +9,7 @@ import { IQuestionnaire } from "../Entities/interfaces/questionnaire.interface";
 
 
 
-const EndoUserList = ({endpoint}:{endpoint:string}) => {
+const EndoUserList = ({endpoint, questions}:{endpoint:string, questions:string[]}) => {
   const header = useAuthHeader();
   const token = header();
   const dispatch = useDispatch();
@@ -56,7 +56,14 @@ const EndoUserList = ({endpoint}:{endpoint:string}) => {
           })
         );
       });
-  }, [endpoint]);
+
+      return () => {
+        setUsers([]);
+        setFilteredUsersBySSN([]);
+        setUniqueUsersForList([]);
+        setQuery("");
+      }
+  }, [endpoint, questions]);
 
   const [query, setQuery] = useState("");
 
@@ -113,7 +120,7 @@ const EndoUserList = ({endpoint}:{endpoint:string}) => {
           ))
         }
       <div className="w-full max-w-5xl mx-auto">
-        {(filteredUsersBySSN && query.length === 10) && <EndoUserDetailBetter allData={filteredUsersBySSN} />}
+        {(filteredUsersBySSN && query.length === 10) && <EndoUserDetailBetter allData={filteredUsersBySSN} questions={questions} />}
       </div>
     </MainLayout>
   );
