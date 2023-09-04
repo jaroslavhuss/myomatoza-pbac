@@ -109,8 +109,8 @@ const EndoUserList = ({endpoint, questions}:{endpoint:string, questions:string[]
       </div>
       
         {
-        (query.length !== 10) &&  uniqueUsersForList.map((q:IQuestionnaire)=>(
-            <div className="group w-full p-2 m-2 border-b-2 transition-all duration-400 ease-linear hover:bg-white cursor-pointer">
+        (query.length !== 10) &&  uniqueUsersForList.map((q:IQuestionnaire, i:number)=>(
+            <div key={i} className="group w-full p-2 m-2 border-b-2 transition-all duration-400 ease-linear hover:bg-white cursor-pointer">
               <div className=" group-hover:font-bold" onClick={()=>{
                 setQuery(q.pacientSSN.toString())
               }}>
