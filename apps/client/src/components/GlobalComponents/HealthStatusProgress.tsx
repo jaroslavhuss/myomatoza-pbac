@@ -15,7 +15,7 @@ const HealthStatusProgress = ({
       <div className="grid grid-cols-12 gap-3 w-full">
         <div className="col-span-3">{date}</div>
         <progress
-          className={`${className} progress col-span-6`}
+          className={`${className} col-span-6 progress`}
           value={current}
           max={max}
         ></progress>
