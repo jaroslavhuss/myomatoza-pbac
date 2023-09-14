@@ -44,7 +44,7 @@ export class MyomsService {
     return data;
   }
 
-  update(id: string, updateMyomDto: UpdateMyomDto, user: IUser) {
+  async update(id: string, updateMyomDto: UpdateMyomDto, user: IUser) {
     //Only supervisorDoctor if owns the document can update it
     return this.myomsModel.findOneAndUpdate(
       {
@@ -56,7 +56,7 @@ export class MyomsService {
     );
   }
 
-  remove(id: string, user: IUser) {
+  async remove(id: string, user: IUser) {
     //Only supervisorDoctor if owns the document can delete it
     return this.myomsModel.findOneAndDelete({
       _id: id,
@@ -86,7 +86,7 @@ export class MyomsService {
     return data;
   }
 
-  updateEndo(id: string, updateMyomDto: UpdateMyomDto, user: IUser) {
+  async updateEndo(id: string, updateMyomDto: UpdateMyomDto, user: IUser) {
     //Only supervisorDoctor if owns the document can update it
     return this.endoModel.findOneAndUpdate(
       {
@@ -98,7 +98,7 @@ export class MyomsService {
     );
   }
 
-  removeEndo(id: string, user: IUser) {
+  async removeEndo(id: string, user: IUser) {
     //Only supervisorDoctor if owns the document can delete it
     return this.endoModel.findOneAndDelete({
       _id: id,

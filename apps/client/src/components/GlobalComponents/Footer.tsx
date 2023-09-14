@@ -9,16 +9,26 @@ const Footer: React.FC<Props> = () => {
   const token = header();
   const [expirace, setExpirace] = useState<string>("")
   useEffect(()=>{
-    (async()=>{
-      if(token){
-          const data = await getTokensExpiration(`/auth/expiration/`, token);
-       setExpirace(data)
-      }
-    })()
+    let timerId: NodeJS.Timeout;
 
-    return ()=>{
-      
-    }
+    const checkTokenExpiration = async () => {
+      if (token) {
+        const data = await getTokensExpiration(`/auth/expiration/`, token);
+        if (data <= 0) {
+          window.location.reload();
+        }
+        setExpirace(data);
+        // Schedule the next check after a fixed interval (e.g., 10 seconds)
+        timerId = setTimeout(checkTokenExpiration, 10000);
+      }
+    };
+
+    checkTokenExpiration();
+
+    return () => {
+      // Clear the timeout when the component unmounts
+      clearTimeout(timerId);
+    };
   },[token])
   return (
     <footer className="w-full text-white bg-gradient-to-br from-slate-600 via-slate-700 to-slate-800 sticky bottom-0">
@@ -26,7 +36,7 @@ const Footer: React.FC<Props> = () => {
       <div className="grid grid-cols-2 text-center">
         <div className="col-span-1"> {new Date().getFullYear()} © Myomatóza & Endometrióza</div>
         {
-          expirace &&  <div className="col-span-1"> Přihlášení vyprší v <span className="text-blue-300 font-bold underline">{expirace}</span></div>
+          expirace &&  <div className="col-span-1"> Přihlášení vyprší za: <span className="text-blue-300 font-bold underline">{expirace} (minuty)</span></div>
 
         }
             </div>

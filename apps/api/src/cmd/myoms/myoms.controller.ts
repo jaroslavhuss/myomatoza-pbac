@@ -18,7 +18,6 @@ import { AllExceptionsFilter } from 'util/catch-everything.filter';
 import { AuthGuard } from '@nestjs/passport';
 import { GetCurrentUser } from 'util/get-current-user.decorator';
 import { IUser } from 'src/interfaces_enums';
-
 @UseFilters(AllExceptionsFilter)
 @Controller()
 export class MyomsController {

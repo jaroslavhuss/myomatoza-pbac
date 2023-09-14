@@ -52,9 +52,11 @@ export class AuthController {
     const decodedToken: {
       exp: number;
     } = this.jwt.decode(token.token);
-    //make nice date from decoded token.exp
-    const date = new Date(decodedToken.exp * 1000).toLocaleTimeString();
-    return date;
+ 
+    const currentTimeInSeconds = Math.floor(Date.now() / 1000);
+      const minutesLeft = Math.ceil((decodedToken.exp - currentTimeInSeconds) / 60);
+
+    return minutesLeft;
     //@ts-ignore
   }
 
