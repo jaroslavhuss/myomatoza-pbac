@@ -113,7 +113,11 @@ const EndoUserList = ({endpoint, questions}:{endpoint:string, questions:string[]
       <div className="tooltip tooltip-closed tooltip-secondary" data-tip="Exportuje všechna data do formátu JSON">
 
 </div>
-<button className="btn" onClick={()=>document.getElementById('my_modal_2').showModal()}><BsDownload />Export dat</button>
+
+<button className="btn" onClick={()=>{
+  //@ts-ignore
+  document.getElementById('my_modal_2').showModal()
+  }}><BsDownload />Export dat</button>
 <dialog id="my_modal_2" className="modal">
   <div className="modal-box">
     <h3 className="font-bold text-lg">JSON data <span className="btn btn-primary" onClick={()=>{
