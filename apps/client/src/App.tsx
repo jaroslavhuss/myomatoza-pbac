@@ -14,8 +14,8 @@ import Page404 from "./routes/404";
 import MyomatosysQuestionnaire from "./routes/MyomatQuestion";
 import EndoUserList from "./routes/EndoUserList";
 import EndoQuestionnaire from "./routes/EndoQuestion";
-import {EndoConstantsQuestions, MyomConstantsQuestions} from "./constants"
-
+import { EndoConstantsQuestions, MyomConstantsQuestions } from "./constants";
+import CreateQuestionnaire from "./routes/CreateQuestionnaire";
 export default function App() {
   const isAuthenticated = useIsAuthenticated();
   const showSuccess: boolean | undefined = useSelector(
@@ -29,31 +29,79 @@ export default function App() {
       <div className="min-h-screen">
         <Navigation />
         <Routes>
-          {
-            !isAuthenticated() ? (<>
+          {!isAuthenticated() ? (
+            <>
               <Route path="/" element={<Login />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register />} />
-          <Route path="*" element={<Page404 />} />
+              <Route path="/login" element={<Login />} />
+              <Route path="/register" element={<Register />} />
+              <Route path="*" element={<Page404 />} />
             </>
-            
-            ):<>
-             <Route path="/" element={<Dashboard />} />
-          <Route path="/login" element={<Dashboard />} />
-          <Route path="/register" element={<Dashboard />} />
-          <Route path="*" element={<Dashboard />} />
+          ) : (
+            <>
+              <Route path="/" element={<Dashboard />} />
+              <Route path="/login" element={<Dashboard />} />
+              <Route path="/register" element={<Dashboard />} />
+              <Route path="*" element={<Dashboard />} />
             </>
-          }
-        
-          <Route path="/dashboard" element={<RequireAuth loginPath="/login"><Dashboard /></RequireAuth>}/>
-          <Route path="/questionnaire-myoms" element={<RequireAuth loginPath="/login"><MyomatosysQuestionnaire /></RequireAuth>}/>
-          <Route path="/questionnaire-endo" element={<RequireAuth loginPath="/login"><EndoQuestionnaire /></RequireAuth>}/>
+          )}
 
-          <Route path="/user-list" element={<RequireAuth loginPath="/login"><EndoUserList questions={MyomConstantsQuestions} endpoint="/myom"/></RequireAuth>}/>
-          <Route path="/user-list-endo" element={<RequireAuth loginPath="/login"><EndoUserList questions={EndoConstantsQuestions} endpoint="/endo"/></RequireAuth>}/>
+          <Route
+            path="/dashboard"
+            element={
+              <RequireAuth loginPath="/login">
+                <Dashboard />
+              </RequireAuth>
+            }
+          />
+          <Route
+            path="/questionnaire-myoms"
+            element={
+              <RequireAuth loginPath="/login">
+                <MyomatosysQuestionnaire />
+              </RequireAuth>
+            }
+          />
+          <Route
+            path="/questionnaire-endo"
+            element={
+              <RequireAuth loginPath="/login">
+                <EndoQuestionnaire />
+              </RequireAuth>
+            }
+          />
+
+          <Route
+            path="/user-list"
+            element={
+              <RequireAuth loginPath="/login">
+                <EndoUserList
+                  questions={MyomConstantsQuestions}
+                  endpoint="/myom"
+                />
+              </RequireAuth>
+            }
+          />
+          <Route
+            path="/user-list-endo"
+            element={
+              <RequireAuth loginPath="/login">
+                <EndoUserList
+                  questions={EndoConstantsQuestions}
+                  endpoint="/endo"
+                />
+              </RequireAuth>
+            }
+          />
+          <Route
+            path="/questionnaire/create"
+            element={
+              <RequireAuth loginPath="/login">
+                <CreateQuestionnaire />
+              </RequireAuth>
+            }
+          />
         </Routes>
         {showSuccess && <Success />}
-
       </div>
       <Footer />
     </div>
