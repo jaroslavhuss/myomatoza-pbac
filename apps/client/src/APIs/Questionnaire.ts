@@ -40,3 +40,32 @@ export const createQuestionnaire = async (questionnaire: IQuestionnaire) => {
     store.dispatch(setError(errorMessage));
   }
 };
+
+export const getAllQuestionnaires = async () => {
+  const token = localStorage.getItem("token");
+  try {
+    if (!token) {
+      store.dispatch(
+        setError({
+          message: "Něco je v nepořádku s Vaším přihlášením",
+          rawData: "Odhlašte se a přihlašte znovu",
+        })
+      );
+
+      return;
+    }
+    const response: Response = await fetch(GLOBAL_URL + "/questionnaire", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: token,
+      },
+    });
+
+    const data = await response.json();
+    return data;
+  } catch (error: any) {
+    const errorMessage = formatErrorMessage(error);
+    store.dispatch(setError(errorMessage));
+  }
+};

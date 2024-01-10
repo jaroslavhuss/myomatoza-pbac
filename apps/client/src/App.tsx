@@ -16,6 +16,7 @@ import EndoUserList from "./routes/EndoUserList";
 import EndoQuestionnaire from "./routes/EndoQuestion";
 import { EndoConstantsQuestions, MyomConstantsQuestions } from "./constants";
 import CreateQuestionnaire from "./routes/CreateQuestionnaire";
+import GetQuestionnaires from "./routes/GetQuestionnaires";
 export default function App() {
   const isAuthenticated = useIsAuthenticated();
   const showSuccess: boolean | undefined = useSelector(
@@ -97,6 +98,14 @@ export default function App() {
             element={
               <RequireAuth loginPath="/login">
                 <CreateQuestionnaire />
+              </RequireAuth>
+            }
+          />
+          <Route
+            path="/questionnaire/get"
+            element={
+              <RequireAuth loginPath="/login">
+                <GetQuestionnaires />
               </RequireAuth>
             }
           />

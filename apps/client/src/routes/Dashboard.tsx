@@ -30,19 +30,21 @@ const Dashboard: React.FC<Props> = ({}) => {
         </div>
 
         <div className="card bg-base-100 shadow-xl col-span-3 hover:shadow-xl transition-all duration-700 hover:bg-slate-200 hover:cursor-pointer">
-          <div className="card-body block mx-auto">
-            <h2 className="card-title text-center mx-auto">
-              Přejít na přehled dotazníků
-            </h2>
-            <br />
-            <BsListTask
-              style={{
-                fontSize: "2rem",
-                textAlign: "center",
-                margin: "0 auto",
-              }}
-            />
-          </div>
+          <Link to="/questionnaire/get">
+            <div className="card-body block mx-auto">
+              <h2 className="card-title text-center mx-auto">
+                Přejít na přehled dotazníků
+              </h2>
+              <br />
+              <BsListTask
+                style={{
+                  fontSize: "2rem",
+                  textAlign: "center",
+                  margin: "0 auto",
+                }}
+              />
+            </div>
+          </Link>
         </div>
 
         <div className="card bg-base-100 shadow-xl col-span-3 hover:shadow-xl transition-all duration-700 hover:bg-slate-200 hover:cursor-pointer">

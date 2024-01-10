@@ -1,17 +1,22 @@
-import { useState } from "react";
-import { IQuestionnaire } from "../Entities/interfaces/questionnaireDocument.interface";
-import MainLayout from "../components/Layouts/MainLayout";
-import { emptyQuestionnaire } from "../Entities/defaults/questionnaire.empty";
+import { useState, FC, useEffect } from "react";
+import { IQuestionnaire } from "../../Entities/interfaces/questionnaireDocument.interface";
+import MainLayout from "../../components/Layouts/MainLayout";
+import { emptyQuestionnaire } from "../../Entities/defaults/questionnaire.empty";
 import { BsFillTrash3Fill, BsPlusCircle } from "react-icons/bs";
-import { createQuestionnaire } from "../APIs/Questionnaire";
-import { setError } from "../store/gsms/errorSlice";
+import { createQuestionnaire } from "../../APIs/Questionnaire";
+import { setError } from "../../store/gsms/errorSlice";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-const CreateQuestionnaire = () => {
+
+interface Props {
+  docToUpdate: IQuestionnaire;
+}
+
+const UpdateQuestionnaire: FC<Props> = ({ docToUpdate }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [questionnaire, setQuestionnaire] =
-    useState<IQuestionnaire>(emptyQuestionnaire);
+    useState<IQuestionnaire>(docToUpdate);
 
   const handleFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -77,12 +82,16 @@ const CreateQuestionnaire = () => {
     questionsArray.splice(index, 1);
     setQuestionnaire({ ...questionnaire, questions: questionsArray });
   };
+
+  useEffect(() => {
+    setQuestionnaire(docToUpdate);
+  }, [docToUpdate]);
   return (
     <MainLayout>
-      <div className="w-full text-center flex flex-col justify-center align-middle">
+      <div className="w-full text-center flex flex-col justify-center align-middle modal-action">
         <h1 className="text-2xl my-2">Vyvtoření nového dotazníku</h1>
         <form
-          onSubmit={handleFormSubmit}
+          // onSubmit={handleFormSubmit}
           className="card w-full max-w-3xl flex flex-col gap-3 p-3 shadow-xl self-center"
         >
           <span className=" font-bold py-1 mx-2">Pojmenujte dotazník</span>
@@ -166,11 +175,27 @@ const CreateQuestionnaire = () => {
             <BsPlusCircle className="hover:text-green-500 text-3xl text-right" />
           </div>
           {questionnaire.questions.length > 0 && (
-            <button
-              type="submit"
+            <div
+              onClick={() => {
+                console.log("Aktualizace dotazníku");
+                console.log(questionnaire);
+              }}
               className="btn btn-success w-full max-w-3xl self-center"
             >
-              Vytvořit dotazník
+              Aktualizovat dotazník
+            </div>
+          )}
+          {questionnaire.questions.length > 0 && (
+            <button
+              onClick={() => {
+                console.log("Mazání dotazníku");
+                console.log(questionnaire);
+                //@ts-ignore
+                document.getElementById("my_modal_2").closeModal();
+              }}
+              className="btn btn-error w-full max-w-3xl self-center"
+            >
+              Vymazat dotazník
             </button>
           )}
         </form>
@@ -179,4 +204,4 @@ const CreateQuestionnaire = () => {
   );
 };
 
-export default CreateQuestionnaire;
+export default UpdateQuestionnaire;
