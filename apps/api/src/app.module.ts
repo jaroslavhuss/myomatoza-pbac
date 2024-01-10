@@ -7,6 +7,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
 import { AuthModule } from './cmd/auth/auth.module';
 import { MyomsModule } from './cmd/myoms/myoms.module';
+import { QuestionnaireModule } from './cmd/questionnaire/questionnaire.module';
 @Module({
   imports: [
     ServeStaticModule.forRoot({
@@ -21,6 +22,7 @@ import { MyomsModule } from './cmd/myoms/myoms.module';
     }),
     AuthModule,
     MyomsModule,
+    QuestionnaireModule,
   ],
   controllers: [AppController],
   providers: [AppService],

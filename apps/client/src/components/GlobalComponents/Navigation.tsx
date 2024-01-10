@@ -51,17 +51,21 @@ const Navigation: React.FC<Props> = () => {
                   <details>
                     <summary>Ovládací centrum</summary>
                     <ul className="p-2">
-                       <li className="bg-gradient-to-br rounded-lg m-1 from-blue-600 to-blue-900 text-white">
+                      <li className="bg-gradient-to-br rounded-lg m-1 from-blue-600 to-blue-900 text-white">
                         <Link to="/user-list">Seznam - Myomatóza</Link>
                       </li>
-                       <li className="bg-gradient-to-br rounded-lg m-1 from-blue-600 to-blue-900 text-white">
-                        <Link to="/questionnaire-myoms">Dotazník - Myomatóza</Link>
+                      <li className="bg-gradient-to-br rounded-lg m-1 from-blue-600 to-blue-900 text-white">
+                        <Link to="/questionnaire-myoms">
+                          Dotazník - Myomatóza
+                        </Link>
                       </li>
-                       <li className="bg-gradient-to-br rounded-lg m-1 from-purple-600 to-purple-900 text-white">
+                      <li className="bg-gradient-to-br rounded-lg m-1 from-purple-600 to-purple-900 text-white">
                         <Link to="/user-list-endo">Seznam - Endometrióza</Link>
                       </li>
-                       <li className="bg-gradient-to-br rounded-lg m-1 from-purple-600 to-purple-900 text-white">
-                        <Link to="/questionnaire-endo">Dotazník - Endometrióza</Link>
+                      <li className="bg-gradient-to-br rounded-lg m-1 from-purple-600 to-purple-900 text-white">
+                        <Link to="/questionnaire-endo">
+                          Dotazník - Endometrióza
+                        </Link>
                       </li>
                       <li className="mt-4">
                         <span
@@ -77,7 +81,6 @@ const Navigation: React.FC<Props> = () => {
                 </li>
               )}
 
-              
               {!isAuthenticated() && (
                 <>
                   <li>
@@ -91,42 +94,41 @@ const Navigation: React.FC<Props> = () => {
             </ul>
           </div>
           <Link to="/" className="btn btn-ghost normal-case text-xl">
-            Myomatóza & Endometrióza
+            HealthTracker
           </Link>
         </div>
         <div className="navbar-center hidden lg:flex">
-        {isAuthenticated() && (
-                <div className="dropdown menu menu-horizontal">
-                  <label tabIndex={0} className="m-1">
-                    Ovládací centrum
-                  </label>
-                  <ul
-                    tabIndex={0}
-                    className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52"
-                  >
-                    <li className="bg-gradient-to-br rounded-lg m-1 from-blue-600 to-blue-900 text-white">
-                      <Link to="/user-list">Seznam - Myomatóza</Link>
-                    </li>
-                    <li className="bg-gradient-to-br rounded-lg m-1 from-blue-600 to-blue-900 text-white">
-                      <Link to="/questionnaire-myoms">Dotazník - Myomatóza</Link>
-                    </li>
-                    <li className="bg-gradient-to-br rounded-lg m-1 from-purple-600 to-purple-900 text-white">
-                        <Link to="/user-list-endo">Seznam - Endometrióza</Link>
-                      </li>
-                      <li className="bg-gradient-to-br rounded-lg m-1 from-purple-600 to-purple-900 text-white">
-                        <Link to="/questionnaire-endo">Dotazník - Endometrióza</Link>
-                      </li>
-                    <li className="mt-4">
-                      <span className="bg-red-900 text-white" onClick={signOut}>
-                        <BsDoorClosedFill />
-                        Odhlášení
-                      </span>
-                    </li>
-                  </ul>
-                </div>
-              )}
+          {isAuthenticated() && (
+            <div className="dropdown menu menu-horizontal">
+              <label tabIndex={0} className="m-1">
+                Ovládací centrum
+              </label>
+              <ul
+                tabIndex={0}
+                className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52"
+              >
+                <li className="bg-gradient-to-br rounded-lg m-1 from-blue-600 to-blue-900 text-white">
+                  <Link to="/user-list">Seznam - Myomatóza</Link>
+                </li>
+                <li className="bg-gradient-to-br rounded-lg m-1 from-blue-600 to-blue-900 text-white">
+                  <Link to="/questionnaire-myoms">Dotazník - Myomatóza</Link>
+                </li>
+                <li className="bg-gradient-to-br rounded-lg m-1 from-purple-600 to-purple-900 text-white">
+                  <Link to="/user-list-endo">Seznam - Endometrióza</Link>
+                </li>
+                <li className="bg-gradient-to-br rounded-lg m-1 from-purple-600 to-purple-900 text-white">
+                  <Link to="/questionnaire-endo">Dotazník - Endometrióza</Link>
+                </li>
+                <li className="mt-4">
+                  <span className="bg-red-900 text-white" onClick={signOut}>
+                    <BsDoorClosedFill />
+                    Odhlášení
+                  </span>
+                </li>
+              </ul>
+            </div>
+          )}
           <ul className="menu menu-horizontal px-1">
-
             {!isAuthenticated() && (
               <>
                 <li>
