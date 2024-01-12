@@ -47,38 +47,13 @@ const Navigation: React.FC<Props> = () => {
               className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow rounded-box w-52 bg-white"
             >
               {isAuthenticated() && (
-                <li tabIndex={0}>
-                  <details>
-                    <summary>Ovládací centrum</summary>
-                    <ul className="p-2">
-                      <li className="bg-gradient-to-br rounded-lg m-1 from-blue-600 to-blue-900 text-white">
-                        <Link to="/user-list">Seznam - Myomatóza</Link>
-                      </li>
-                      <li className="bg-gradient-to-br rounded-lg m-1 from-blue-600 to-blue-900 text-white">
-                        <Link to="/questionnaire-myoms">
-                          Dotazník - Myomatóza
-                        </Link>
-                      </li>
-                      <li className="bg-gradient-to-br rounded-lg m-1 from-purple-600 to-purple-900 text-white">
-                        <Link to="/user-list-endo">Seznam - Endometrióza</Link>
-                      </li>
-                      <li className="bg-gradient-to-br rounded-lg m-1 from-purple-600 to-purple-900 text-white">
-                        <Link to="/questionnaire-endo">
-                          Dotazník - Endometrióza
-                        </Link>
-                      </li>
-                      <li className="mt-4">
-                        <span
-                          className="bg-red-900 text-white"
-                          onClick={signOut}
-                        >
-                          <BsDoorClosedFill />
-                          Odhlášení
-                        </span>
-                      </li>
-                    </ul>
-                  </details>
-                </li>
+                <span
+                  className="bg-orange-500 text-white p-2 text-center flex flex-row justify-center items-center font-bold rounded-lg hover:cursor-pointer"
+                  onClick={signOut}
+                >
+                  <BsDoorClosedFill />
+                  Odhlášení
+                </span>
               )}
 
               {!isAuthenticated() && (
@@ -99,34 +74,13 @@ const Navigation: React.FC<Props> = () => {
         </div>
         <div className="navbar-center hidden lg:flex">
           {isAuthenticated() && (
-            <div className="dropdown menu menu-horizontal">
-              <label tabIndex={0} className="m-1">
-                Ovládací centrum
-              </label>
-              <ul
-                tabIndex={0}
-                className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52"
-              >
-                <li className="bg-gradient-to-br rounded-lg m-1 from-blue-600 to-blue-900 text-white">
-                  <Link to="/user-list">Seznam - Myomatóza</Link>
-                </li>
-                <li className="bg-gradient-to-br rounded-lg m-1 from-blue-600 to-blue-900 text-white">
-                  <Link to="/questionnaire-myoms">Dotazník - Myomatóza</Link>
-                </li>
-                <li className="bg-gradient-to-br rounded-lg m-1 from-purple-600 to-purple-900 text-white">
-                  <Link to="/user-list-endo">Seznam - Endometrióza</Link>
-                </li>
-                <li className="bg-gradient-to-br rounded-lg m-1 from-purple-600 to-purple-900 text-white">
-                  <Link to="/questionnaire-endo">Dotazník - Endometrióza</Link>
-                </li>
-                <li className="mt-4">
-                  <span className="bg-red-900 text-white" onClick={signOut}>
-                    <BsDoorClosedFill />
-                    Odhlášení
-                  </span>
-                </li>
-              </ul>
-            </div>
+            <span
+              className="bg-orange-500 text-white p-2 text-center flex flex-row justify-center items-center font-bold rounded-lg hover:cursor-pointer"
+              onClick={signOut}
+            >
+              <BsDoorClosedFill />
+              Odhlášení
+            </span>
           )}
           <ul className="menu menu-horizontal px-1">
             {!isAuthenticated() && (

@@ -4,4 +4,5 @@ export interface IQuestionnaire {
   description: string;
   maxrange: number;
   questions: string[];
+  supervisingDoctor: string;
 }

@@ -69,3 +69,121 @@ export const getAllQuestionnaires = async () => {
     store.dispatch(setError(errorMessage));
   }
 };
+
+export const getQuestionnaireById = async (id: string) => {
+  const token = localStorage.getItem("token");
+  try {
+    if (!token) {
+      store.dispatch(
+        setError({
+          message: "Něco je v nepořádku s Vaším přihlášením",
+          rawData: "Odhlašte se a přihlašte znovu",
+        })
+      );
+
+      return;
+    }
+    const response: Response = await fetch(
+      GLOBAL_URL + `/questionnaire/${id}`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: token,
+        },
+      }
+    );
+
+    const data = await response.json();
+    return data;
+  } catch (error: any) {
+    const errorMessage = formatErrorMessage(error);
+    store.dispatch(setError(errorMessage));
+  }
+};
+
+export const deleteQuestionnaireById = async (id: string) => {
+  const token = localStorage.getItem("token");
+  try {
+    if (!token) {
+      store.dispatch(
+        setError({
+          message: "Něco je v nepořádku s Vaším přihlášením",
+          rawData: "Odhlašte se a přihlašte znovu",
+        })
+      );
+
+      return;
+    }
+    const response: Response = await fetch(
+      GLOBAL_URL + `/questionnaire/${id}`,
+      {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: token,
+        },
+      }
+    );
+
+    const data = await response.json();
+
+    if (data) {
+      store.dispatch(
+        setSuccess({
+          message: "Dotazník byl úspěšně smazán",
+          rawData: `Dotazník s id ${id} byl úspěšně smazán`,
+        })
+      );
+    }
+    return data;
+  } catch (error: any) {
+    const errorMessage = formatErrorMessage(error);
+    store.dispatch(setError(errorMessage));
+  }
+};
+
+export const updateQuestionnaireById = async (
+  id: string,
+  questionnaire: IQuestionnaire
+) => {
+  const token = localStorage.getItem("token");
+  try {
+    if (!token) {
+      store.dispatch(
+        setError({
+          message: "Něco je v nepořádku s Vaším přihlášením",
+          rawData: "Odhlašte se a přihlašte znovu",
+        })
+      );
+
+      return;
+    }
+    const response: Response = await fetch(
+      GLOBAL_URL + `/questionnaire/${id}`,
+      {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: token,
+        },
+        body: JSON.stringify(questionnaire),
+      }
+    );
+
+    const data = await response.json();
+
+    if (data) {
+      store.dispatch(
+        setSuccess({
+          message: "Dotazník byl úspěšně upraven",
+          rawData: `Dotazník s id ${id} byl úspěšně upraven`,
+        })
+      );
+    }
+    return data;
+  } catch (error: any) {
+    const errorMessage = formatErrorMessage(error);
+    store.dispatch(setError(errorMessage));
+  }
+};

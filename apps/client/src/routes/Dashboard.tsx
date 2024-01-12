@@ -13,10 +13,12 @@ const Dashboard: React.FC<Props> = ({}) => {
   return (
     <MainLayout>
       <div className="grid gap-2 grid-cols-12 justify-center align-middle">
-        <div className="card bg-base-100 shadow-xl col-span-3 hover:shadow-xl transition-all duration-700 hover:bg-slate-200 hover:cursor-pointer">
+        <div className="group card bg-base-100 shadow-xl col-span-3 hover:shadow-xl transition-all duration-700 hover:bg-slate-200 hover:cursor-pointer">
           <Link to="/questionnaire/create">
             <div className="card-body block mx-auto">
-              <h2 className="card-title text-center">Vytvořit nový dotazník</h2>
+              <h2 className="card-title text-center transition-all duration-400 ease-in group-hover:text-green-600 group-hover:translate-x-2">
+                Vytvořit nový dotazník
+              </h2>
               <br />
               <BsFillPlusCircleFill
                 style={{
@@ -24,15 +26,16 @@ const Dashboard: React.FC<Props> = ({}) => {
                   textAlign: "center",
                   margin: "0 auto",
                 }}
+                className="group-hover:text-green-400 transition-all duration-700 ease-in group-hover:translate-x-16"
               />
             </div>
           </Link>
         </div>
 
-        <div className="card bg-base-100 shadow-xl col-span-3 hover:shadow-xl transition-all duration-700 hover:bg-slate-200 hover:cursor-pointer">
+        <div className="group card bg-base-100 shadow-xl col-span-3 hover:shadow-xl transition-all duration-700 hover:bg-slate-200 hover:cursor-pointer">
           <Link to="/questionnaire/get">
             <div className="card-body block mx-auto">
-              <h2 className="card-title text-center mx-auto">
+              <h2 className="card-title text-center transition-all duration-400 ease-in group-hover:text-green-600 group-hover:translate-x-2">
                 Přejít na přehled dotazníků
               </h2>
               <br />
@@ -42,38 +45,47 @@ const Dashboard: React.FC<Props> = ({}) => {
                   textAlign: "center",
                   margin: "0 auto",
                 }}
+                className="group-hover:text-green-400 transition-all duration-700 ease-in group-hover:translate-x-16"
               />
             </div>
           </Link>
         </div>
 
-        <div className="card bg-base-100 shadow-xl col-span-3 hover:shadow-xl transition-all duration-700 hover:bg-slate-200 hover:cursor-pointer">
-          <div className="card-body block mx-auto">
-            <h2 className="card-title text-center mx-auto">
-              Vytvořit nového uživatele
-            </h2>
-            <br />
-            <BsPersonFillAdd
-              style={{
-                fontSize: "2rem",
-                textAlign: "center",
-                margin: "0 auto",
-              }}
-            />
-          </div>
+        <div className="group card bg-base-100 shadow-xl col-span-3 hover:shadow-xl transition-all duration-700 hover:bg-slate-200 hover:cursor-pointer">
+          <Link to="/patient/create">
+            <div className="card-body block mx-auto">
+              <h2 className="card-title text-center transition-all duration-400 ease-in group-hover:text-green-600 group-hover:translate-x-2">
+                Vytvořit nového pacienta
+              </h2>
+              <br />
+              <BsPersonFillAdd
+                style={{
+                  fontSize: "2rem",
+                  textAlign: "center",
+                  margin: "0 auto",
+                }}
+                className="group-hover:text-green-400 transition-all duration-700 ease-in group-hover:translate-x-16"
+              />
+            </div>
+          </Link>
         </div>
-        <div className="card bg-base-100 shadow-xl col-span-3 hover:shadow-xl transition-all duration-700 hover:bg-slate-200 hover:cursor-pointer">
-          <div className="card-body block mx-auto">
-            <h2 className="card-title text-center mx-auto">Seznam uživatelů</h2>
-            <br />
-            <BsPersonLinesFill
-              style={{
-                fontSize: "2rem",
-                textAlign: "center",
-                margin: "0 auto",
-              }}
-            />
-          </div>
+        <div className="group card bg-base-100 shadow-xl col-span-3 hover:shadow-xl transition-all duration-700 hover:bg-slate-200 hover:cursor-pointer">
+          <Link to="/patient/get">
+            <div className="card-body block mx-auto">
+              <h2 className="card-title text-center transition-all duration-400 ease-in group-hover:text-green-600 group-hover:translate-x-2">
+                Seznam pacientů
+              </h2>
+              <br />
+              <BsPersonLinesFill
+                style={{
+                  fontSize: "2rem",
+                  textAlign: "center",
+                  margin: "0 auto",
+                }}
+                className="group-hover:text-green-400 transition-all duration-700 ease-in group-hover:translate-x-16"
+              />
+            </div>
+          </Link>
         </div>
       </div>
     </MainLayout>

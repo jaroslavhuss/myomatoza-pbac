@@ -3,24 +3,23 @@ import { IQuestionnaire } from "../../Entities/interfaces/questionnaireDocument.
 import MainLayout from "../../components/Layouts/MainLayout";
 import { emptyQuestionnaire } from "../../Entities/defaults/questionnaire.empty";
 import { BsFillTrash3Fill, BsPlusCircle } from "react-icons/bs";
-import { createQuestionnaire } from "../../APIs/Questionnaire";
+import {
+  updateQuestionnaireById,
+  getQuestionnaireById,
+  deleteQuestionnaireById,
+} from "../../APIs/Questionnaire";
 import { setError } from "../../store/gsms/errorSlice";
 import { useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
-interface Props {
-  docToUpdate: IQuestionnaire;
-}
-
-const UpdateQuestionnaire: FC<Props> = ({ docToUpdate }) => {
+const UpdateQuestionnaire: FC = () => {
+  const { id } = useParams();
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [questionnaire, setQuestionnaire] =
-    useState<IQuestionnaire>(docToUpdate);
+    useState<IQuestionnaire>(emptyQuestionnaire);
 
-  const handleFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-
+  const updateQuestionnaire = () => {
     //Validation of all IQuestionnaire fields
 
     if (questionnaire.name.length < 1) {
@@ -62,13 +61,40 @@ const UpdateQuestionnaire: FC<Props> = ({ docToUpdate }) => {
       );
       return;
     }
-
-    createQuestionnaire(questionnaire);
+    if (id === undefined) {
+      return;
+    }
+    updateQuestionnaireById(id, questionnaire);
 
     setQuestionnaire(emptyQuestionnaire);
 
     navigate("/questionnaire/get");
   };
+
+  const removeQuestionnaire = () => {
+    const confirm = window.confirm("Opravdu chcete smazat tento dotazník?");
+
+    if (!confirm) {
+      return;
+    }
+
+    if (id === undefined) {
+      return;
+    }
+
+    deleteQuestionnaireById(id);
+
+    navigate("/questionnaire/get");
+  };
+
+  useEffect(() => {
+    if (id === undefined) {
+      return;
+    }
+    getQuestionnaireById(id).then((data) => {
+      setQuestionnaire(data);
+    });
+  }, [id]);
 
   const addQuestion = () => {
     const newQuestion = "";
@@ -83,13 +109,14 @@ const UpdateQuestionnaire: FC<Props> = ({ docToUpdate }) => {
     setQuestionnaire({ ...questionnaire, questions: questionsArray });
   };
 
-  useEffect(() => {
-    setQuestionnaire(docToUpdate);
-  }, [docToUpdate]);
   return (
     <MainLayout>
       <div className="w-full text-center flex flex-col justify-center align-middle modal-action">
-        <h1 className="text-2xl my-2">Vyvtoření nového dotazníku</h1>
+        <h1 className="text-2xl my-2 font-bold text-purple-700">
+          Správa dotazníku: {questionnaire.name}
+        </h1>
+        <span className="text-sm">{id && id}</span>
+        <hr />
         <form
           // onSubmit={handleFormSubmit}
           className="card w-full max-w-3xl flex flex-col gap-3 p-3 shadow-xl self-center"
@@ -177,8 +204,7 @@ const UpdateQuestionnaire: FC<Props> = ({ docToUpdate }) => {
           {questionnaire.questions.length > 0 && (
             <div
               onClick={() => {
-                console.log("Aktualizace dotazníku");
-                console.log(questionnaire);
+                updateQuestionnaire();
               }}
               className="btn btn-success w-full max-w-3xl self-center"
             >
@@ -186,17 +212,14 @@ const UpdateQuestionnaire: FC<Props> = ({ docToUpdate }) => {
             </div>
           )}
           {questionnaire.questions.length > 0 && (
-            <button
+            <div
               onClick={() => {
-                console.log("Mazání dotazníku");
-                console.log(questionnaire);
-                //@ts-ignore
-                document.getElementById("my_modal_2").closeModal();
+                removeQuestionnaire();
               }}
               className="btn btn-error w-full max-w-3xl self-center"
             >
               Vymazat dotazník
-            </button>
+            </div>
           )}
         </form>
       </div>

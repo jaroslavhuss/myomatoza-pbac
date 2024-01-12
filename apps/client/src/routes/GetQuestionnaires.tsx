@@ -3,18 +3,14 @@ import MainLayout from "../components/Layouts/MainLayout";
 import { getAllQuestionnaires } from "../APIs/Questionnaire";
 import { IQuestionnaire } from "../Entities/interfaces/questionnaireDocument.interface";
 import { BsPencil } from "react-icons/bs";
-import { emptyQuestionnaire } from "../Entities/defaults/questionnaire.empty";
-import UpdateQuestionnaire from "../components/GlobalComponents/UpdateQuestionniare";
+import { Link } from "react-router-dom";
+
 const GetQuestionnaires = () => {
   const [questionnaires, setQuestionnaires] = useState<IQuestionnaire[]>([]);
-  const [updatedDocument, setUpdatedDocument] =
-    useState<IQuestionnaire>(emptyQuestionnaire);
-
   useEffect(() => {
     (async () => {
       const data: IQuestionnaire[] = await getAllQuestionnaires();
       setQuestionnaires(data);
-      console.log(data);
     })();
 
     return () => {
@@ -38,60 +34,54 @@ const GetQuestionnaires = () => {
                 className="card bg-base-100 shadow-xl col-span-4 hover:shadow-xl transition-all duration-700 hover:bg-slate-200 hover:cursor-pointer"
                 key={questionnaire._id || index}
               >
-                <div
-                  className="absolute -top-2 -right-2 cursor-pointer hover:text-slate-600 transition-all duration-700 bg-stone-200 rounded-full w-14 h-14 bg-contain p-0 text-[12px] flex justify-center items-center hover:p-2 hover:w-16 hover:h-16"
-                  onClick={() => {
-                    setUpdatedDocument(questionnaire);
-
-                    // @ts-ignore
-                    document.getElementById("my_modal_1").showModal();
-                  }}
+                <Link
+                  to={`/questionnaire/${questionnaire._id}`}
+                  className="absolute -top-3 -right-3 cursor-pointer hover:text-slate-600 transition-all duration-700 bg-orange-200 rounded-full w-14 h-14 bg-contain p-0 text-[12px] flex justify-center items-center hover:p-2 hover:w-16 hover:h-16"
                 >
                   <BsPencil className="text-2xl" />
-                </div>
+                </Link>
 
                 <div className="card-body block mx-auto">
-                  <h2 className="card-title text-center mx-auto">
-                    {questionnaire.name}
-                  </h2>
-                  <br />
-                  <p>
-                    <strong>Popis:</strong>
-                    <br />
-                    {questionnaire.description}
-                  </p>
-                  <br />
-                  <p>
-                    <strong>Maximální škála:</strong>
-                    <br />
-                    {questionnaire.maxrange}
-                  </p>
-                  <br />
-                  <hr />
-                  <strong>Otázky: </strong>
-                  {questionnaire.questions.map((question, index) => {
-                    return (
-                      <div key={index}>
-                        <p>
-                          {index + 1}. {question}
-                        </p>
-                      </div>
-                    );
-                  })}
+                  <div
+                    tabIndex={0}
+                    className="collapse collapse-plus border border-base-300 bg-base-200"
+                  >
+                    <div className="collapse-title text-xl font-medium">
+                      <h2 className="card-title text-center mx-auto">
+                        {questionnaire.name}
+                      </h2>
+                    </div>
+                    <div className="collapse-content">
+                      <p>
+                        <strong>Popis:</strong>
+                        <br />
+                        {questionnaire.description}
+                      </p>
+                      <br />
+                      <p>
+                        <strong>Maximální škála:</strong>
+                        <br />
+                        {questionnaire.maxrange}
+                      </p>
+                      <br />
+                      <hr />
+                      <strong>Otázky: </strong>
+                      {questionnaire.questions.map((question, index) => {
+                        return (
+                          <div key={index}>
+                            <p>
+                              {index + 1}. {question}
+                            </p>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  </div>
                 </div>
               </div>
             );
           })}
       </div>
-
-      <dialog id="my_modal_1" className="modal">
-        <div className="modal-box">
-          <h3 className="font-bold text-lg">Hello!</h3>
-          <p className="py-4">
-            <UpdateQuestionnaire docToUpdate={updatedDocument} />
-          </p>
-        </div>
-      </dialog>
     </MainLayout>
   );
 };

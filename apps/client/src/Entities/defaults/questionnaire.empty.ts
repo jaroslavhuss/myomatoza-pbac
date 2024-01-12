@@ -5,4 +5,5 @@ export const emptyQuestionnaire: IQuestionnaire = {
   description: "",
   maxrange: 0,
   questions: [],
+  supervisingDoctor: "",
 };

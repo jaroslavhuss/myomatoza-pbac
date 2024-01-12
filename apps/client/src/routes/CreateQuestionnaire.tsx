@@ -7,7 +7,9 @@ import { createQuestionnaire } from "../APIs/Questionnaire";
 import { setError } from "../store/gsms/errorSlice";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { useAuthUser } from "react-auth-kit";
 const CreateQuestionnaire = () => {
+  const authUser = useAuthUser();
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [questionnaire, setQuestionnaire] =
@@ -58,6 +60,8 @@ const CreateQuestionnaire = () => {
       return;
     }
 
+    //@ts-ignore
+    questionnaire.supervisingDoctor = authUser().user._id;
     createQuestionnaire(questionnaire);
 
     setQuestionnaire(emptyQuestionnaire);
