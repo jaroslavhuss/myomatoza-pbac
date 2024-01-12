@@ -8,6 +8,8 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { AuthModule } from './cmd/auth/auth.module';
 import { MyomsModule } from './cmd/myoms/myoms.module';
 import { QuestionnaireModule } from './cmd/questionnaire/questionnaire.module';
+import { PatientModule } from './cmd/patient/patient.module';
+
 @Module({
   imports: [
     ServeStaticModule.forRoot({
@@ -23,6 +25,7 @@ import { QuestionnaireModule } from './cmd/questionnaire/questionnaire.module';
     AuthModule,
     MyomsModule,
     QuestionnaireModule,
+    PatientModule,
   ],
   controllers: [AppController],
   providers: [AppService],

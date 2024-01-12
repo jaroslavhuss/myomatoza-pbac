@@ -19,8 +19,10 @@ export class QuestionnaireService {
     return createdQuestionnaire;
   }
 
-  async findAll() {
-    const data = await this.questionnaireModel.find({});
+  async findAll(_id: string) {
+    const data = await this.questionnaireModel.find({
+      supervisingDoctor: _id.toString(),
+    });
     return data;
   }
 
@@ -32,5 +34,13 @@ export class QuestionnaireService {
   async remove(id: string) {
     const data = await this.questionnaireModel.deleteOne({ _id: id });
     return data;
+  }
+
+  async update(id: string, updateQuestionnaireDto: CreateQuestionnaireDto) {
+    const updatedData = await this.questionnaireModel.findByIdAndUpdate(
+      id,
+      updateQuestionnaireDto,
+    );
+    return updatedData;
   }
 }
