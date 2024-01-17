@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import MainLayout from "../components/Layouts/MainLayout";
 import { emptyPatient } from "../Entities/defaults/patient.empty";
 import { IPatient } from "../Entities/interfaces/patient.interface";
@@ -7,11 +7,13 @@ import { setError } from "../store/gsms/errorSlice";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { useAuthUser } from "react-auth-kit";
+import { getAllQuestionnaires } from "../APIs/Questionnaire";
 const CreatePatient = () => {
   const authUser = useAuthUser();
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [patient, setPatient] = useState<IPatient>(emptyPatient);
+  const [availableQuestionnaires, setAvailableQuestionnaires] = useState([]);
 
   const handleFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -56,6 +58,36 @@ const CreatePatient = () => {
     setPatient(emptyPatient);
 
     navigate("/patient/get");
+  };
+
+  useEffect(() => {
+    (async () => {
+      const data = await getAllQuestionnaires();
+      setAvailableQuestionnaires(data);
+    })();
+  }, []);
+
+  const addAssignedQuestionnaire = (id: string) => {
+    //@ts-ignore
+    const arrayOfAssignedQuestionnaires = [...patient.assignedQuestionnaires];
+    arrayOfAssignedQuestionnaires.push(id);
+    setPatient({
+      ...patient,
+      assignedQuestionnaires: arrayOfAssignedQuestionnaires,
+    });
+  };
+
+  const removeAssignedQuestionnaire = (id: string) => {
+    //@ts-ignore
+    const arrayOfAssignedQuestionnaires = [...patient.assignedQuestionnaires];
+    const index = arrayOfAssignedQuestionnaires.indexOf(id);
+    if (index > -1) {
+      arrayOfAssignedQuestionnaires.splice(index, 1);
+    }
+    setPatient({
+      ...patient,
+      assignedQuestionnaires: arrayOfAssignedQuestionnaires,
+    });
   };
 
   return (
@@ -119,6 +151,51 @@ const CreatePatient = () => {
               />
             </div>
           </div>
+
+          {availableQuestionnaires.length > 0 && (
+            <div className="grid grid-cols-1 md:grid-cols-1 gap-2">
+              <div className="col-span-1">
+                {" "}
+                <span className=" font-bold py-2 mb-5 text-xl ">
+                  Přiřazení dotazníků
+                </span>
+                <br />
+                <br />
+                <div className="grid grid-cols-12 gap-2">
+                  {availableQuestionnaires.map((questionnaire: any) => {
+                    return (
+                      <div
+                        className=" col-span-12 md:col-span-6 flex flex-row gap-3 align-middle justify-center"
+                        key={questionnaire._id}
+                      >
+                        <input
+                          type="checkbox"
+                          className="checkbox checkbox-primary"
+                          onChange={() => {
+                            if (
+                              patient.assignedQuestionnaires?.includes(
+                                questionnaire._id
+                              )
+                            ) {
+                              removeAssignedQuestionnaire(questionnaire._id);
+                            } else {
+                              addAssignedQuestionnaire(questionnaire._id);
+                            }
+                          }}
+                          checked={patient.assignedQuestionnaires?.includes(
+                            questionnaire._id
+                          )}
+                        />
+                        <span className=" font-bold py-1 mx-2">
+                          {questionnaire.name}
+                        </span>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            </div>
+          )}
 
           <button
             type="submit"

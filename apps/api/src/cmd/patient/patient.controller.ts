@@ -29,16 +29,16 @@ export class PatientController {
   @UseGuards(AuthGuard('jwt'))
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.patientService.findOne(+id);
+    return this.patientService.findOne(id);
   }
   @UseGuards(AuthGuard('jwt'))
   @Patch(':id')
   update(@Param('id') id: string, @Body() updatePatientDto: UpdatePatientDto) {
-    return this.patientService.update(+id, updatePatientDto);
+    return this.patientService.update(id, updatePatientDto);
   }
   @UseGuards(AuthGuard('jwt'))
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.patientService.remove(+id);
+    return this.patientService.remove(id);
   }
 }

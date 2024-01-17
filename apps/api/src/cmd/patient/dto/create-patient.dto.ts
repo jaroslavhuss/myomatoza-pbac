@@ -24,6 +24,10 @@ export class CreatePatientDto {
   @IsNotEmpty()
   questionnairesDoneByPatient: any[];
 
+  @IsArray()
+  @IsNotEmpty()
+  assignedQuestionnaires: any[];
+
   @IsString()
   @IsNotEmpty()
   supervisingDoctor: string;

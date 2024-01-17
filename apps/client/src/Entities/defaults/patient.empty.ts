@@ -8,6 +8,7 @@ export const emptyPatient: IPatient = {
   email: "",
   fulltext: "",
   questionnairesDoneByPatient: [],
+  assignedQuestionnaires: [],
   createdAt: new Date(),
   supervisingDoctor: "",
 };

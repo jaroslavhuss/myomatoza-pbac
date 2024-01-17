@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
 import MainLayout from "../components/Layouts/MainLayout";
-import { getAllPatients } from "../APIs/Patients";
+import { getAllPatients, deletePatientById } from "../APIs/Patients";
 
-import { BsEyeFill, BsPencil } from "react-icons/bs";
+import { BsEyeFill, BsTrash2Fill } from "react-icons/bs";
 import { Link } from "react-router-dom";
 import { IPatient } from "../Entities/interfaces/patient.interface";
 
@@ -36,6 +36,13 @@ const GetPatients = () => {
     setFilteredQuestionnaires(filteredData);
   }, [query, questionnaires]);
 
+  const handleDelete = async (id: string) => {
+    const confirm = window.confirm("Opravdu chcete smazat tohoto pacienta?");
+    if (!confirm) return;
+    await deletePatientById(id);
+    const data: IPatient[] = await getAllPatients();
+    setQuestionnaires(data);
+  };
   return (
     <MainLayout>
       {filteredQuestionnaires.length > 0 ? (
@@ -77,6 +84,13 @@ const GetPatients = () => {
                   >
                     <BsEyeFill className="text-2xl" />
                   </Link>
+
+                  <button
+                    onClick={() => handleDelete(questionnaire._id)}
+                    className="absolute -bottom-3 -right-3 cursor-pointer hover:text-slate-600 transition-all duration-700 bg-red-200 rounded-full w-14 h-14 bg-contain p-0 text-[12px] flex justify-center items-center hover:p-2 hover:w-16 hover:h-16"
+                  >
+                    <BsTrash2Fill className="text-2xl" />
+                  </button>
 
                   <div className="card-body block mx-auto">
                     <div

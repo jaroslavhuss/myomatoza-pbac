@@ -124,9 +124,7 @@ const CreateQuestionnaire = () => {
             value={questionnaire.maxrange}
           />
           <hr />
-          <span className=" font-bold py-1 mx-2">
-            Vytvoření otázek dotazníku
-          </span>
+          <span className=" font-bold py-1 mx-2">Sledované metriky</span>
 
           {questionnaire.questions.map((question, index) => {
             return (

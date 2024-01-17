@@ -20,6 +20,8 @@ import GetQuestionnaires from "./routes/GetQuestionnaires";
 import UpdateQuestionnaire from "./components/GlobalComponents/UpdateQuestionniare";
 import CreatePatient from "./routes/CreatePatient";
 import GetPatients from "./routes/GetPatients";
+import PatientDetail from "./routes/PatientDetail";
+import CreateQuestionnaireByPatient from "./routes/CreateQuestionnaireByPatient";
 export default function App() {
   const isAuthenticated = useIsAuthenticated();
   const showSuccess: boolean | undefined = useSelector(
@@ -133,6 +135,22 @@ export default function App() {
             element={
               <RequireAuth loginPath="/login">
                 <GetPatients />
+              </RequireAuth>
+            }
+          />
+          <Route
+            path="/patient/:id"
+            element={
+              <RequireAuth loginPath="/login">
+                <PatientDetail />
+              </RequireAuth>
+            }
+          />
+          <Route
+            path="/patient/:id/questionnaire/:questionnaireId/create"
+            element={
+              <RequireAuth loginPath="/login">
+                <CreateQuestionnaireByPatient />
               </RequireAuth>
             }
           />

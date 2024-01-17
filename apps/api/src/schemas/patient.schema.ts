@@ -1,6 +1,7 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document, Types } from 'mongoose';
 import { User } from './user.schema';
+import { Questionnaire } from './questionnaire.schema';
 
 export type PatientDocument = Patient & Document;
 
@@ -26,6 +27,9 @@ export class Patient {
 
   @Prop()
   questionnairesDoneByPatient: any[];
+
+  @Prop([{ type: Types.ObjectId, ref: 'Questionnaire' }])
+  assignedQuestionnaires: Questionnaire;
 
   @Prop({ default: new Date() })
   createdAt: Date;

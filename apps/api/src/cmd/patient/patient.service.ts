@@ -21,21 +21,24 @@ export class PatientService {
     return data;
   }
 
-  async findOne(id: number) {
-    const data = await this.patientModel.findById(id);
+  async findOne(id: string) {
+    const data = await this.patientModel
+      .findById(id.toString())
+      .populate({ path: `assignedQuestionnaires`, model: 'Questionnaire' });
+
     return data;
   }
 
-  async update(id: number, updatePatientDto: UpdatePatientDto) {
+  async update(id: string, updatePatientDto: UpdatePatientDto) {
     const updatedData = await this.patientModel.findByIdAndUpdate(
-      id,
+      id.toString(),
       updatePatientDto,
     );
     return updatedData;
   }
 
-  async remove(id: number) {
-    const data = await this.patientModel.deleteOne({ _id: id });
+  async remove(id: string) {
+    const data = await this.patientModel.deleteOne({ _id: id.toString() });
     return data;
   }
 }
