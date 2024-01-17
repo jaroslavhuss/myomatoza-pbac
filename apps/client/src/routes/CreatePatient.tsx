@@ -151,7 +151,7 @@ const CreatePatient = () => {
               />
             </div>
           </div>
-
+          <hr />
           {availableQuestionnaires.length > 0 && (
             <div className="grid grid-cols-1 md:grid-cols-1 gap-2">
               <div className="col-span-1">
@@ -196,7 +196,7 @@ const CreatePatient = () => {
               </div>
             </div>
           )}
-
+          <hr />
           <button
             type="submit"
             className="btn btn-success w-full max-w-3xl self-center mt-10"
