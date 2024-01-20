@@ -1,16 +1,24 @@
 import { BsArrowLeftSquareFill } from "react-icons/bs";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import MainLayout from "../components/Layouts/MainLayout";
 import { useEffect, useState } from "react";
 import { IQuestionnaire } from "../Entities/interfaces/questionnaireDocument.interface";
 import { getQuestionnaireById } from "../APIs/Questionnaire";
 import FormInputRange from "../components/GlobalComponents/FormInputRange";
+import { updateQuestionnaireDoneByPatientById } from "../APIs/Patients";
+import { useDispatch } from "react-redux";
+import { setError } from "../store/gsms/errorSlice";
+import { setSuccess } from "../store/gsms/successSlice";
+
 const CreateQuestionnaireByPatient = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const { id, questionnaireId } = useParams<{
     id: string;
     questionnaireId: string;
   }>();
   const [questionnaire, setQuestionnaire] = useState<IQuestionnaire>();
+  const [createdAt, setCreatedAt] = useState<Date>(new Date());
   const [questionAndAnswers, setQuestionAndAnswers] = useState<{
     [key: string]: number;
   }>();
@@ -21,12 +29,11 @@ const CreateQuestionnaireByPatient = () => {
 
       const data = await getQuestionnaireById(questionnaireId);
 
-      console.log(data);
       setQuestionnaire(data);
     })();
   }, [questionnaireId]);
 
-  const handleFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleFormSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     let finalArray: { question: string; answer: number }[] = [];
@@ -45,7 +52,30 @@ const CreateQuestionnaireByPatient = () => {
       questionsAndAnswers: finalArray,
     };
 
-    console.log(finalQuestionnaire);
+    finalQuestionnaire.createdAt = createdAt;
+
+    if (!id) return;
+    const data = await updateQuestionnaireDoneByPatientById(
+      id,
+      finalQuestionnaire
+    );
+
+    if (data) {
+      dispatch(
+        setSuccess({
+          message: "Dotazník byl úspěšně odeslán!",
+          rawData: data.toString(),
+        })
+      );
+      navigate(`/patient/${id}`);
+    } else {
+      dispatch(
+        setError({
+          message: "Dotazník se nepodařilo odeslat!",
+          rawData: data.toString(),
+        })
+      );
+    }
   };
 
   const handleRangeChange = (val: number, questionName: string) => {
@@ -73,6 +103,17 @@ const CreateQuestionnaireByPatient = () => {
             </h1>
             <p>{questionnaire.description}</p>
             <br />
+            <hr />
+            <p className="font-bold text-xl py-2 my-2 text-center flex flex-row justify-around">
+              <input
+                type="date"
+                value={createdAt.toLocaleDateString()}
+                onChange={({ target }) => {
+                  setCreatedAt(new Date(target.value));
+                }}
+              />
+              {createdAt.toLocaleDateString()}
+            </p>
             <hr />
             <form onSubmit={handleFormSubmit}>
               {questionnaire.questions.map((question, index) => (

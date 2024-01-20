@@ -41,4 +41,16 @@ export class PatientController {
   remove(@Param('id') id: string) {
     return this.patientService.remove(id);
   }
+
+  @UseGuards(AuthGuard('jwt'))
+  @Patch(':id/questionnaire')
+  updateQuestionnaireDoneByPatient(
+    @Param('id') id: string,
+    @Body() questionnaire: any,
+  ) {
+    return this.patientService.updateQuestionnaireDoneByPatient(
+      id,
+      questionnaire,
+    );
+  }
 }

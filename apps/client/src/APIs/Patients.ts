@@ -136,3 +136,46 @@ export const deletePatientById = async (id: string) => {
     store.dispatch(setError(errorMessage));
   }
 };
+
+export const updateQuestionnaireDoneByPatientById = async (
+  id: string,
+  document: any
+) => {
+  const token = localStorage.getItem("token");
+  try {
+    if (!token) {
+      store.dispatch(
+        setError({
+          message: "Něco je v nepořádku s Vaším přihlášením",
+          rawData: "Odhlašte se a přihlašte znovu",
+        })
+      );
+
+      return;
+    }
+    const response: Response = await fetch(
+      `${GLOBAL_URL}/patient/${id}/questionnaire`,
+      {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: token,
+        },
+        body: JSON.stringify(document),
+      }
+    );
+
+    const data = await response.json();
+
+    store.dispatch(
+      setSuccess({
+        message: "Dotazník byl úspěšně vytvořen",
+        rawData: data,
+      })
+    );
+    return data;
+  } catch (error: any) {
+    const errorMessage = formatErrorMessage(error);
+    store.dispatch(setError(errorMessage));
+  }
+};

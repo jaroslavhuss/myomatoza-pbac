@@ -41,4 +41,20 @@ export class PatientService {
     const data = await this.patientModel.deleteOne({ _id: id.toString() });
     return data;
   }
+
+  /**
+   * This function is used to add a questionnaire to the patient's assignedQuestionnaires array updatePatientDto.questionnairesDoneByPatient
+   * @param id
+   * @param updatePatientDto
+   */
+
+  async updateQuestionnaireDoneByPatient(id: string, questionnaire: any) {
+    const updatedData = await this.patientModel.findByIdAndUpdate(
+      id.toString(),
+      {
+        $push: { questionnairesDoneByPatient: questionnaire },
+      },
+    );
+    return updatedData;
+  }
 }
