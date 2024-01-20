@@ -2,16 +2,28 @@ import { useState, useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
 import MainLayout from "../components/Layouts/MainLayout";
 import { emptyPatient } from "../Entities/defaults/patient.empty";
-import { IPatient } from "../Entities/interfaces/patient.interface";
+import {
+  IPatient,
+  IQuestionsDoneByPatient,
+} from "../Entities/interfaces/patient.interface";
 import { getPatientById } from "../APIs/Patients";
 import { IQuestionnaire } from "../Entities/interfaces/questionnaireDocument.interface";
 import { BsPlusCircle } from "react-icons/bs";
+import UpdatePatient from "../components/GlobalComponents/UpdatePatient";
+
+//Interface [{name:"myomatóza", data: IQuestionsDoneByPatient[], name: "endometrióza", data: IQuestionsDoneByPatient[], ... etc"}]
+
+interface IAggregatedQuestionnaire {
+  name: string;
+  data: IQuestionsDoneByPatient[];
+}
+
 const PatientDetail = () => {
   const [patient, setPatient] = useState<IPatient>(emptyPatient);
   const { id } = useParams<{ id: string }>();
-  const [aggregatedQuestionnaires, setAggregatedQuestionnaires] = useState<any>(
-    []
-  );
+  const [aggregatedQuestionnaires, setAggregatedQuestionnaires] = useState<
+    IAggregatedQuestionnaire[]
+  >([]);
   useEffect(() => {
     if (!id) return;
 
@@ -20,13 +32,6 @@ const PatientDetail = () => {
       setPatient(data);
     })();
   }, [id]);
-  /**
-   * TODO: Aggregated data from patient.questionnairesDoneByPatient by name of questionnaire
-   * Each aggregated data is its own array of objects so the shape of the data is:
-   *
-   * [{name:"myomatóza", data: IQuestionsDoneByPatient[], name: "endometrióza", data: IQuestionsDoneByPatient[], ... etc"}
-   *
-   */
 
   useEffect(() => {
     if (!patient || !patient.questionnairesDoneByPatient) return;
@@ -63,6 +68,7 @@ const PatientDetail = () => {
           <h1 className="text-center text-2xl py-2 my-5">
             {patient.name} {patient.surname}
           </h1>
+
           {patient.assignedQuestionnaires &&
             patient.assignedQuestionnaires.length > 0 && (
               <div className="grid grid-cols-12 gap-4">
@@ -91,15 +97,84 @@ const PatientDetail = () => {
                 )}
               </div>
             )}
-
+          <br />
+          <hr />
+          <br />
+          <UpdatePatient updateablePatient={patient} />
+          <br />
           {patient.questionnairesDoneByPatient &&
             patient.questionnairesDoneByPatient.length > 0 && (
               <div>
                 <h2 className="text-2xl my-2 py-2">Analytika</h2>
+                {aggregatedQuestionnaires.length > 0 && (
+                  <div>
+                    {aggregatedQuestionnaires.map(
+                      (AGG: IAggregatedQuestionnaire) => (
+                        <div key={AGG.name}>
+                          <h3 className="text-xl">{AGG.name}</h3>
+                          <hr />
+                          <table className="table-auto w-full">
+                            <tbody>
+                              <tr>
+                                <th className="border px-4 py-2 text-sm">
+                                  Datum vyplnění
+                                </th>
+                                {AGG.data[0].questions.map((answer, index) => (
+                                  <th
+                                    key={index}
+                                    className="border px-4 py-2 text-sm"
+                                  >
+                                    {answer}
+                                  </th>
+                                ))}
+                              </tr>
+                              {AGG.data.map(
+                                (
+                                  QUEST: IQuestionsDoneByPatient,
+                                  index: number
+                                ) => (
+                                  <tr
+                                    key={index}
+                                    className="border px-4 py-2 text-sm text-center"
+                                  >
+                                    {QUEST.createdAt ? (
+                                      <td className="border px-4 py-2 text-sm">
+                                        {new Date(
+                                          QUEST.createdAt
+                                        ).toLocaleDateString()}
+                                      </td>
+                                    ) : (
+                                      <td className="border px-4 py-2 text-sm">
+                                        Datum nebylo vyplněno
+                                      </td>
+                                    )}
+                                    {QUEST.questionsAndAnswers !== undefined &&
+                                      QUEST.questionsAndAnswers?.length > 0 &&
+                                      QUEST.questionsAndAnswers.map(
+                                        (questionnaire: any, index: number) => (
+                                          <td
+                                            className="border px-4 py-2 text-sm"
+                                            key={index}
+                                          >
+                                            {questionnaire.answer}
+                                          </td>
+                                        )
+                                      )}
+                                  </tr>
+                                )
+                              )}
+                            </tbody>
+                          </table>
+                        </div>
+                      )
+                    )}
+                  </div>
+                )}
               </div>
             )}
         </div>
       )}
+      <br />
     </MainLayout>
   );
 };

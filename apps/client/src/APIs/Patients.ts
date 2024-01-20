@@ -179,3 +179,40 @@ export const updateQuestionnaireDoneByPatientById = async (
     store.dispatch(setError(errorMessage));
   }
 };
+
+export const updatePatientById = async (id: string, patient: IPatient) => {
+  const token = localStorage.getItem("token");
+  try {
+    if (!token) {
+      store.dispatch(
+        setError({
+          message: "Něco je v nepořádku s Vaším přihlášením",
+          rawData: "Odhlašte se a přihlašte znovu",
+        })
+      );
+
+      return;
+    }
+    const response: Response = await fetch(GLOBAL_URL + "/patient/" + id, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: token,
+      },
+      body: JSON.stringify(patient),
+    });
+
+    const data = await response.json();
+
+    store.dispatch(
+      setSuccess({
+        message: "Pacient byl úspěšně upraven",
+        rawData: data,
+      })
+    );
+    return data;
+  } catch (error: any) {
+    const errorMessage = formatErrorMessage(error);
+    store.dispatch(setError(errorMessage));
+  }
+};

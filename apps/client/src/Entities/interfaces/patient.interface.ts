@@ -5,11 +5,10 @@ export interface IQuestionsDoneByPatient {
   name: string;
   description: string;
   maxrange: number;
-  questions: {
-    question: string;
-    answer: number;
-  }[];
+  questions: string[];
   supervisingDoctor: string;
+  questionsAndAnswers?: IQuestionsDoneByPatient[];
+  createdAt?: Date;
 }
 
 export interface IPatient {
