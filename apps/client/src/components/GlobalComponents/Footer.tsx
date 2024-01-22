@@ -3,11 +3,9 @@ import { useAuthHeader } from "react-auth-kit";
 import { getTokensExpiration } from "../../APIs/Users";
 import { useJwt } from "react-jwt";
 
-interface Props {
-  timer: (time: number) => void;
-}
+interface Props {}
 
-const Footer: React.FC<Props> = ({ timer }) => {
+const Footer: React.FC<Props> = () => {
   const header = useAuthHeader();
   const token = header();
   const [expirace, setExpirace] = useState<string>("");
@@ -21,7 +19,7 @@ const Footer: React.FC<Props> = ({ timer }) => {
         const data = await getTokensExpiration(`/auth/expiration/`, token);
 
         setExpirace(data);
-        timer(data);
+
         // Schedule the next check after a fixed interval (e.g., 10 minutes)
         timerId = setTimeout(checkTokenExpiration, 10000);
       }
@@ -39,7 +37,6 @@ const Footer: React.FC<Props> = ({ timer }) => {
     // Remove previous interval and token when a new token is generated
     clearTimeout(timerId);
     setExpirace("");
-    timer(0);
   }, [decodedToken]);
 
   return (
@@ -58,17 +55,7 @@ const Footer: React.FC<Props> = ({ timer }) => {
                 {expirace} (minuty)
               </span>
               {" | "}
-              <span
-                onClick={() => {
-                  const status = window.confirm(
-                    "Opravdu chcete obnovit přihlášení?"
-                  );
-                  if (status) {
-                    timer(0);
-                  }
-                }}
-                className="text-green-300 font-bold underline"
-              >
+              <span className="text-green-300 font-bold underline">
                 Obnovit přihlášení
               </span>
             </div>

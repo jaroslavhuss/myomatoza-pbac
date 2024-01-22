@@ -33,148 +33,137 @@ export default function App() {
 
   const [shouldInvokeLogin, setShouldInvokeLogin] = useState<boolean>(false);
   const expirationHandler = (time: number) => {
-    if (time <= 0) {
-      setShouldInvokeLogin(true);
-    } else {
-      setShouldInvokeLogin(false);
-    }
+    console.log(typeof time);
   };
 
   return (
     <div className="bg-gradient-to-br from-slate-50 via-purple-50 to-pink-100">
       <div className="min-h-screen">
-        {!shouldInvokeLogin ? (
-          <>
-            <Navigation />
-            <Routes>
-              {!isAuthenticated() ? (
-                <>
-                  <Route path="/" element={<Login />} />
-                  <Route path="/login" element={<Login />} />
-                  <Route path="/register" element={<Register />} />
-                  <Route path="*" element={<Page404 />} />
-                </>
-              ) : (
-                <>
-                  <Route path="/" element={<Dashboard />} />
-                  <Route path="/login" element={<Dashboard />} />
-                  <Route path="/register" element={<Dashboard />} />
-                  <Route path="*" element={<Dashboard />} />
-                </>
-              )}
+        <Navigation />
+        <Routes>
+          {!isAuthenticated() ? (
+            <>
+              <Route path="/" element={<Login />} />
+              <Route path="/login" element={<Login />} />
+              <Route path="/register" element={<Register />} />
+              <Route path="*" element={<Page404 />} />
+            </>
+          ) : (
+            <>
+              <Route path="/" element={<Dashboard />} />
+              <Route path="/login" element={<Dashboard />} />
+              <Route path="/register" element={<Dashboard />} />
+              <Route path="*" element={<Dashboard />} />
+            </>
+          )}
 
-              <Route
-                path="/dashboard"
-                element={
-                  <RequireAuth loginPath="/login">
-                    <Dashboard />
-                  </RequireAuth>
-                }
-              />
-              <Route
-                path="/questionnaire-myoms"
-                element={
-                  <RequireAuth loginPath="/login">
-                    <MyomatosysQuestionnaire />
-                  </RequireAuth>
-                }
-              />
-              <Route
-                path="/questionnaire-endo"
-                element={
-                  <RequireAuth loginPath="/login">
-                    <EndoQuestionnaire />
-                  </RequireAuth>
-                }
-              />
+          <Route
+            path="/dashboard"
+            element={
+              <RequireAuth loginPath="/login">
+                <Dashboard />
+              </RequireAuth>
+            }
+          />
+          <Route
+            path="/questionnaire-myoms"
+            element={
+              <RequireAuth loginPath="/login">
+                <MyomatosysQuestionnaire />
+              </RequireAuth>
+            }
+          />
+          <Route
+            path="/questionnaire-endo"
+            element={
+              <RequireAuth loginPath="/login">
+                <EndoQuestionnaire />
+              </RequireAuth>
+            }
+          />
 
-              <Route
-                path="/user-list"
-                element={
-                  <RequireAuth loginPath="/login">
-                    <EndoUserList
-                      questions={MyomConstantsQuestions}
-                      endpoint="/myom"
-                    />
-                  </RequireAuth>
-                }
-              />
-              <Route
-                path="/user-list-endo"
-                element={
-                  <RequireAuth loginPath="/login">
-                    <EndoUserList
-                      questions={EndoConstantsQuestions}
-                      endpoint="/endo"
-                    />
-                  </RequireAuth>
-                }
-              />
-              <Route
-                path="/questionnaire/create"
-                element={
-                  <RequireAuth loginPath="/login">
-                    <CreateQuestionnaire />
-                  </RequireAuth>
-                }
-              />
-              <Route
-                path="/questionnaire/get"
-                element={
-                  <RequireAuth loginPath="/login">
-                    <GetQuestionnaires />
-                  </RequireAuth>
-                }
-              />
-              <Route
-                path="/questionnaire/:id"
-                element={
-                  <RequireAuth loginPath="/login">
-                    <UpdateQuestionnaire />
-                  </RequireAuth>
-                }
-              />
-              <Route
-                path="/patient/create"
-                element={
-                  <RequireAuth loginPath="/login">
-                    <CreatePatient />
-                  </RequireAuth>
-                }
-              />
-              <Route
-                path="/patient/get"
-                element={
-                  <RequireAuth loginPath="/login">
-                    <GetPatients />
-                  </RequireAuth>
-                }
-              />
-              <Route
-                path="/patient/:id"
-                element={
-                  <RequireAuth loginPath="/login">
-                    <PatientDetail />
-                  </RequireAuth>
-                }
-              />
-              <Route
-                path="/patient/:id/questionnaire/:questionnaireId/create"
-                element={
-                  <RequireAuth loginPath="/login">
-                    <CreateQuestionnaireByPatient />
-                  </RequireAuth>
-                }
-              />
-            </Routes>
-          </>
-        ) : (
-          <Login />
-        )}
-
+          <Route
+            path="/user-list"
+            element={
+              <RequireAuth loginPath="/login">
+                <EndoUserList
+                  questions={MyomConstantsQuestions}
+                  endpoint="/myom"
+                />
+              </RequireAuth>
+            }
+          />
+          <Route
+            path="/user-list-endo"
+            element={
+              <RequireAuth loginPath="/login">
+                <EndoUserList
+                  questions={EndoConstantsQuestions}
+                  endpoint="/endo"
+                />
+              </RequireAuth>
+            }
+          />
+          <Route
+            path="/questionnaire/create"
+            element={
+              <RequireAuth loginPath="/login">
+                <CreateQuestionnaire />
+              </RequireAuth>
+            }
+          />
+          <Route
+            path="/questionnaire/get"
+            element={
+              <RequireAuth loginPath="/login">
+                <GetQuestionnaires />
+              </RequireAuth>
+            }
+          />
+          <Route
+            path="/questionnaire/:id"
+            element={
+              <RequireAuth loginPath="/login">
+                <UpdateQuestionnaire />
+              </RequireAuth>
+            }
+          />
+          <Route
+            path="/patient/create"
+            element={
+              <RequireAuth loginPath="/login">
+                <CreatePatient />
+              </RequireAuth>
+            }
+          />
+          <Route
+            path="/patient/get"
+            element={
+              <RequireAuth loginPath="/login">
+                <GetPatients />
+              </RequireAuth>
+            }
+          />
+          <Route
+            path="/patient/:id"
+            element={
+              <RequireAuth loginPath="/login">
+                <PatientDetail />
+              </RequireAuth>
+            }
+          />
+          <Route
+            path="/patient/:id/questionnaire/:questionnaireId/create"
+            element={
+              <RequireAuth loginPath="/login">
+                <CreateQuestionnaireByPatient />
+              </RequireAuth>
+            }
+          />
+        </Routes>
         {showSuccess && <Success />}
       </div>
-      <Footer timer={expirationHandler} />
+      <Footer />
     </div>
   );
 }
