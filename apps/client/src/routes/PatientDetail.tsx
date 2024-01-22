@@ -6,7 +6,7 @@ import {
   IPatient,
   IQuestionsDoneByPatient,
 } from "../Entities/interfaces/patient.interface";
-import { getPatientById } from "../APIs/Patients";
+import { getPatientById, updatePatientById } from "../APIs/Patients";
 import { IQuestionnaire } from "../Entities/interfaces/questionnaireDocument.interface";
 import { BsPlusCircle } from "react-icons/bs";
 import UpdatePatient from "../components/GlobalComponents/UpdatePatient";
@@ -58,9 +58,19 @@ const PatientDetail = () => {
         }
       }
     });
-    console.log(aggregatedData);
     setAggregatedQuestionnaires(aggregatedData);
   }, [patient]);
+
+  const updatePatient = async (updatedPatient: IPatient) => {
+    if (!id) return;
+
+    await updatePatientById(updatedPatient._id, updatedPatient).then(
+      async () => {
+        const data: IPatient = await getPatientById(id);
+        setPatient(data);
+      }
+    );
+  };
   return (
     <MainLayout>
       {patient && (
@@ -100,18 +110,24 @@ const PatientDetail = () => {
           <br />
           <hr />
           <br />
-          <UpdatePatient updateablePatient={patient} />
+          <UpdatePatient
+            updateablePatient={patient}
+            updatedPatient={updatePatient}
+          />
           <br />
           {patient.questionnairesDoneByPatient &&
             patient.questionnairesDoneByPatient.length > 0 && (
-              <div>
-                <h2 className="text-2xl my-2 py-2">Analytika</h2>
+              <div className="shadow-xl p-2 rounded-xl">
+                <h2 className="text-2xl my-2 py-2 font-bold">
+                  Výkon jednotlivých měření
+                </h2>
                 {aggregatedQuestionnaires.length > 0 && (
                   <div>
                     {aggregatedQuestionnaires.map(
                       (AGG: IAggregatedQuestionnaire) => (
                         <div key={AGG.name}>
-                          <h3 className="text-xl">{AGG.name}</h3>
+                          <hr />
+                          <h3 className="text-xl  my-2 py-2">{AGG.name}</h3>
                           <hr />
                           <table className="table-auto w-full">
                             <tbody>

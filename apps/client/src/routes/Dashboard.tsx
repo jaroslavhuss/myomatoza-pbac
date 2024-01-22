@@ -1,5 +1,7 @@
 import React from "react";
 import {
+  BsFiletypeJson,
+  BsFillGearFill,
   BsFillPlusCircleFill,
   BsListTask,
   BsPersonFillAdd,
@@ -77,6 +79,42 @@ const Dashboard: React.FC<Props> = ({}) => {
               </h2>
               <br />
               <BsPersonLinesFill
+                style={{
+                  fontSize: "2rem",
+                  textAlign: "center",
+                  margin: "0 auto",
+                }}
+                className="group-hover:text-green-400 transition-all duration-700 ease-in group-hover:translate-x-16"
+              />
+            </div>
+          </Link>
+        </div>
+        <div className="group card bg-base-100 shadow-xl col-span-3 hover:shadow-xl transition-all duration-700 hover:bg-slate-200 hover:cursor-pointer">
+          <Link to="/">
+            <div className="card-body block mx-auto">
+              <h2 className="card-title text-center transition-all duration-400 ease-in group-hover:text-green-600 group-hover:translate-x-2">
+                Nastavení
+              </h2>
+              <br />
+              <BsFillGearFill
+                style={{
+                  fontSize: "2rem",
+                  textAlign: "center",
+                  margin: "0 auto",
+                }}
+                className="group-hover:text-green-400 transition-all duration-700 ease-in group-hover:translate-x-16"
+              />
+            </div>
+          </Link>
+        </div>
+        <div className="group card bg-base-100 shadow-xl col-span-3 hover:shadow-xl transition-all duration-700 hover:bg-slate-200 hover:cursor-pointer">
+          <Link to="/">
+            <div className="card-body block mx-auto">
+              <h2 className="card-title text-center transition-all duration-400 ease-in group-hover:text-green-600 group-hover:translate-x-2">
+                Export dat
+              </h2>
+              <br />
+              <BsFiletypeJson
                 style={{
                   fontSize: "2rem",
                   textAlign: "center",

@@ -6,10 +6,12 @@ import { useDispatch } from "react-redux";
 import { useAuthUser } from "react-auth-kit";
 import { getAllQuestionnaires } from "../../APIs/Questionnaire";
 import { BsLockFill } from "react-icons/bs";
+import { IQuestionnaire } from "../../Entities/interfaces/questionnaire.interface";
 interface Props {
   updateablePatient: IPatient;
+  updatedPatient: (p: IPatient) => void;
 }
-const UpdatePatient: FC<Props> = ({ updateablePatient }) => {
+const UpdatePatient: FC<Props> = ({ updateablePatient, updatedPatient }) => {
   const authUser = useAuthUser();
   const dispatch = useDispatch();
   const [patient, setPatient] = useState<IPatient>(
@@ -57,6 +59,19 @@ const UpdatePatient: FC<Props> = ({ updateablePatient }) => {
       );
       return;
     }
+
+    //Since patient.assigneQuestionnaires is an array of objects, we need to convert it to an array of strings so the relation can be created withing Mongo
+
+    const arrayOfAssignedQuestionnaires: string[] =
+      patient.assignedQuestionnaires
+        ? //@ts-ignore
+          patient.assignedQuestionnaires.map((q: IQuestionnaire) => q._id)
+        : [];
+
+    //@ts-ignore
+    patient.assignedQuestionnaires = arrayOfAssignedQuestionnaires;
+    setIsUpdateDisabled(true);
+    updatedPatient(patient);
     // setPatient(emptyPatient);
     // createPatient(patient);
     // navigate("/patient/get");
@@ -74,32 +89,31 @@ const UpdatePatient: FC<Props> = ({ updateablePatient }) => {
     setPatient(updateablePatient);
   }, [updateablePatient]);
 
-  const addAssignedQuestionnaire = (id: string) => {
+  const addRemoveAssignedQuestionnaire = (questionnaire: IQuestionnaire) => {
     //@ts-ignore
     const arrayOfAssignedQuestionnaires = [...patient.assignedQuestionnaires];
-    arrayOfAssignedQuestionnaires.push(id);
-    setPatient({
-      ...patient,
-      assignedQuestionnaires: arrayOfAssignedQuestionnaires,
-    });
-  };
 
-  const removeAssignedQuestionnaire = (id: string) => {
-    //@ts-ignore
-    const arrayOfAssignedQuestionnaires = [...patient.assignedQuestionnaires];
-    const index = arrayOfAssignedQuestionnaires.indexOf(id);
-    if (index > -1) {
-      arrayOfAssignedQuestionnaires.splice(index, 1);
+    const isQuestionnaireAlreadyAssigned: boolean =
+      arrayOfAssignedQuestionnaires.some((assignedQuestionnaire: any) => {
+        return assignedQuestionnaire._id === questionnaire._id;
+      });
+
+    if (isQuestionnaireAlreadyAssigned) {
+      const filteredArray = arrayOfAssignedQuestionnaires.filter(
+        (assignedQuestionnaire: any) => {
+          return assignedQuestionnaire._id !== questionnaire._id;
+        }
+      );
+      setPatient({ ...patient, assignedQuestionnaires: filteredArray });
+    } else {
+      const newArray = [...arrayOfAssignedQuestionnaires, questionnaire];
+      setPatient({ ...patient, assignedQuestionnaires: newArray });
     }
-    setPatient({
-      ...patient,
-      assignedQuestionnaires: arrayOfAssignedQuestionnaires,
-    });
   };
 
   return (
     <div className="w-full">
-      <h1 className="text-2xl my-2">
+      <h1 className="text-2xl my-2 font-bold">
         Aktualizace {patient.name} {patient.surname}
       </h1>
       <form
@@ -188,15 +202,7 @@ const UpdatePatient: FC<Props> = ({ updateablePatient }) => {
                         type="checkbox"
                         className="checkbox checkbox-primary"
                         onChange={() => {
-                          if (
-                            patient.assignedQuestionnaires?.includes(
-                              questionnaire._id
-                            )
-                          ) {
-                            removeAssignedQuestionnaire(questionnaire._id);
-                          } else {
-                            addAssignedQuestionnaire(questionnaire._id);
-                          }
+                          addRemoveAssignedQuestionnaire(questionnaire);
                         }}
                         checked={patient.assignedQuestionnaires?.some(
                           (assignedQuestionnaire: any) => {
