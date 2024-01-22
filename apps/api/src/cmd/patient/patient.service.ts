@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { CreatePatientDto } from './dto/create-patient.dto';
-import { UpdatePatientDto } from './dto/update-patient.dto';
+
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { Patient, PatientDocument } from 'src/schemas/patient.schema';
@@ -29,7 +29,7 @@ export class PatientService {
     return data;
   }
 
-  async update(id: string, updatePatientDto: UpdatePatientDto) {
+  async update(id: string, updatePatientDto: CreatePatientDto) {
     const updatedData = await this.patientModel.findByIdAndUpdate(
       id.toString(),
       updatePatientDto,

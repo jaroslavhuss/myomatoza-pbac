@@ -9,7 +9,6 @@ import {
 } from '@nestjs/common';
 import { PatientService } from './patient.service';
 import { CreatePatientDto } from './dto/create-patient.dto';
-import { UpdatePatientDto } from './dto/update-patient.dto';
 import { User as getUser } from '../auth/decorators';
 import { UseGuards } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
@@ -33,7 +32,7 @@ export class PatientController {
   }
   @UseGuards(AuthGuard('jwt'))
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updatePatientDto: UpdatePatientDto) {
+  update(@Param('id') id: string, @Body() updatePatientDto: CreatePatientDto) {
     return this.patientService.update(id, updatePatientDto);
   }
   @UseGuards(AuthGuard('jwt'))

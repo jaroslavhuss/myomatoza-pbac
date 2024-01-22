@@ -22,7 +22,7 @@ import CreatePatient from "./routes/CreatePatient";
 import GetPatients from "./routes/GetPatients";
 import PatientDetail from "./routes/PatientDetail";
 import CreateQuestionnaireByPatient from "./routes/CreateQuestionnaireByPatient";
-import { useState } from "react";
+
 export default function App() {
   const isAuthenticated = useIsAuthenticated();
   const showSuccess: boolean | undefined = useSelector(
@@ -30,11 +30,6 @@ export default function App() {
       return state.success.showSuccess;
     }
   );
-
-  const [shouldInvokeLogin, setShouldInvokeLogin] = useState<boolean>(false);
-  const expirationHandler = (time: number) => {
-    console.log(typeof time);
-  };
 
   return (
     <div className="bg-gradient-to-br from-slate-50 via-purple-50 to-pink-100">

@@ -54,6 +54,10 @@ const CreateQuestionnaireByPatient = () => {
 
     finalQuestionnaire.createdAt = createdAt;
 
+    finalQuestionnaire.sum = finalArray.reduce((acc, curr) => {
+      return acc + curr.answer;
+    }, 0);
+
     if (!id) return;
     const data = await updateQuestionnaireDoneByPatientById(
       id,

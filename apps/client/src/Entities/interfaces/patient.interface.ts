@@ -8,6 +8,7 @@ export interface IQuestionsDoneByPatient {
   questions: string[];
   supervisingDoctor: string;
   questionsAndAnswers?: IQuestionsDoneByPatient[];
+  sum?: number;
   createdAt?: Date;
 }
 

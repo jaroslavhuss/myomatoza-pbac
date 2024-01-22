@@ -8,11 +8,9 @@ import {
 } from "../Entities/interfaces/patient.interface";
 import { getPatientById, updatePatientById } from "../APIs/Patients";
 import { IQuestionnaire } from "../Entities/interfaces/questionnaireDocument.interface";
-import { BsPlusCircle } from "react-icons/bs";
+import { BsPlusCircle, BsTrash2Fill } from "react-icons/bs";
 import UpdatePatient from "../components/GlobalComponents/UpdatePatient";
-
-//Interface [{name:"myomatóza", data: IQuestionsDoneByPatient[], name: "endometrióza", data: IQuestionsDoneByPatient[], ... etc"}]
-
+import { LineChart } from "@mui/x-charts";
 interface IAggregatedQuestionnaire {
   name: string;
   data: IQuestionsDoneByPatient[];
@@ -71,6 +69,39 @@ const PatientDetail = () => {
       }
     );
   };
+
+  const deleteQuestionnaireDoneByPatient = async (array: IQuestionnaire[]) => {
+    const confirm = window.confirm(
+      "Opravdu si přejete tento řádek smaza? Akce je nevratná"
+    );
+    if (!confirm) return;
+    let newPatient = { ...patient };
+    newPatient.questionnairesDoneByPatient = array;
+
+    //@ts-ignore
+    const arrayOfAssignedQuestionnaires: string[] =
+      newPatient.assignedQuestionnaires
+        ? //@ts-ignore
+          newPatient.assignedQuestionnaires.map((q: IQuestionnaire) => q._id)
+        : [];
+
+    //@ts-ignore
+    newPatient.assignedQuestionnaires = arrayOfAssignedQuestionnaires;
+    if (!id) return;
+
+    await updatePatientById(newPatient._id, newPatient).then(async () => {
+      const data: IPatient = await getPatientById(id);
+      setPatient(data);
+    });
+  };
+
+  useEffect(() => {
+    //Data for chart
+    const data = patient.questionnairesDoneByPatient.map((questionnaire) => {
+      return { [questionnaire.name]: questionnaire.sum };
+    });
+    console.log(data);
+  }, []);
   return (
     <MainLayout>
       {patient && (
@@ -122,18 +153,60 @@ const PatientDetail = () => {
                   Výkon jednotlivých měření
                 </h2>
                 {aggregatedQuestionnaires.length > 0 && (
-                  <div>
+                  <div className="w-full overflow-scroll">
                     {aggregatedQuestionnaires.map(
                       (AGG: IAggregatedQuestionnaire) => (
                         <div key={AGG.name}>
                           <hr />
                           <h3 className="text-xl  my-2 py-2">{AGG.name}</h3>
+
+                          <div className="grid gap-5 grid-cols-1 lg:grid-cols-1 my-5">
+                            <div className="col-span-6 border-2">
+                              <h4 className="text-center text-xl font-bold p-2 bg-green-200">
+                                Součet {AGG.name}
+                              </h4>
+                              <LineChart
+                                className="w-full"
+                                xAxis={[
+                                  {
+                                    data:
+                                      AGG.data.map((data) =>
+                                        new Date(
+                                          //@ts-ignore
+                                          data.createdAt
+                                        ).toLocaleDateString()
+                                      ) || [],
+                                    scaleType: "band",
+                                  },
+                                ]}
+                                series={[
+                                  {
+                                    data:
+                                      AGG.data.map((data) => data.sum) || [],
+                                  },
+                                ]}
+                                yAxis={[
+                                  {
+                                    min: 0,
+                                    max:
+                                      AGG.data[0].questions.length *
+                                      AGG.data[0].maxrange,
+                                  },
+                                ]}
+                                width={window.innerWidth > 1280 ? 1280 : 800}
+                                height={300}
+                              />
+                            </div>
+                          </div>
                           <hr />
                           <table className="table-auto w-full">
                             <tbody>
-                              <tr>
+                              <tr className="relative">
                                 <th className="border px-4 py-2 text-sm">
                                   Datum vyplnění
+                                </th>
+                                <th className="border px-4 py-2 text-sm bg-green-100">
+                                  Součet
                                 </th>
                                 {AGG.data[0].questions.map((answer, index) => (
                                   <th
@@ -143,6 +216,9 @@ const PatientDetail = () => {
                                     {answer}
                                   </th>
                                 ))}
+                                <th className="border px-4 py-2 text-sm">
+                                  Akce
+                                </th>
                               </tr>
                               {AGG.data.map(
                                 (
@@ -151,7 +227,7 @@ const PatientDetail = () => {
                                 ) => (
                                   <tr
                                     key={index}
-                                    className="border px-4 py-2 text-sm text-center"
+                                    className="border px-4 py-2 text-sm text-center relative"
                                   >
                                     {QUEST.createdAt ? (
                                       <td className="border px-4 py-2 text-sm">
@@ -162,6 +238,16 @@ const PatientDetail = () => {
                                     ) : (
                                       <td className="border px-4 py-2 text-sm">
                                         Datum nebylo vyplněno
+                                      </td>
+                                    )}
+
+                                    {QUEST.sum !== undefined ? (
+                                      <td className="bg-green-100 font-bold">
+                                        {QUEST.sum || QUEST.sum === 0}
+                                      </td>
+                                    ) : (
+                                      <td className="bg-green-100 font-bold">
+                                        chyba výpočtu
                                       </td>
                                     )}
                                     {QUEST.questionsAndAnswers !== undefined &&
@@ -176,6 +262,24 @@ const PatientDetail = () => {
                                           </td>
                                         )
                                       )}
+                                    <td
+                                      className="group"
+                                      onClick={() => {
+                                        //Console.log current data inside of QUEST
+                                        const filteredData =
+                                          //@ts-ignore
+                                          patient.questionnairesDoneByPatient.filter(
+                                            (questionnaire) =>
+                                              questionnaire !== QUEST
+                                          );
+
+                                        deleteQuestionnaireDoneByPatient(
+                                          filteredData
+                                        );
+                                      }}
+                                    >
+                                      <BsTrash2Fill className="text-xl mx-auto group-hover:text-red-300" />
+                                    </td>
                                   </tr>
                                 )
                               )}
