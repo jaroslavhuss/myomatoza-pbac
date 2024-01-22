@@ -54,10 +54,6 @@ const Footer: React.FC<Props> = () => {
               <span className="text-blue-300 font-bold underline">
                 {expirace} (minuty)
               </span>
-              {" | "}
-              <span className="text-green-300 font-bold underline">
-                Obnovit přihlášení
-              </span>
             </div>
           )}
         </div>

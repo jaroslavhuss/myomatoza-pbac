@@ -95,13 +95,6 @@ const PatientDetail = () => {
     });
   };
 
-  useEffect(() => {
-    //Data for chart
-    const data = patient.questionnairesDoneByPatient.map((questionnaire) => {
-      return { [questionnaire.name]: questionnaire.sum };
-    });
-    console.log(data);
-  }, []);
   return (
     <MainLayout>
       {patient && (
@@ -182,7 +175,9 @@ const PatientDetail = () => {
                                 series={[
                                   {
                                     data:
-                                      AGG.data.map((data) => data.sum) || [],
+                                      AGG.data.map(
+                                        (data) => data.sum || null
+                                      ) || [],
                                   },
                                 ]}
                                 yAxis={[

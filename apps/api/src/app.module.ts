@@ -6,7 +6,6 @@ import { AppService } from './app.service';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
 import { AuthModule } from './cmd/auth/auth.module';
-import { MyomsModule } from './cmd/myoms/myoms.module';
 import { QuestionnaireModule } from './cmd/questionnaire/questionnaire.module';
 import { PatientModule } from './cmd/patient/patient.module';
 
@@ -23,7 +22,6 @@ import { PatientModule } from './cmd/patient/patient.module';
       inject: [ConfigService],
     }),
     AuthModule,
-    MyomsModule,
     QuestionnaireModule,
     PatientModule,
   ],

@@ -22,6 +22,8 @@ import CreatePatient from "./routes/CreatePatient";
 import GetPatients from "./routes/GetPatients";
 import PatientDetail from "./routes/PatientDetail";
 import CreateQuestionnaireByPatient from "./routes/CreateQuestionnaireByPatient";
+import Settings from "./routes/Settings";
+import Export from "./routes/Export";
 
 export default function App() {
   const isAuthenticated = useIsAuthenticated();
@@ -152,6 +154,22 @@ export default function App() {
             element={
               <RequireAuth loginPath="/login">
                 <CreateQuestionnaireByPatient />
+              </RequireAuth>
+            }
+          />
+          <Route
+            path="/settings"
+            element={
+              <RequireAuth loginPath="/login">
+                <Settings />
+              </RequireAuth>
+            }
+          />
+          <Route
+            path="/export"
+            element={
+              <RequireAuth loginPath="/login">
+                <Export />
               </RequireAuth>
             }
           />

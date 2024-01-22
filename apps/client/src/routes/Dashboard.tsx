@@ -1,4 +1,4 @@
-import React from "react";
+import { FC } from "react";
 import {
   BsFiletypeJson,
   BsFillGearFill,
@@ -9,9 +9,10 @@ import {
 } from "react-icons/bs";
 import MainLayout from "../components/Layouts/MainLayout";
 import { Link } from "react-router-dom";
+
 interface Props {}
 
-const Dashboard: React.FC<Props> = ({}) => {
+const Dashboard: FC<Props> = ({}) => {
   return (
     <MainLayout>
       <div className="grid gap-2 grid-cols-12 justify-center align-middle">
@@ -90,7 +91,7 @@ const Dashboard: React.FC<Props> = ({}) => {
           </Link>
         </div>
         <div className="group card bg-base-100 shadow-xl col-span-3 hover:shadow-xl transition-all duration-700 hover:bg-slate-200 hover:cursor-pointer">
-          <Link to="/">
+          <Link to="/settings">
             <div className="card-body block mx-auto">
               <h2 className="card-title text-center transition-all duration-400 ease-in group-hover:text-green-600 group-hover:translate-x-2">
                 Nastavení
@@ -108,7 +109,7 @@ const Dashboard: React.FC<Props> = ({}) => {
           </Link>
         </div>
         <div className="group card bg-base-100 shadow-xl col-span-3 hover:shadow-xl transition-all duration-700 hover:bg-slate-200 hover:cursor-pointer">
-          <Link to="/">
+          <Link to={`/export`}>
             <div className="card-body block mx-auto">
               <h2 className="card-title text-center transition-all duration-400 ease-in group-hover:text-green-600 group-hover:translate-x-2">
                 Export dat
