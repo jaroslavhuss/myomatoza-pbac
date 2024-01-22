@@ -20,7 +20,7 @@ const Login: React.FC<Props> = () => {
     dispatch(
       setSuccess({
         message:
-          "Pokud jste zapomněli heslo, je potřeba kvůli zabezpečení kontaktovat správce aplikace - huss@richtergedeon.cz",
+          "Pokud jste zapomněli heslo, je potřeba kvůli zabezpečení kontaktovat správce aplikace",
         rawData: "Bohužel si kvůli zabezpečení heslo změnit nelze...",
       })
     );

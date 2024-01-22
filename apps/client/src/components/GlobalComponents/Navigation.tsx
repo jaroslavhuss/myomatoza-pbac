@@ -6,6 +6,7 @@ import { AiFillWarning, AiOutlineCloseCircle } from "react-icons/ai";
 import Error from "./Error";
 import { useIsAuthenticated, useSignOut } from "react-auth-kit";
 import { BsDoorClosedFill } from "react-icons/bs";
+import Logo from "../../assets/logo.png";
 interface Props {}
 
 const Navigation: React.FC<Props> = () => {
@@ -68,8 +69,11 @@ const Navigation: React.FC<Props> = () => {
               )}
             </ul>
           </div>
-          <Link to="/" className="btn btn-ghost normal-case text-xl">
-            HealthTracker
+          <Link
+            to="/"
+            className="normal-case text-xl flex flex-row justify-center items-center font-bold"
+          >
+            <img src={Logo} alt="logo" width={50} /> HealthTracker
           </Link>
         </div>
         <div className="navbar-center hidden lg:flex">
