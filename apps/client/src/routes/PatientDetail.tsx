@@ -95,6 +95,43 @@ const PatientDetail = () => {
     });
   };
 
+  const [variableChart, setVariableChart] = useState<{
+    xAxis: (string | null)[];
+    series: (number | null)[];
+    key?: string | undefined;
+    maxrange?: number | undefined;
+  }>({
+    xAxis: [],
+    series: [],
+    key: undefined,
+    maxrange: undefined,
+  });
+
+  const chartAggregator = (
+    aggData: IQuestionsDoneByPatient[],
+    key: string,
+    maxrange: number
+  ) => {
+    const xAxisData: (string | null)[] = aggData.map(
+      (data) =>
+        new Date(
+          //@ts-ignore
+          data.createdAt
+        ).toLocaleDateString() || null
+    );
+
+    const seriesData: (number | null)[] = aggData.map(
+      (data: any) =>
+        data.questionsAndAnswers.find((q: any) => q.question === key)?.answer
+    );
+    setVariableChart({
+      xAxis: xAxisData,
+      series: seriesData,
+      key: key,
+      maxrange: maxrange,
+    });
+  };
+
   return (
     <MainLayout>
       {patient && (
@@ -131,14 +168,7 @@ const PatientDetail = () => {
                 )}
               </div>
             )}
-          <br />
-          <hr />
-          <br />
-          <UpdatePatient
-            updateablePatient={patient}
-            updatedPatient={updatePatient}
-          />
-          <br />
+
           {patient.questionnairesDoneByPatient &&
             patient.questionnairesDoneByPatient.length > 0 && (
               <div className="shadow-xl p-2 rounded-xl">
@@ -194,24 +224,31 @@ const PatientDetail = () => {
                             </div>
                           </div>
                           <hr />
-                          <table className="table-auto w-full">
+                          <table className="table-auto w-full border-4 rounded-xl hover:border-green-500 transition-all ease-in duration-700">
                             <tbody>
                               <tr className="relative">
-                                <th className="border px-4 py-2 text-sm">
+                                <th className="border px-4 py-2 text-sm bg-slate-700 text-white">
                                   Datum vyplnění
                                 </th>
-                                <th className="border px-4 py-2 text-sm bg-green-100">
+                                <th className="border px-4 py-2 text-sm bg-slate-700 text-white">
                                   Součet
                                 </th>
                                 {AGG.data[0].questions.map((answer, index) => (
                                   <th
                                     key={index}
-                                    className="border px-4 py-2 text-sm"
+                                    className="border px-4 py-2 text-sm bg-slate-700 text-white"
+                                    onClick={() => {
+                                      chartAggregator(
+                                        AGG.data,
+                                        AGG.data[0].questions[index],
+                                        AGG.data[0].maxrange
+                                      );
+                                    }}
                                   >
                                     {answer}
                                   </th>
                                 ))}
-                                <th className="border px-4 py-2 text-sm">
+                                <th className="border px-4 py-2 text-sm bg-slate-700 text-white">
                                   Akce
                                 </th>
                               </tr>
@@ -289,6 +326,57 @@ const PatientDetail = () => {
             )}
         </div>
       )}
+      <br />
+      {variableChart.key && (
+        <div
+          className="top-0 right-0 w-1/2 h-1/2 shadow-lg rounded-xl fixed bg-white z-40 mt-20 max-w-[600px] min-h-400 hover:scale-105 transition-all ease-in duration-700"
+          onClick={() => {
+            setVariableChart({
+              xAxis: [],
+              series: [],
+              key: undefined,
+              maxrange: undefined,
+            });
+          }}
+        >
+          <h4 className="text-center font-bold mt-2 text-xl">
+            {variableChart.key}
+          </h4>
+          <LineChart
+            className="w-full"
+            xAxis={[
+              {
+                data: variableChart.xAxis || [],
+                scaleType: "band",
+              },
+            ]}
+            series={[
+              {
+                data: variableChart.series || [],
+              },
+            ]}
+            yAxis={[
+              {
+                min: 0,
+                max: variableChart.maxrange || 0,
+              },
+            ]}
+            width={600}
+            height={350}
+          />
+          <p className="text-sm text-gray-400 text-center font-bold ">
+            (ZAVŘÍT - kliknutím na okno)
+          </p>
+        </div>
+      )}
+
+      <br />
+      <hr />
+      <br />
+      <UpdatePatient
+        updateablePatient={patient}
+        updatedPatient={updatePatient}
+      />
       <br />
     </MainLayout>
   );

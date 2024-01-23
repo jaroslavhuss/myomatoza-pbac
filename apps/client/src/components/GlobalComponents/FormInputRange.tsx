@@ -1,10 +1,5 @@
 import React from "react";
-import {
-  BsEmojiDizzy,
-  BsEmojiExpressionless,
-  BsEmojiFrown,
-  BsEmojiSmile,
-} from "react-icons/bs";
+
 interface Props {
   min: number;
   max: number;

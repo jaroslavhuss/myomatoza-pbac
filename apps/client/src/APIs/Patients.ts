@@ -66,6 +66,13 @@ export const getAllPatients = async () => {
 
     const data = await response.json();
 
+    if (data.statusCode === 401) {
+      store.dispatch(
+        setError({ message: "Nejste přihlášen", rawData: data.toString() })
+      );
+      return [];
+    }
+
     return data;
   } catch (error: any) {
     const errorMessage = formatErrorMessage(error);

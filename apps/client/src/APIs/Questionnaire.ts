@@ -28,6 +28,16 @@ export const createQuestionnaire = async (questionnaire: IQuestionnaire) => {
 
     const data = await response.json();
 
+    if (data.statusCode === 401) {
+      store.dispatch(
+        setError({
+          message: "Něco je v nepořádku s Vaším přihlášením",
+          rawData: "Odhlašte se a přihlašte znovu",
+        })
+      );
+      return;
+    }
+
     store.dispatch(
       setSuccess({
         message: "Dotazník byl úspěšně vytvořen",
@@ -63,6 +73,15 @@ export const getAllQuestionnaires = async () => {
     });
 
     const data = await response.json();
+    if (data.statusCode === 401) {
+      store.dispatch(
+        setError({
+          message: "Něco je v nepořádku s Vaším přihlášením",
+          rawData: "Odhlašte se a přihlašte znovu",
+        })
+      );
+      return [];
+    }
     return data;
   } catch (error: any) {
     const errorMessage = formatErrorMessage(error);
@@ -95,6 +114,16 @@ export const getQuestionnaireById = async (id: string) => {
     );
 
     const data = await response.json();
+
+    if (data.statusCode === 401) {
+      store.dispatch(
+        setError({
+          message: "Něco je v nepořádku s Vaším přihlášením",
+          rawData: "Odhlašte se a přihlašte znovu",
+        })
+      );
+      return;
+    }
     return data;
   } catch (error: any) {
     const errorMessage = formatErrorMessage(error);
@@ -127,6 +156,16 @@ export const deleteQuestionnaireById = async (id: string) => {
     );
 
     const data = await response.json();
+
+    if (data.statusCode === 401) {
+      store.dispatch(
+        setError({
+          message: "Něco je v nepořádku s Vaším přihlášením",
+          rawData: "Odhlašte se a přihlašte znovu",
+        })
+      );
+      return;
+    }
 
     if (data) {
       store.dispatch(
@@ -173,6 +212,15 @@ export const updateQuestionnaireById = async (
 
     const data = await response.json();
 
+    if (data.statusCode === 401) {
+      store.dispatch(
+        setError({
+          message: "Něco je v nepořádku s Vaším přihlášením",
+          rawData: "Odhlašte se a přihlašte znovu",
+        })
+      );
+      return;
+    }
     if (data) {
       store.dispatch(
         setSuccess({

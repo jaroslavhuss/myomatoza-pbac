@@ -2,6 +2,7 @@ import { useState } from "react";
 import { IPatient } from "../Entities/interfaces/patient.interface";
 import MainLayout from "../components/Layouts/MainLayout";
 import { useAuthUser } from "react-auth-kit";
+import { BsLockFill } from "react-icons/bs";
 const Settings = () => {
   const user = useAuthUser();
   const hcp = user() as { user: IPatient };
@@ -16,7 +17,13 @@ const Settings = () => {
         Nastavení pro {hcp.user.name} {hcp.user.surname}
       </h1>
 
-      <form onSubmit={handleFormSubmit}>
+      <form onSubmit={handleFormSubmit} className="relative">
+        <BsLockFill
+          className="absolute top-0 right-0 text-4xl cursor-pointer hover:text-red-500 border-2 rounded-full p-1"
+          onClick={() => {
+            setIsFormUnlocked(!isFormUnlocked);
+          }}
+        />
         <div className="flex flex-col items-center justify-center mt-10">
           <div className="w-full max-w-xs">
             <div className="md:flex md:items-center mb-6">

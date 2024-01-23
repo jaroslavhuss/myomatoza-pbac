@@ -16,11 +16,13 @@ const GetPatients = () => {
   useEffect(() => {
     (async () => {
       const data: IPatient[] = await getAllPatients();
+
       setQuestionnaires(data);
     })();
   }, []);
 
   useEffect(() => {
+    if (questionnaires.length === 0) return;
     const filteredData = questionnaires.filter((questionnaire) =>
       questionnaire.fulltext.toLowerCase().includes(query.toLowerCase())
     );
@@ -45,7 +47,7 @@ const GetPatients = () => {
   };
   return (
     <MainLayout>
-      {filteredQuestionnaires.length > 0 ? (
+      {filteredQuestionnaires && filteredQuestionnaires.length > 0 ? (
         <h1 className="text-center text-2xl">Přehled pacientů</h1>
       ) : (
         <h1 className="text-center text-2xl">
@@ -53,7 +55,7 @@ const GetPatients = () => {
         </h1>
       )}
 
-      {filteredQuestionnaires.length > 0 && (
+      {filteredQuestionnaires && filteredQuestionnaires.length > 0 && (
         <div className="grid gap-4 grid-cols-12 my-10">
           <input
             type="text"
@@ -70,7 +72,8 @@ const GetPatients = () => {
         </div>
       )}
       <div className="grid grid-cols-1 md:grid-cols-12 gap-3">
-        {filteredQuestionnaires.length > 0 &&
+        {filteredQuestionnaires &&
+          filteredQuestionnaires.length > 0 &&
           filteredQuestionnaires.map(
             (questionnaire: IPatient, index: number) => {
               return (

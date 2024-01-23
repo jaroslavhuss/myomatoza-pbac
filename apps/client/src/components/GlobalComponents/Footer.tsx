@@ -2,10 +2,11 @@ import React, { useEffect, useState } from "react";
 import { useAuthHeader } from "react-auth-kit";
 import { getTokensExpiration } from "../../APIs/Users";
 import { useJwt } from "react-jwt";
-
+import { useSignOut } from "react-auth-kit";
 interface Props {}
 
 const Footer: React.FC<Props> = () => {
+  const signOut = useSignOut();
   const header = useAuthHeader();
   const token = header();
   const [expirace, setExpirace] = useState<string>("");
@@ -22,6 +23,10 @@ const Footer: React.FC<Props> = () => {
 
         // Schedule the next check after a fixed interval (e.g., 10 minutes)
         timerId = setTimeout(checkTokenExpiration, 10000);
+      } else {
+        signOut();
+        clearTimeout(timerId);
+        return;
       }
     };
 
