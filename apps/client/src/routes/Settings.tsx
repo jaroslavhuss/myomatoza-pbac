@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { IPatient } from "../Entities/interfaces/patient.interface";
 import MainLayout from "../components/Layouts/MainLayout";
 import { useAuthUser } from "react-auth-kit";
@@ -11,6 +11,11 @@ const Settings = () => {
   const handleFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
   };
+
+  useEffect(() => {
+    console.log(hcp.user._id);
+  }, [hcp]);
+
   return (
     <MainLayout>
       <h1 className="text-center text-2xl mt-10">

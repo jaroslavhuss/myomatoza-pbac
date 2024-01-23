@@ -20,6 +20,17 @@ export class AuthService {
     private jwt: JwtService,
     @InjectModel(User.name) private userModel: Model<UserDocument>,
   ) {}
+
+  async getSelf(id: string): Promise<any> {
+    const user = await this.userModel.findById(id);
+    return user;
+  }
+
+  async updateSelf(id: string, dto: any): Promise<any> {
+    const user = await this.userModel.findByIdAndUpdate(id, dto, { new: true });
+    return user;
+  }
+
   async signup(dto: SignUpDto): Promise<any> {
     //Password actually matches
     if (dto.password !== dto.confirmedPassword)

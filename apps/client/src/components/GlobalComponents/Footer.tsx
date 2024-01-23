@@ -68,7 +68,7 @@ const Footer: React.FC<Props> = () => {
               Přihlášení vypršelo -{" "}
               <span
                 onClick={() => {
-                  window.location.reload();
+                  signOut();
                 }}
                 className="text-blue-300 font-bold underline cursor-pointer"
               >
