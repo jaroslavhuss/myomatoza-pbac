@@ -14,6 +14,7 @@ import { PatientModule } from './cmd/patient/patient.module';
     ServeStaticModule.forRoot({
       rootPath: join(__dirname, '../../..', 'client', 'dist'),
     }),
+
     ConfigModule.forRoot({ isGlobal: true, envFilePath: '.env' }),
     MongooseModule.forRootAsync({
       useFactory: async (configService: ConfigService) => ({

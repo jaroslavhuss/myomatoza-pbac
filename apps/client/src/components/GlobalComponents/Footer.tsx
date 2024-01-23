@@ -47,12 +47,27 @@ const Footer: React.FC<Props> = () => {
             {" "}
             {new Date().getFullYear()} © HealthTracker
           </div>
-          {expirace && (
+          {expirace && parseInt(expirace) > 0 && (
             <div className="col-span-1">
               {" "}
               Přihlášení vyprší za:{" "}
               <span className="text-blue-300 font-bold underline">
                 {expirace} (minuty)
+              </span>
+            </div>
+          )}
+
+          {!expirace && (
+            <div className="col-span-1">
+              {" "}
+              Přihlášení vypršelo -{" "}
+              <span
+                onClick={() => {
+                  window.location.reload();
+                }}
+                className="text-blue-300 font-bold underline cursor-pointer"
+              >
+                přihlašte se prosím
               </span>
             </div>
           )}
